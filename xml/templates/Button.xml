@@ -1,0 +1,167 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+
+    <Button name="TheEchoesButtonDesaturatedTemplate" parent="" virtual="true" frameLevel="1003" mixin="ButtonMixin">
+        <!-- Highlight textures -->
+        <HighlightTexture atlas="128-RedButton-Highlight" useAtlasSize="false" desaturated="true" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </HighlightTexture>
+        <ButtonText font="GameFontNormal" wordwrap="false">
+            <Color r="1" g="1" b="1" a="1"/>
+            <Anchors>
+                <Anchor point="CENTER" />
+            </Anchors>
+        </ButtonText>
+        <Layers>
+            <!-- Normal textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftBackground" atlas="128-RedButton-RightCorner" useAtlasSize="false" desaturated="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightBackground" atlas="128-RedButton-RightCorner" useAtlasSize="false" desaturated="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddleBackground" atlas="_128-RedButton-Tile" useAtlasSize="false" desaturated="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <!-- Pressed textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftPressBackground" atlas="128-RedButton-RightCorner-Pressed" useAtlasSize="false" desaturated="true" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightPressBackground" atlas="128-RedButton-RightCorner-Pressed" useAtlasSize="false" desaturated="true" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddlePressBackground" atlas="_128-RedButton-Tile-Pressed" useAtlasSize="false" desaturated="true" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftPressBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightPressBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <!-- Disabled textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftDisableBackground" atlas="128-RedButton-RightCorner-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightDisableBackground" atlas="128-RedButton-RightCorner-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddleDisableBackground" atlas="_128-RedButton-Tile-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftPressBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightPressBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnMouseDown method="OnMouseDown"/>
+            <OnMouseUp method="OnMouseUp"/>
+            <OnHide method="OnMouseUp"/>
+        </Scripts>
+    </Button>
+
+    <Button name="TheEchoesButtonRedTemplate" parent="" virtual="true" frameLevel="1003" mixin="ButtonMixin">
+        <!-- Highlight textures -->
+        <HighlightTexture atlas="128-RedButton-Highlight" useAtlasSize="false" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+        </HighlightTexture>
+        <ButtonText font="GameFontNormal" wordwrap="false">
+            <Color r="1" g="1" b="1" a="1"/>
+            <Anchors>
+                <Anchor point="CENTER" />
+            </Anchors>
+        </ButtonText>
+        <Layers>
+            <!-- Normal textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftBackground" atlas="128-RedButton-RightCorner" useAtlasSize="false">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightBackground" atlas="128-RedButton-RightCorner" useAtlasSize="false">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddleBackground" atlas="_128-RedButton-Tile" useAtlasSize="false">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <!-- Pressed textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftPressBackground" atlas="128-RedButton-RightCorner-Pressed" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightPressBackground" atlas="128-RedButton-RightCorner-Pressed" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddlePressBackground" atlas="_128-RedButton-Tile-Pressed" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftPressBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightPressBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <!-- Disabled textures -->
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="LeftDisableBackground" atlas="128-RedButton-RightCorner-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="0.0" bottom="1.0"/>
+                </Texture>
+                <Texture parentKey="RightDisableBackground" atlas="128-RedButton-RightCorner-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="MiddleDisableBackground" atlas="_128-RedButton-Tile-Disabled" useAtlasSize="false" hidden="true">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LeftPressBackground" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.RightPressBackground" relativePoint="LEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnMouseDown method="OnMouseDown"/>
+            <OnMouseUp method="OnMouseUp"/>
+            <OnHide method="OnMouseUp"/>
+        </Scripts>
+    </Button>
+
+</Ui>

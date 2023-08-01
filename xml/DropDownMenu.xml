@@ -1,0 +1,18 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+
+    <Frame name="TheEchoesDropDownMenu" parent="UIParent" inherits="TheEchoesFrameSimpleTemplate" frameStrata="FULLSCREEN_DIALOG" frameLevel="1005">
+        <!-- SCROLL CONTENT -->
+        <Frames>
+            <ScrollFrame parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOP" y="-3"/>
+                    <Anchor point="LEFT" x="0"/>
+                    <Anchor point="RIGHT" x="-24"/>
+                    <Anchor point="BOTTOM" y="2"/>
+                </Anchors>
+                <ScrollChild><Frame parentKey="Content"/></ScrollChild>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+
+</Ui>

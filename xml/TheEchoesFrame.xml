@@ -1,0 +1,241 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+
+    <!-- Main Frame -->
+    <Frame name="TheEchoesFrame" inherits="TheEchoesFrameCornersCloseTemplate" parent="UIParent">
+        <Frames>
+            <!-- Badge -->
+            <Frame setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="2">
+                        <Texture parentKey="Border" atlas="Artifacts-ItemIconBorder" useAtlasSize="false">
+                            <Size x="86" y="86"/>
+                            <Anchors><Anchor point="CENTER" repativeKey="$parent.$parent" relativePoint="TOP"/></Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY" textureSubLevel="1">
+                        <Texture parentKey="Background" file="Interface\AddOns\TheEchoes\images\logo_circle_noborder_128.tga">
+                            <Size x="60" y="60"/>
+                            <Anchors><Anchor point="CENTER" repativeKey="$parent.$parent" relativePoint="TOP"/></Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <!-- Hide off alts -->
+            <CheckButton parentKey="HideOffAltsCheckButton" inherits="UICheckButtonTemplate" checked="true">
+                <Size x="20" y="20"/>
+                <Anchors><Anchor point="TOPLEFT" x="17" y="-14"/></Anchors>
+                <Layers>
+                    <Layer level="ARTWORK" textureSubLevel="5">
+                        <FontString inherits="FontWhite" text="Hide Offline Alts" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="LEFT" x="22" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </CheckButton>
+            <!-- Invite member -->
+            <Button parentKey="InviteMemberButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Invite Member" hidden="true">
+                <Size x="120" y="24"/>
+                <Anchors><Anchor point="TOP" x="105" y="-12"/></Anchors>
+                <Scripts>
+                    <OnClick>
+                        StaticPopup_Show("ADD_GUILDMEMBER");
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <!-- Edit Guild Message -->
+            <Button parentKey="EditGMButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Edit Guild Message" hidden="true">
+                <Size x="150" y="24"/>
+                <Anchors><Anchor point="LEFT" relativeKey="$parent.InviteMemberButton" relativePoint="RIGHT" x="5" y="0"/></Anchors>
+            </Button>
+            <Frame parentKey="EditGMFrame" inherits="TheEchoesFrameCornersCloseTemplate" hidden="true" frameStrata="DIALOG">
+                <Size x="270" y="175"/>
+                <Anchors><Anchor point="TOPLEFT" relativeKey="$parent.EditGMButton" relativePoint="BOTTOMLEFT" x="7" y="-6"/></Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString inherits="FontWhite" text="Guild Message" justifyH="CENTER">
+                            <Anchors><Anchor point="TOP" x="0" y="-20"/></Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <EditBox parentKey="EditGMInput" inherits="TheEchoesInputTemplate" multiLine="true" letters="128">
+                        <Size x="200"/>
+                        <Anchors>
+                            <Anchor point="TOP" y="-45"/>
+                            <Anchor point="BOTTOM" y="45"/>
+                        </Anchors>
+                        <TextInsets>
+                            <AbsInset left="5" right="5" top="5" bottom="5" />
+                        </TextInsets>
+                    </EditBox>
+                    <Button parentKey="EditGMSave" inherits="TheEchoesButtonDesaturatedTemplate" text="Save">
+                        <Size x="75" y="24"/>
+                        <Anchors><Anchor point="TOP" relativeKey="$parent.EditGMInput" relativePoint="BOTTOM" y="-10"/></Anchors>
+                    </Button>
+                </Frames>
+            </Frame>
+            <!-- Guild Message -->
+            <Frame parentKey="GuildMessageFrame" inherits="TheEchoesWhiteBackground">
+                <Size y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" y="-45"/>
+                    <Anchor point="LEFT" x="0"/>
+                    <Anchor point="RIGHT" x="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="5">
+                        <FontString parentKey="Text" inherits="FontBlue" justifyH="CENTER">
+                            <Anchors><Anchor point="CENTER"/></Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <!-- Guild Message -->
+            <Frame parentKey="ColumnsFrame" inherits="TheEchoesWhiteBackground">
+                <Size y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.GuildMessageFrame" relativePoint="BOTTOM" y="-5"/>
+                    <Anchor point="LEFT" x="10"/>
+                    <Anchor point="RIGHT" x="-32"/>
+                </Anchors>
+            </Frame>
+            <!-- Content -->
+            <ScrollFrame parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                <Size y="600"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.ColumnsFrame" relativePoint="BOTTOM" y="-3"/>
+                    <Anchor point="LEFT" x="10"/>
+                    <Anchor point="RIGHT" x="-32"/>
+                </Anchors>
+                <ScrollChild><Frame parentKey="Content"/></ScrollChild>
+            </ScrollFrame>
+            <!-- Info -->
+            <Frame parentKey="InfoFrame" inherits="TheEchoesWhiteBackground">
+                <Size y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.ScrollFrame" relativePoint="BOTTOM" y="-3"/>
+                    <Anchor point="LEFT" x="10"/>
+                    <Anchor point="RIGHT" x="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="5">
+                        <FontString parentKey="Stats" inherits="FontWhite" justifyH="LEFT">
+                            <Anchors><Anchor point="LEFT" x="5"/></Anchors>
+                        </FontString>
+                        <FontString parentKey="MemoryUsage" inherits="FontWhite" justifyH="RIGHT">
+                            <Anchors><Anchor point="RIGHT" x="-5"/></Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Frame parentKey="ErrorFrame" hidden="true">
+                <Size y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.InfoFrame" relativePoint="BOTTOM" y="-3"/>
+                    <Anchor point="LEFT" x="10"/>
+                    <Anchor point="RIGHT" x="-10"/>
+                </Anchors>
+            </Frame>
+            <!-- Edit Frame -->
+            <Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" frameStrata="DIALOG" mixin="EditMemberFrameMixin" hidden="true">
+                <Size x="250" y="200"/>
+                <Anchors><Anchor point="TOPLEFT" x="-263"/></Anchors>
+                <Frames>
+                    <EditBox parentKey="Title" inherits="TheEchoesInputTemplate" justifyH="CENTER" autoFocus="false">
+                        <Size x="180" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOP" y="-15"/>
+                        </Anchors>
+                    </EditBox>
+                </Frames>
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="2">
+                        <FontString parentKey="Tank" inherits="FontWhite" text=" TANK" justifyH="RIGHT">
+                            <Size x="44"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="-35" y="-50"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString parentKey="Heal" inherits="FontWhite" text=" HEAL" justifyH="RIGHT">
+                            <Size x="44"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="-35" y="-80"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString parentKey="DPS" inherits="FontWhite" text=" DPS" justifyH="RIGHT">
+                            <Size x="44"/>
+                            <Anchors>
+                                <Anchor point="TOP" x="-35" y="-110"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <EditBox parentKey="TankInput" inherits="TheEchoesInputTemplate" letters="3">
+                        <Size x="50" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="22" y="-46"/>
+                        </Anchors>
+                    </EditBox>
+                    <EditBox parentKey="HealInput" inherits="TheEchoesInputTemplate" letters="3">
+                        <Size x="50" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="22" y="-76"/>
+                        </Anchors>
+                    </EditBox>
+                    <EditBox parentKey="DPSInput" inherits="TheEchoesInputTemplate" letters="3">
+                        <Size x="50" y="20"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="22" y="-106"/>
+                        </Anchors>
+                    </EditBox>
+                    <Button parentKey="TypeButton" inherits="TheEchoesDropDownMenuButtonTemplate">
+                        <Size x="70" y="24"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="-65" y="-135" />
+                        </Anchors>
+                    </Button>
+                    <Button parentKey="MainsButton" inherits="TheEchoesDropDownMenuButtonTemplate">
+                        <Size x="120" y="24"/>
+                        <Anchors>
+                            <Anchor point="TOP" x="39" y="-135" />
+                        </Anchors>
+                    </Button>
+                    <Button parentKey="SaveButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Save">
+                        <Size x="75" y="24"/>
+                        <Anchors><Anchor point="BOTTOM" relativeKey="$parent" relativePoint="BOTTOM" y="10"/></Anchors>
+                    </Button>
+                    <Frame parentKey="Notes" inherits="TheEchoesFrameSimpleTemplate" hidden="true">
+                        <Size x="230" y="90"/>
+                        <Anchors><Anchor point="TOP" relativeKey="$parent" relativePoint="BOTTOM" y="0"/></Anchors>
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString text="Note:" inherits="FontWhite" justifyH="LEFT">
+                                    <Anchors><Anchor point="TOPLEFT" x="10" y="-15"/></Anchors>
+                                </FontString>
+                                <FontString parentKey="Note" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                                    <Size x="210"/>
+                                    <Anchors><Anchor point="TOPLEFT" x="10" y="-30"/></Anchors>
+                                </FontString>
+                                <FontString text="Officer Note:" inherits="FontWhite" justifyH="LEFT">
+                                    <Anchors><Anchor point="TOPLEFT" x="10" y="-53"/></Anchors>
+                                </FontString>
+                                <FontString parentKey="OfficerNote" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                                    <Size x="210"/>
+                                    <Anchors><Anchor point="TOPLEFT" x="10" y="-68"/></Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </Frames>
+                <Scripts>
+                    <OnLoad method="OnLoad"/>
+                    <OnHide method="OnHide"/>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Frame>
+
+</Ui>
