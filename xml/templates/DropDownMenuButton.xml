@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 
-    <Button name="TheEchoesDropDownMenuButtonTemplate" parent="" virtual="true" frameLevel="1003" mixin="DropDownMenuButtonMixin">
+    <Button name="TheEchoesDropDownMenuButtonTemplate" parent="" virtual="true" frameLevel="1003" mixin="TheEchoesDropDownMenuButtonMixin">
         <!-- Highlight textures -->
         <HighlightTexture atlas="128-RedButton-Highlight" useAtlasSize="false" desaturated="true" alphaMode="ADD">
             <Anchors>

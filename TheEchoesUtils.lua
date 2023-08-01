@@ -1,4 +1,8 @@
-function getGuildData()
+local _, Addon = ...;
+
+Addon.Utils = {}
+
+function Addon.Utils.getGuildData()
 
     local members = {}
     local alts = {}
@@ -34,11 +38,11 @@ function getGuildData()
         -- remove the realm from name
         local startIndex = string.find(name, "-")
         if startIndex then
-            name = trimString(string.sub(name, 0, startIndex - 1))
+            name = Addon.Utils.trimString(string.sub(name, 0, startIndex - 1))
         end
 
         -- splite note in roles
-        local roles = extractRoles(note)
+        local roles = Addon.Utils.extractRoles(note)
         if roles == nil or next(roles) == nil then
             table.insert(errorMembers, {name = name, note = note, officerNote = officerNote})
         else
@@ -57,9 +61,9 @@ function getGuildData()
             }
 
             -- group members on main and alts
-            officerNote = trimString(officerNote)
+            officerNote = Addon.Utils.trimString(officerNote)
             officerNote = officerNote:upper()
-            local mainMember = extractMain(officerNote)
+            local mainMember = Addon.Utils.extractMain(officerNote)
             if officerNote == "MAIN" then -- if the officerNote is main
 
                 memberInfo.alts = {} -- add the alts attribute
@@ -110,26 +114,26 @@ function getGuildData()
 end
 
 -- update the ilvl of the player
-function updateMemberILVL(name, tank, heal, dps)
+function Addon.Utils.updateMemberILVL(name, tank, heal, dps)
 
     local finalNote = "";
 
     if(tank ~= nil) then
-        tank = trimString(tank)
+        tank = Addon.Utils.trimString(tank)
         if(tank ~= "") then
             finalNote = finalNote .. " - tank:" .. tank
         end
     end
 
     if(heal ~= nil) then
-        heal = trimString(heal)
+        heal = Addon.Utils.trimString(heal)
         if(heal ~= "") then
             finalNote = finalNote .. " - heal:" .. heal
         end
     end
 
     if(dps ~= nil) then
-        dps = trimString(dps)
+        dps = Addon.Utils.trimString(dps)
         if(dps ~= "") then
             finalNote = finalNote .. " - dps:" .. dps
         end
@@ -150,7 +154,7 @@ function updateMemberILVL(name, tank, heal, dps)
 
 end
 
-function updateMemberType(name, type, mainMember)
+function Addon.Utils.updateMemberType(name, type, mainMember)
 
     local finalNote = "";
     if type == "Main" then
@@ -173,12 +177,12 @@ function updateMemberType(name, type, mainMember)
 end
 
 -- trim the blank spaces from the begining and the end of the string
-function trimString(str)
+function Addon.Utils.trimString(str)
     return str:match("^%s*(.-)%s*$")
 end
 
 -- split the note "dps:x - tank:y - heal:z" -> {dps: x, tank: y, heal: z}
-function extractRoles(str)
+function Addon.Utils.extractRoles(str)
 
     local result = {}
     str = str:upper()
@@ -188,10 +192,12 @@ function extractRoles(str)
         local key, value = pair:match("(%a+):([^%-]+)")
 
         if key == nil or value == nil then return nil end
+        key = Addon.Utils.trimString(key)
+        value = Addon.Utils.trimString(value)
 
         if key ~= "TANK" and key ~= "HEAL" and key ~= "DPS" then return nil end
 
-        result[trimString(key)] = trimString(value)
+        result[key] = value
 
         key = nil
         value = nil
@@ -203,7 +209,7 @@ function extractRoles(str)
 end
 
 -- extract the main char from the officer note "alt : MainMember" -> MainMember / nil
-function extractMain(str)
+function Addon.Utils.extractMain(str)
 
     local mainName = str:match("ALT%s*:%s*(.+)");
     if(mainName == nil) then return nil end
@@ -218,7 +224,7 @@ function extractMain(str)
 end
 
 -- sort the members
-function sortMembers(members)
+function Addon.Utils.sortMembers(members)
 
     -- put the members in an indexed array
     local sortedMembers = {}
@@ -227,7 +233,7 @@ function sortMembers(members)
         --sort the alts, if it has
         local alts = value.alts
         if alts ~= nil then
-            alts = sortMembers(alts)
+            alts = Addon.Utils.sortMembers(alts)
             value.alts = alts
         end
 
@@ -238,14 +244,14 @@ function sortMembers(members)
         alts = nil
 
     end
-    table.sort(sortedMembers, compare)
+    table.sort(sortedMembers, Addon.Utils.compare)
 
     return sortedMembers
 
 end
 
 -- Custom comparison for members
-function compare(a, b)
+function Addon.Utils.compare(a, b)
 
     -- Rule 1: Sort by online status
     if a.online and not b.online then
@@ -299,20 +305,10 @@ function compare(a, b)
     -- Rule 4: Sort by name alphabetically
     return a.name < b.name
 
-    --[[-- Rule 5: Sort by rank
-    local rankOrder = { Chief = 4, Master = 3, Member = 2, Initiate = 1 }
-    if rankOrder[a.rank] > rankOrder[b.rank] then
-        rankOrder = nil
-        return true
-    elseif rankOrder[a.rank] < rankOrder[b.rank] then
-        rankOrder = nil
-        return false
-    end]]
-
 end
 
 -- get the size of the array
-function size(array)
+function Addon.Utils.size(array)
 
     local size = 0
     for _ in pairs(array) do
@@ -324,7 +320,7 @@ function size(array)
 end
 
 -- get the width based on longest text element from array
-function getMaxWidth(array)
+function Addon.Utils.getMaxWidth(array)
 
     local wordSize = 0
     for _, v in pairs(array) do
@@ -341,6 +337,6 @@ function getMaxWidth(array)
 end
 
 -- the player is Mod
-function isMod()
+function Addon.Utils.isMod()
     return CanEditPublicNote() and CanEditOfficerNote()
 end

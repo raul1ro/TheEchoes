@@ -1,3 +1,5 @@
+local _, Addon = ...;
+
 -- Bindings.xml globals
 BINDING_HEADER_THE_ECHOES_UI = "User Interfece"
 BINDING_NAME_THE_ECHOES_TOGGLE = "Toggle Open/Close"
@@ -31,14 +33,14 @@ local function setupTheEchoesFrame()
         width = width + v.width
     end
     -- if the player is not mod, subtract the width of edit
-    if isMod() == false  then
+    if Addon.Utils.isMod() == false  then
         width = width - ColumnsData.EDIT.width
     end
     TheEchoesFrame:SetWidth(width)
 
     -- prepare the columns
     local columnsText
-    if isMod() then
+    if Addon.Utils.isMod() then
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "EDIT", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
     else
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
@@ -61,7 +63,7 @@ local function setupTheEchoesFrame()
         -- draw the title only if
         if columnData.showTitle then
 
-            local text = columnsFrame:CreateFontString(v, "OVERLAY", "FontWhite")
+            local text = columnsFrame:CreateFontString(v, "OVERLAY", "TheEchoesFontWhite")
             text:SetPoint("LEFT", columnData.startPoint, 0)
             text:SetTextColor(1, 1, 1, 1)
             text:SetText(v)
@@ -250,7 +252,7 @@ local function setErrorMembers(errorMembers)
     end
 
     -- if exist error members
-    if size(errorMembers) > 0 then
+    if Addon.Utils.size(errorMembers) > 0 then
 
         local startPoint = 0;
         for _, member in ipairs(errorMembers) do
@@ -265,7 +267,7 @@ local function setErrorMembers(errorMembers)
             button:SetText(name)
             button:SetScript("OnClick", function()
 
-                if(isMod()) then
+                if(Addon.Utils.isMod()) then
                     EditFrame:Open(name, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
                 end
 
@@ -296,7 +298,7 @@ TheEchoesUI = {
         TheEchoesUI.close()
 
         -- create the poll
-        if isMod() then
+        if Addon.Utils.isMod() then
             MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesModMemberRow", function(_, frame)
                 frame:Hide()
                 frame:ClearAllPoints()

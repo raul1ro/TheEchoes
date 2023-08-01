@@ -1,3 +1,5 @@
+local _, Addon = ...;
+
 function InitTheEchoesFrame()
 
     -- Frame
@@ -129,17 +131,17 @@ function InitTheEchoesFrame()
     editMemberSaveButton:Size(75, 24)
     editMemberSaveButton:SetScript("OnClick", function()
         local memberName = editMemberFrame.Title:GetText()
-        updateMemberILVL(memberName, editMemberFrame.TankInput:GetText(), editMemberFrame.HealInput:GetText(), editMemberFrame.DPSInput:GetText())
-        updateMemberType(memberName, editMemberFrame.TypeButton:GetText(), editMemberFrame.MainsButton:GetText())
+        Addon.Utils.updateMemberILVL(memberName, editMemberFrame.TankInput:GetText(), editMemberFrame.HealInput:GetText(), editMemberFrame.DPSInput:GetText())
+        Addon.Utils.updateMemberType(memberName, editMemberFrame.TypeButton:GetText(), editMemberFrame.MainsButton:GetText())
         editMemberFrame:Hide()
     end)
 
 end
 
 -- EDIT FRAME --
-EditMemberFrameMixin = {}
+TheEchoesEditMemberFrameMixin = {}
 
-function EditMemberFrameMixin:OnLoad()
+function TheEchoesEditMemberFrameMixin:OnLoad()
 
     self.Title:SetJustifyH("CENTER")
     self.CloseButton:SetScript("OnClick", function() self:Hide()  end)
@@ -200,7 +202,7 @@ function EditMemberFrameMixin:OnLoad()
 
 end
 
-function EditMemberFrameMixin:Open(title, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
+function TheEchoesEditMemberFrameMixin:Open(title, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
 
     self:Hide()
 
@@ -235,7 +237,7 @@ function EditMemberFrameMixin:Open(title, tankValue, healValue, dpsValue, type, 
 
 end
 
-function EditMemberFrameMixin:OnHide()
+function TheEchoesEditMemberFrameMixin:OnHide()
     self.Title:SetText("")
     self.TankInput:SetText("")
     self.HealInput:SetText("")

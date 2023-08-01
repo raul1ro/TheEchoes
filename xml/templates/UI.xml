@@ -1,10 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 
     <!-- Fonts -->
-    <Font name="FontWhite" inherits="SystemFont_Shadow_Med1" virtual="true">
+    <Font name="TheEchoesFontWhite" inherits="SystemFont_Shadow_Med1" virtual="true">
         <Color r="1" g="1" b="1"/>
     </Font>
-    <Font name="FontBlue" inherits="SystemFont_Shadow_Med1" virtual="true">
+    <Font name="TheEchoesFontBlue" inherits="SystemFont_Shadow_Med1" virtual="true">
         <Color r="0" g="0.75" b="1"/>
     </Font>
 
@@ -218,7 +218,7 @@
                 </Texture>
             </Layer>
         </Layers>
-        <FontString parentKey="Text" inherits="FontWhite"/>
+        <FontString parentKey="Text" inherits="TheEchoesFontWhite"/>
         <TextInsets>
             <AbsInset left="2" right="2" top="0" bottom="0" />
         </TextInsets>
@@ -258,7 +258,7 @@
                         </Texture>
                     </Layer>
                     <Layer level="OVERLAY" textureSubLevel="1">
-                        <FontString parentKey="Text" inherits="FontWhite" justifyH="LEFT">
+                        <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
                             <Color r="1" g="1" b="1" a="0.5"/>
                             <Anchors>
                                 <Anchor point="LEFT" x="20"/>
@@ -270,13 +270,13 @@
         </Frames>
         <Layers>
             <Layer level="OVERLAY" textureSubLevel="2">
-                <FontString parentKey="Tank" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Tank" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Name" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Heal" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Heal" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Tank" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="DPS" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="DPS" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Heal" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
             </Layer>
@@ -288,13 +288,13 @@
         </Frames>
         <Layers>
             <Layer>
-                <FontString parentKey="Type" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Type" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Edit" relativePoint="RIGHT" x="10"/></Anchors>
                 </FontString>
-                <FontString parentKey="Level" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Level" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Type" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Rank" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Rank" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Level" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
             </Layer>
@@ -309,7 +309,7 @@
         </Frames>
         <Layers>
             <Layer>
-                <FontString parentKey="Zone" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Whisper" relativePoint="RIGHT" x="10"/></Anchors>
                 </FontString>
             </Layer>
@@ -338,7 +338,7 @@
                         </Texture>
                     </Layer>
                     <Layer level="OVERLAY" textureSubLevel="1">
-                        <FontString parentKey="Text" inherits="FontWhite" justifyH="LEFT">
+                        <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
                             <Color r="1" g="1" b="1" a="0.5"/>
                             <Anchors>
                                 <Anchor point="LEFT" x="20"/>
@@ -350,22 +350,22 @@
         </Frames>
         <Layers>
             <Layer level = "OVERLAY" textureSubLevel="2">
-                <FontString parentKey="Tank" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Tank" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Name" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Heal" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Heal" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Tank" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="DPS" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="DPS" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Heal" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Type" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Type" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.DPS" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Level" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Level" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Type" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
-                <FontString parentKey="Rank" inherits="FontWhite" justifyH="LEFT">
+                <FontString parentKey="Rank" inherits="TheEchoesFontWhite" justifyH="LEFT">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Level" relativePoint="RIGHT" x="5"/></Anchors>
                 </FontString>
             </Layer>
@@ -380,7 +380,7 @@
         </Frames>
         <Layers>
             <Layer>
-                <FontString parentKey="Zone" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Whisper" relativePoint="RIGHT" x="10"/></Anchors>
                 </FontString>
             </Layer>

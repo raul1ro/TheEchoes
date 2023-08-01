@@ -26,7 +26,7 @@
                 <Anchors><Anchor point="TOPLEFT" x="17" y="-14"/></Anchors>
                 <Layers>
                     <Layer level="ARTWORK" textureSubLevel="5">
-                        <FontString inherits="FontWhite" text="Hide Offline Alts" justifyH="LEFT">
+                        <FontString inherits="TheEchoesFontWhite" text="Hide Offline Alts" justifyH="LEFT">
                             <Anchors>
                                 <Anchor point="LEFT" x="22" y="0"/>
                             </Anchors>
@@ -54,7 +54,7 @@
                 <Anchors><Anchor point="TOPLEFT" relativeKey="$parent.EditGMButton" relativePoint="BOTTOMLEFT" x="7" y="-6"/></Anchors>
                 <Layers>
                     <Layer level="OVERLAY">
-                        <FontString inherits="FontWhite" text="Guild Message" justifyH="CENTER">
+                        <FontString inherits="TheEchoesFontWhite" text="Guild Message" justifyH="CENTER">
                             <Anchors><Anchor point="TOP" x="0" y="-20"/></Anchors>
                         </FontString>
                     </Layer>
@@ -86,7 +86,7 @@
                 </Anchors>
                 <Layers>
                     <Layer level="OVERLAY" textureSubLevel="5">
-                        <FontString parentKey="Text" inherits="FontBlue" justifyH="CENTER">
+                        <FontString parentKey="Text" inherits="TheEchoesFontBlue" justifyH="CENTER">
                             <Anchors><Anchor point="CENTER"/></Anchors>
                         </FontString>
                     </Layer>
@@ -121,10 +121,10 @@
                 </Anchors>
                 <Layers>
                     <Layer level="OVERLAY" textureSubLevel="5">
-                        <FontString parentKey="Stats" inherits="FontWhite" justifyH="LEFT">
+                        <FontString parentKey="Stats" inherits="TheEchoesFontWhite" justifyH="LEFT">
                             <Anchors><Anchor point="LEFT" x="5"/></Anchors>
                         </FontString>
-                        <FontString parentKey="MemoryUsage" inherits="FontWhite" justifyH="RIGHT">
+                        <FontString parentKey="MemoryUsage" inherits="TheEchoesFontWhite" justifyH="RIGHT">
                             <Anchors><Anchor point="RIGHT" x="-5"/></Anchors>
                         </FontString>
                     </Layer>
@@ -139,7 +139,7 @@
                 </Anchors>
             </Frame>
             <!-- Edit Frame -->
-            <Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" frameStrata="DIALOG" mixin="EditMemberFrameMixin" hidden="true">
+            <Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" frameStrata="DIALOG" mixin="TheEchoesEditMemberFrameMixin" hidden="true">
                 <Size x="250" y="200"/>
                 <Anchors><Anchor point="TOPLEFT" x="-263"/></Anchors>
                 <Frames>
@@ -152,19 +152,19 @@
                 </Frames>
                 <Layers>
                     <Layer level="OVERLAY" textureSubLevel="2">
-                        <FontString parentKey="Tank" inherits="FontWhite" text=" TANK" justifyH="RIGHT">
+                        <FontString parentKey="Tank" inherits="TheEchoesFontWhite" text=" TANK" justifyH="RIGHT">
                             <Size x="44"/>
                             <Anchors>
                                 <Anchor point="TOP" x="-35" y="-50"/>
                             </Anchors>
                         </FontString>
-                        <FontString parentKey="Heal" inherits="FontWhite" text=" HEAL" justifyH="RIGHT">
+                        <FontString parentKey="Heal" inherits="TheEchoesFontWhite" text=" HEAL" justifyH="RIGHT">
                             <Size x="44"/>
                             <Anchors>
                                 <Anchor point="TOP" x="-35" y="-80"/>
                             </Anchors>
                         </FontString>
-                        <FontString parentKey="DPS" inherits="FontWhite" text=" DPS" justifyH="RIGHT">
+                        <FontString parentKey="DPS" inherits="TheEchoesFontWhite" text=" DPS" justifyH="RIGHT">
                             <Size x="44"/>
                             <Anchors>
                                 <Anchor point="TOP" x="-35" y="-110"/>
@@ -212,17 +212,17 @@
                         <Anchors><Anchor point="TOP" relativeKey="$parent" relativePoint="BOTTOM" y="0"/></Anchors>
                         <Layers>
                             <Layer level="OVERLAY">
-                                <FontString text="Note:" inherits="FontWhite" justifyH="LEFT">
+                                <FontString text="Note:" inherits="TheEchoesFontWhite" justifyH="LEFT">
                                     <Anchors><Anchor point="TOPLEFT" x="10" y="-15"/></Anchors>
                                 </FontString>
-                                <FontString parentKey="Note" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                                <FontString parentKey="Note" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
                                     <Size x="210"/>
                                     <Anchors><Anchor point="TOPLEFT" x="10" y="-30"/></Anchors>
                                 </FontString>
-                                <FontString text="Officer Note:" inherits="FontWhite" justifyH="LEFT">
+                                <FontString text="Officer Note:" inherits="TheEchoesFontWhite" justifyH="LEFT">
                                     <Anchors><Anchor point="TOPLEFT" x="10" y="-53"/></Anchors>
                                 </FontString>
-                                <FontString parentKey="OfficerNote" inherits="FontWhite" justifyH="LEFT" wordwrap="false">
+                                <FontString parentKey="OfficerNote" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
                                     <Size x="210"/>
                                     <Anchors><Anchor point="TOPLEFT" x="10" y="-68"/></Anchors>
                                 </FontString>

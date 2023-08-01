@@ -1,8 +1,11 @@
-DropDownMenuElementPool = nil;
+local _, Addon = ...;
+
+Addon.DropDownMenuElementPool = nil;
+
 function InitTheEchoesDropDownMenu()
 
     -- create the pool
-    DropDownMenuElementPool = CreateFramePool("FRAME", TheEchoesDropDownMenu.ScrollFrame.Content, "TheEchoesDropDownMenuElement", function(_, frame)
+    Addon.DropDownMenuElementPool = CreateFramePool("FRAME", TheEchoesDropDownMenu.ScrollFrame.Content, "TheEchoesDropDownMenuElement", function(_, frame)
         frame:Hide()
         frame:ClearAllPoints()
         frame.text:SetText("")
@@ -16,7 +19,7 @@ function InitTheEchoesDropDownMenu()
 
     -- dropdownmenu - onhide -> release elements and set scroll top
     TheEchoesDropDownMenu:SetScript("OnHide", function()
-        DropDownMenuElementPool:ReleaseAll()
+        Addon.DropDownMenuElementPool:ReleaseAll()
         DDMenuScrollBar:SetValue(0)
     end)
 

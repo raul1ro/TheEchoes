@@ -1,14 +1,16 @@
+local _, Addon = ...;
+
 -- constants
 local TheEchoesButton
 
 local function getData()
 
-    local guildData = getGuildData() -- membersData, errorMembers, onlineSize, totalSize
+    local guildData = Addon.Utils.getGuildData() -- membersData, errorMembers, onlineSize, totalSize
 
-    local membersData = sortMembers(guildData.membersData)
+    local membersData = Addon.Utils.sortMembers(guildData.membersData)
     local totalSize = guildData.totalSize
     local onlineSize = guildData.onlineSize
-    local mainSize = size(membersData)
+    local mainSize = Addon.Utils.size(membersData)
     local altSize = totalSize - mainSize
 
     return { membersData, totalSize, onlineSize, mainSize, altSize, guildData.errorMembers }

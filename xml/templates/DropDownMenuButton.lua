@@ -1,11 +1,13 @@
-DropDownMenuButtonMixin = {}
-DropDownMenuButtonMixin.enable = true
+local _, Addon = ...;
+
+TheEchoesDropDownMenuButtonMixin = {}
+TheEchoesDropDownMenuButtonMixin.enable = true
 
 -- need implementation after the creation of the button. this function is used to get the data for population of dropdownmenu
-DropDownMenuButtonMixin.getData = nil
-DropDownMenuButtonMixin.callBack = nil
+TheEchoesDropDownMenuButtonMixin.getData = nil
+TheEchoesDropDownMenuButtonMixin.callBack = nil
 
-function DropDownMenuButtonMixin:OnLoad()
+function TheEchoesDropDownMenuButtonMixin:OnLoad()
 
     local width = self:GetWidth()
     local height = self:GetHeight()
@@ -25,7 +27,7 @@ function DropDownMenuButtonMixin:OnLoad()
 
 end
 
-function DropDownMenuButtonMixin:OnMouseDown()
+function TheEchoesDropDownMenuButtonMixin:OnMouseDown()
     if(self.enable) then
         self.LeftBackground:Hide()
         self.RightBackground:Hide()
@@ -38,7 +40,7 @@ function DropDownMenuButtonMixin:OnMouseDown()
     end
 end
 
-function DropDownMenuButtonMixin:OnMouseUp()
+function TheEchoesDropDownMenuButtonMixin:OnMouseUp()
     if(self.enable) then
         self.LeftBackground:Show()
         self.RightBackground:Show()
@@ -51,7 +53,7 @@ function DropDownMenuButtonMixin:OnMouseUp()
     end
 end
 
-function DropDownMenuButtonMixin:SetEnable(enable)
+function TheEchoesDropDownMenuButtonMixin:SetEnable(enable)
     if(enable) then
         self.enable = true
         self:Enable()
@@ -77,7 +79,7 @@ function DropDownMenuButtonMixin:SetEnable(enable)
     end
 end
 
-function DropDownMenuButtonMixin:OnClick()
+function TheEchoesDropDownMenuButtonMixin:OnClick()
 
     -- get the ddmenu
     local ddMenu = TheEchoesDropDownMenu
@@ -101,8 +103,8 @@ function DropDownMenuButtonMixin:OnClick()
     local data = self.getData();
 
     -- get infos for sizing
-    local dataSize = size(data)
-    local maxWidth = getMaxWidth(data)
+    local dataSize = Addon.Utils.size(data)
+    local maxWidth = Addon.Utils.getMaxWidth(data)
 
     -- calculate the sizes
     local contentHeight = 82; -- minimum
@@ -127,7 +129,7 @@ function DropDownMenuButtonMixin:OnClick()
         local currentY = -((i-1)*18)
 
         -- get the frame and set it
-        local menuElement = DropDownMenuElementPool:Acquire()
+        local menuElement = Addon.DropDownMenuElementPool:Acquire()
         menuElement:SetWidth(contentWidth)
         menuElement:SetPoint("TOPLEFT", 2, currentY)
         menuElement.text:SetText(v)

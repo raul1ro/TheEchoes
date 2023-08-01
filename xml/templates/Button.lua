@@ -1,7 +1,7 @@
-ButtonMixin = {}
-ButtonMixin.enable = true
+TheEchoesButtonMixin = {}
+TheEchoesButtonMixin.enable = true
 
-function ButtonMixin:Size(width, height)
+function TheEchoesButtonMixin:Size(width, height)
     self:SetSize(width, height)
     local textureWidth = math.floor((height*128) / 114) --default size of texture is w114 h128
     self:GetHighlightTexture():SetSize(width, height)
@@ -17,7 +17,7 @@ function ButtonMixin:Size(width, height)
     self:GetFontString():SetWidth(width*0.9)
 end
 
-function ButtonMixin:OnMouseDown()
+function TheEchoesButtonMixin:OnMouseDown()
     if(self.enable) then
         self.LeftBackground:Hide()
         self.RightBackground:Hide()
@@ -28,7 +28,7 @@ function ButtonMixin:OnMouseDown()
     end
 end
 
-function ButtonMixin:OnMouseUp()
+function TheEchoesButtonMixin:OnMouseUp()
     if(self.enable) then
         self.LeftBackground:Show()
         self.RightBackground:Show()
@@ -39,7 +39,7 @@ function ButtonMixin:OnMouseUp()
     end
 end
 
-function ButtonMixin:SetEnable(enable)
+function TheEchoesButtonMixin:SetEnable(enable)
     if(enable) then
         self.enable = true
         self:Enable()
