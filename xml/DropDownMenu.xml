@@ -7,7 +7,7 @@
                 <Anchors>
                     <Anchor point="TOP" y="-3"/>
                     <Anchor point="LEFT" x="0"/>
-                    <Anchor point="RIGHT" x="-24"/>
+                    <Anchor point="RIGHT" x="-21"/>
                     <Anchor point="BOTTOM" y="2"/>
                 </Anchors>
                 <ScrollChild><Frame parentKey="Content"/></ScrollChild>

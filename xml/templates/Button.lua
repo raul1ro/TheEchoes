@@ -17,6 +17,10 @@ function TheEchoesButtonMixin:Size(width, height)
     self:GetFontString():SetWidth(width*0.9)
 end
 
+function TheEchoesButtonMixin:OnLoad()
+    self:Size(self:GetWidth(), self:GetHeight())
+end
+
 function TheEchoesButtonMixin:OnMouseDown()
     if(self.enable) then
         self.LeftBackground:Hide()

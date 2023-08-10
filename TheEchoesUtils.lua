@@ -340,3 +340,11 @@ end
 function Addon.Utils.isMod()
     return CanEditPublicNote() and CanEditOfficerNote()
 end
+
+-- reposition the scrollbar of scrollframe
+function Addon.Utils.positionScrollBar(scrollFrame)
+    local scrollBar = scrollFrame.ScrollBar
+    scrollBar:ClearAllPoints()
+    scrollBar:SetPoint("TOPLEFT", scrollFrame, "TOPRIGHT", 3, -16)
+    scrollBar:SetPoint("BOTTOMLEFT", scrollFrame, "BOTTOMRIGHT", 3, 16)
+end

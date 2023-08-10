@@ -65,7 +65,6 @@ local function setupTheEchoesFrame()
 
             local text = columnsFrame:CreateFontString(v, "OVERLAY", "TheEchoesFontWhite")
             text:SetPoint("LEFT", columnData.startPoint, 0)
-            text:SetTextColor(1, 1, 1, 1)
             text:SetText(v)
             text:SetWidth(columnData.width)
             text:SetJustifyH("LEFT");

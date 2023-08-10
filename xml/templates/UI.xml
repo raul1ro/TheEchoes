@@ -224,6 +224,103 @@
         </TextInsets>
     </EditBox>
 
+    <!-- Input template -->
+    <EditBox name="TheEchoesInputArrowsTemplate" parent="" virtual="true" frameLevel="1002">
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="Background">
+                    <Color r="0.06" g="0.06" b="0.06" a="1"/>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER" textureSubLevel="1">
+                <Texture parentKey="TopBorder">
+                    <Size y="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="RightBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="BottomBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT"/>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="LeftBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <FontString parentKey="Text" inherits="TheEchoesFontWhite"/>
+        <TextInsets>
+            <AbsInset left="2" right="2" top="0" bottom="0" />
+        </TextInsets>
+        <Frames>
+            <Button parentKey="IncrementButton" inherits="TheEchoesBlankButton">
+                <Layers>
+                    <Layer level="BACKGROUND" textureSubLevel="1">
+                        <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
+                            <Size x="15" y="10"/>
+                            <Anchors><Anchor point="CENTER"/></Anchors>
+                            <TexCoords left="0.0" right="0.9375" top="0.625" bottom="0.0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Size x="13" y="8"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPRIGHT" x="1" y="-1"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        local value = self:GetParent():GetText()
+                        if tonumber(value) then
+                            self:GetParent():SetText(value + 1)
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button parentKey="DecrementButton" inherits="TheEchoesBlankButton">
+                <Layers>
+                    <Layer level="BACKGROUND" textureSubLevel="1">
+                        <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
+                            <Size x="15" y="10"/>
+                            <Anchors><Anchor point="CENTER"/></Anchors>
+                            <TexCoords left="0" right="0.9375" top="0" bottom="0.625"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Size x="13" y="8"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeKey="$parent" relativePoint="BOTTOMRIGHT" x="1" y="1"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        local value = self:GetParent():GetText()
+                        if tonumber(value) then
+                            self:GetParent():SetText(value - 1)
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </EditBox>
+
     <!-- Simple frame with white-transparent background -->
     <Frame name="TheEchoesWhiteBackground" parent="" virtual="true" enablemouse="true">
         <!-- BACKGROUND -->
@@ -259,7 +356,6 @@
                     </Layer>
                     <Layer level="OVERLAY" textureSubLevel="1">
                         <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                            <Color r="1" g="1" b="1" a="0.5"/>
                             <Anchors>
                                 <Anchor point="LEFT" x="20"/>
                             </Anchors>

@@ -28,4 +28,7 @@ function InitTheEchoesDropDownMenu()
         DDMenuScrollBar:SetValue(DDMenuScrollBar:GetValue() - (delta * 25)) -- the step
     end)
 
+    -- reposition the scrollbar
+    Addon.Utils.positionScrollBar(TheEchoesDropDownMenu.ScrollFrame)
+
 end

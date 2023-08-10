@@ -7,7 +7,7 @@
                 <Anchor point="CENTER"/>
             </Anchors>
         </HighlightTexture>
-        <ButtonText font="GameFontNormal" wordwrap="false" justifyH="LEFT">
+        <ButtonText inherits="TheEchoesFontWhite" wordwrap="false" justifyH="LEFT">
             <Color r="1" g="1" b="1" a="1"/>
             <Anchors>
                 <Anchor point="LEFT" x="10"/>
@@ -35,10 +35,10 @@
                 </Texture>
             </Layer>
             <Layer level="OVERLAY" textureSubLevel="-1">
-                <Texture parentKey="Arrow" file="Interface\Buttons\Arrow-Down-Up.png" alphaMode="ADD" desaturated="true">
+                <Texture parentKey="Arrow" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                     <Size x="16" y="16"/>
                     <Anchors>
-                        <Anchor point="RIGHT" x="-6" y="-5"/>
+                        <Anchor point="RIGHT" x="-6" y="-3"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -64,10 +64,10 @@
 
             </Layer>
             <Layer level="OVERLAY" textureSubLevel="-1">
-                <Texture parentKey="ArrowPress" file="Interface\Buttons\Arrow-Down-Down.png" alphaMode="ADD" desaturated="true" hidden="true">
+                <Texture parentKey="ArrowPress" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true" hidden="true">
                     <Size x="16" y="16"/>
                     <Anchors>
-                        <Anchor point="RIGHT" x="-9" y="-5"/>
+                        <Anchor point="RIGHT" x="-8" y="-5"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -92,10 +92,11 @@
                 </Texture>
             </Layer>
             <Layer level="OVERLAY" textureSubLevel="-1">
-                <Texture parentKey="ArrowDisable" file="Interface\Buttons\Arrow-Down-Disabled.png" alphaMode="ADD" desaturated="true" hidden="true">
+                <Texture parentKey="ArrowDisable" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true" hidden="true">
+                    <Color r="1" g="1" b="1" a="0.5"/>
                     <Size x="16" y="16"/>
                     <Anchors>
-                        <Anchor point="RIGHT" x="-6" y="-5"/>
+                        <Anchor point="RIGHT" x="-6" y="-3"/>
                     </Anchors>
                 </Texture>
             </Layer>

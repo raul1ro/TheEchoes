@@ -7,8 +7,7 @@
                 <Anchor point="CENTER"/>
             </Anchors>
         </HighlightTexture>
-        <ButtonText font="GameFontNormal" wordwrap="false">
-            <Color r="1" g="1" b="1" a="1"/>
+        <ButtonText inherits="TheEchoesFontWhite" wordwrap="false">
             <Anchors>
                 <Anchor point="CENTER" />
             </Anchors>
@@ -79,6 +78,7 @@
             <OnMouseDown method="OnMouseDown"/>
             <OnMouseUp method="OnMouseUp"/>
             <OnHide method="OnMouseUp"/>
+            <OnLoad method="OnLoad"/>
         </Scripts>
     </Button>
 
@@ -89,10 +89,9 @@
                 <Anchor point="CENTER"/>
             </Anchors>
         </HighlightTexture>
-        <ButtonText font="GameFontNormal" wordwrap="false">
-            <Color r="1" g="1" b="1" a="1"/>
+        <ButtonText parentKey="Text" inherits="TheEchoesFontWhite" wordwrap="false">
             <Anchors>
-                <Anchor point="CENTER" />
+                <Anchor point="CENTER"/>
             </Anchors>
         </ButtonText>
         <Layers>
@@ -162,6 +161,9 @@
             <OnMouseUp method="OnMouseUp"/>
             <OnHide method="OnMouseUp"/>
         </Scripts>
+    </Button>
+
+    <Button name="TheEchoesBlankButton" parent="" virtual="true" frameLevel="1003">
     </Button>
 
 </Ui>

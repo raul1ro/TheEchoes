@@ -43,7 +43,6 @@ function InitTheEchoesFrame()
     -- Invite member
     if(CanGuildInvite()) then
         local inviteMemberButton = TheEchoesFrame.InviteMemberButton
-        inviteMemberButton:Size(120, 24)
         inviteMemberButton:Show()
     end
 
@@ -56,7 +55,6 @@ function InitTheEchoesFrame()
         local editGMSave = editGMFrame.EditGMSave
 
         -- set the button
-        editGMButton:Size(150, 24)
         editGMButton:Show()
         editGMButton:SetScript("OnClick", function()
             if(editGMFrame:IsVisible()) then
@@ -87,7 +85,6 @@ function InitTheEchoesFrame()
         end)
 
         -- save button
-        editGMSave:Size(75, 24)
         editGMSave:SetScript("OnClick", function()
             GuildSetMOTD(editGMInput:GetText())
             editGMFrame:Hide()
@@ -128,13 +125,15 @@ function InitTheEchoesFrame()
 
     -- set the save button
     local editMemberSaveButton = editMemberFrame.SaveButton
-    editMemberSaveButton:Size(75, 24)
     editMemberSaveButton:SetScript("OnClick", function()
         local memberName = editMemberFrame.Title:GetText()
         Addon.Utils.updateMemberILVL(memberName, editMemberFrame.TankInput:GetText(), editMemberFrame.HealInput:GetText(), editMemberFrame.DPSInput:GetText())
         Addon.Utils.updateMemberType(memberName, editMemberFrame.TypeButton:GetText(), editMemberFrame.MainsButton:GetText())
         editMemberFrame:Hide()
     end)
+
+    -- reposition the scrollbar
+    Addon.Utils.positionScrollBar(TheEchoesFrame.ScrollFrame)
 
 end
 

@@ -92,13 +92,13 @@
                     </Layer>
                 </Layers>
             </Frame>
-            <!-- Guild Message -->
+            <!-- Columns -->
             <Frame parentKey="ColumnsFrame" inherits="TheEchoesWhiteBackground">
                 <Size y="25"/>
                 <Anchors>
                     <Anchor point="TOP" relativeKey="$parent.GuildMessageFrame" relativePoint="BOTTOM" y="-5"/>
                     <Anchor point="LEFT" x="10"/>
-                    <Anchor point="RIGHT" x="-32"/>
+                    <Anchor point="RIGHT" x="-10"/>
                 </Anchors>
             </Frame>
             <!-- Content -->
@@ -173,19 +173,19 @@
                     </Layer>
                 </Layers>
                 <Frames>
-                    <EditBox parentKey="TankInput" inherits="TheEchoesInputTemplate" letters="3">
+                    <EditBox parentKey="TankInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
                         <Size x="50" y="20"/>
                         <Anchors>
                             <Anchor point="TOP" x="22" y="-46"/>
                         </Anchors>
                     </EditBox>
-                    <EditBox parentKey="HealInput" inherits="TheEchoesInputTemplate" letters="3">
+                    <EditBox parentKey="HealInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
                         <Size x="50" y="20"/>
                         <Anchors>
                             <Anchor point="TOP" x="22" y="-76"/>
                         </Anchors>
                     </EditBox>
-                    <EditBox parentKey="DPSInput" inherits="TheEchoesInputTemplate" letters="3">
+                    <EditBox parentKey="DPSInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
                         <Size x="50" y="20"/>
                         <Anchors>
                             <Anchor point="TOP" x="22" y="-106"/>
