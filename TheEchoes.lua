@@ -13,7 +13,7 @@ local function getData()
     local mainSize = Addon.Utils.size(membersData)
     local altSize = totalSize - mainSize
 
-    return { membersData, totalSize, onlineSize, mainSize, altSize, guildData.errorMembers }
+    return { membersData, totalSize, onlineSize, mainSize, altSize, guildData.tankSize, guildData.healSize, guildData.dpsSize, guildData.errorMembers }
 
 end
 
@@ -75,7 +75,7 @@ TheEchoes = {
         -- trigger guild event
         GuildRoster()
         -- re-trigger it at every 10 seconds
-        guildRoasterTrigger = C_Timer.NewTicker(10, function()
+        guildRoasterTrigger = C_Timer.NewTicker(11, function()
             GuildRoster()
         end)
 

@@ -34,6 +34,47 @@
                     </Layer>
                 </Layers>
             </CheckButton>
+            <!-- Description of colors -->
+            <!-- You color -->
+            <Frame>
+                <Size x="10" y="10"/>
+                <Anchors><Anchor point="TOPLEFT" x="160" y="-10"/></Anchors>
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="2">
+                        <Texture file="Interface\Buttons\WHITE8x8">
+                            <Color r="0" g="0.75" b="1" a="0.5"/>
+                            <TexCoord left="0" right="1" top="0" bottom="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK" textureSubLevel="5">
+                        <FontString inherits="TheEchoesFontWhite" text="You" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="LEFT" x="13" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <!-- Group Member color -->
+            <Frame>
+                <Size x="10" y="10"/>
+                <Anchors><Anchor point="TOPLEFT" x="160" y="-27"/></Anchors>
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="2">
+                        <Texture file="Interface\Buttons\WHITE8x8">
+                            <Color r="1" g="0.55" b="0" a="0.7"/>
+                            <TexCoord left="0" right="1" top="0" bottom="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK" textureSubLevel="5">
+                        <FontString inherits="TheEchoesFontWhite" text="Group Member" justifyH="LEFT">
+                            <Anchors>
+                                <Anchor point="LEFT" x="13" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
             <!-- Invite member -->
             <Button parentKey="InviteMemberButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Invite Member" hidden="true">
                 <Size x="120" y="24"/>
@@ -139,7 +180,7 @@
                 </Anchors>
             </Frame>
             <!-- Edit Frame -->
-            <Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" frameStrata="DIALOG" mixin="TheEchoesEditMemberFrameMixin" hidden="true">
+            <Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" frameStrata="DIALOG" mixin="TheEchoesEditMemberFrameMixin" hidden="true">
                 <Size x="250" y="200"/>
                 <Anchors><Anchor point="TOPLEFT" x="-263"/></Anchors>
                 <Frames>
@@ -154,58 +195,42 @@
                     <Layer level="OVERLAY" textureSubLevel="2">
                         <FontString parentKey="Tank" inherits="TheEchoesFontWhite" text=" TANK" justifyH="RIGHT">
                             <Size x="44"/>
-                            <Anchors>
-                                <Anchor point="TOP" x="-35" y="-50"/>
-                            </Anchors>
+                            <Anchors><Anchor point="TOP" x="-35" y="-50"/></Anchors>
                         </FontString>
                         <FontString parentKey="Heal" inherits="TheEchoesFontWhite" text=" HEAL" justifyH="RIGHT">
                             <Size x="44"/>
-                            <Anchors>
-                                <Anchor point="TOP" x="-35" y="-80"/>
-                            </Anchors>
+                            <Anchors><Anchor point="TOP" x="-35" y="-80"/></Anchors>
                         </FontString>
                         <FontString parentKey="DPS" inherits="TheEchoesFontWhite" text=" DPS" justifyH="RIGHT">
                             <Size x="44"/>
-                            <Anchors>
-                                <Anchor point="TOP" x="-35" y="-110"/>
-                            </Anchors>
+                            <Anchors><Anchor point="TOP" x="-35" y="-110"/></Anchors>
                         </FontString>
                     </Layer>
                 </Layers>
                 <Frames>
-                    <EditBox parentKey="TankInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
+                    <EditBox parentKey="TankInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
                         <Size x="50" y="20"/>
-                        <Anchors>
-                            <Anchor point="TOP" x="22" y="-46"/>
-                        </Anchors>
+                        <Anchors><Anchor point="TOP" x="22" y="-46"/></Anchors>
                     </EditBox>
-                    <EditBox parentKey="HealInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
+                    <EditBox parentKey="HealInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
                         <Size x="50" y="20"/>
-                        <Anchors>
-                            <Anchor point="TOP" x="22" y="-76"/>
-                        </Anchors>
+                        <Anchors><Anchor point="TOP" x="22" y="-76"/></Anchors>
                     </EditBox>
-                    <EditBox parentKey="DPSInput" inherits="TheEchoesInputArrowsTemplate" letters="3">
+                    <EditBox parentKey="DPSInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
                         <Size x="50" y="20"/>
-                        <Anchors>
-                            <Anchor point="TOP" x="22" y="-106"/>
-                        </Anchors>
+                        <Anchors><Anchor point="TOP" x="22" y="-106"/></Anchors>
                     </EditBox>
                     <Button parentKey="TypeButton" inherits="TheEchoesDropDownMenuButtonTemplate">
                         <Size x="70" y="24"/>
-                        <Anchors>
-                            <Anchor point="TOP" x="-65" y="-135" />
-                        </Anchors>
+                        <Anchors><Anchor point="TOP" x="-65" y="-135" /></Anchors>
                     </Button>
                     <Button parentKey="MainsButton" inherits="TheEchoesDropDownMenuButtonTemplate">
                         <Size x="120" y="24"/>
-                        <Anchors>
-                            <Anchor point="TOP" x="39" y="-135" />
-                        </Anchors>
+                        <Anchors><Anchor point="TOP" x="39" y="-135" /></Anchors>
                     </Button>
                     <Button parentKey="SaveButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Save">
                         <Size x="75" y="24"/>
-                        <Anchors><Anchor point="BOTTOM" relativeKey="$parent" relativePoint="BOTTOM" y="10"/></Anchors>
+                        <Anchors><Anchor point="TOP" y="-165"/></Anchors>
                     </Button>
                     <Frame parentKey="Notes" inherits="TheEchoesFrameSimpleTemplate" hidden="true">
                         <Size x="230" y="90"/>

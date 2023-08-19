@@ -8,6 +8,13 @@ function Addon.Utils.getGuildData()
     local alts = {}
     local errorMembers = {}
 
+    local counterTank = 0
+    local counterHeal = 0
+    local counterDPS = 0
+
+    -- get the members from group - if you are in a home-group(manual-group)
+    local groupMembers = Addon.Utils.getGroupMembers()
+
     -- get the members
     local membersTotal, _, membersOnline = GetNumGuildMembers()
     for i = 1, membersTotal do
@@ -47,6 +54,17 @@ function Addon.Utils.getGuildData()
             table.insert(errorMembers, {name = name, note = note, officerNote = officerNote})
         else
 
+            -- count the roles
+            if roles.TANK ~= nil then
+                counterTank = counterTank + 1
+            end
+            if roles.HEAL ~= nil then
+                counterHeal = counterHeal + 1
+            end
+            if roles.DPS ~= nil then
+                counterDPS = counterDPS + 1
+            end
+
             -- build the object
             local memberInfo = {
                 online = online,
@@ -57,7 +75,8 @@ function Addon.Utils.getGuildData()
                 zone = zone,
                 lastOnline = lastOnline,
                 note = note,
-                officerNote = officerNote
+                officerNote = officerNote,
+                isSameGroup = groupMembers[name]
             }
 
             -- group members on main and alts
@@ -109,7 +128,7 @@ function Addon.Utils.getGuildData()
 
     table.sort(errorMembers, function(a, b) return a.name < b.name end)
 
-    return { membersData = members, totalSize = membersTotal, onlineSize = membersOnline, errorMembers = errorMembers }
+    return { membersData = members, totalSize = membersTotal, onlineSize = membersOnline, tankSize = counterTank, healSize = counterHeal, dpsSize = counterDPS, errorMembers = errorMembers }
 
 end
 
@@ -187,20 +206,28 @@ function Addon.Utils.extractRoles(str)
     local result = {}
     str = str:upper()
 
+    -- parse every role
     for pair in str:gmatch("%s*([^-]+)%s*") do
 
+        -- parse
         local key, value = pair:match("(%a+):([^%-]+)")
 
-        if key == nil or value == nil then return nil end
+        -- check if is valid
+        if key == nil or value == nil then
+            return nil
+        end
+
+        -- extract them
         key = Addon.Utils.trimString(key)
         value = Addon.Utils.trimString(value)
 
-        if key ~= "TANK" and key ~= "HEAL" and key ~= "DPS" then return nil end
+        -- validate
+        if key ~= "TANK" and key ~= "HEAL" and key ~= "DPS" then
+            return nil
+        end
 
+        -- save it
         result[key] = value
-
-        key = nil
-        value = nil
 
     end
 
@@ -347,4 +374,21 @@ function Addon.Utils.positionScrollBar(scrollFrame)
     scrollBar:ClearAllPoints()
     scrollBar:SetPoint("TOPLEFT", scrollFrame, "TOPRIGHT", 3, -16)
     scrollBar:SetPoint("BOTTOMLEFT", scrollFrame, "BOTTOMRIGHT", 3, 16)
+end
+
+-- get the party members name
+function Addon.Utils.getGroupMembers()
+
+    -- get the members from group
+    tempArray = GetHomePartyInfo()
+    if tempArray == nil then tempArray = {} end
+
+    -- put them as key/value, instead of index/value
+    groupMembers = {}
+    for _, v in ipairs(tempArray) do
+        groupMembers[v] = true
+    end
+
+    return groupMembers
+
 end

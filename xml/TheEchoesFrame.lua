@@ -92,48 +92,12 @@ function InitTheEchoesFrame()
 
     end
 
-    -- set dropdownmenu buttons from edit member
-    local editMemberFrame = TheEchoesFrame.EditMemberFrame
-    local typeDDButton = editMemberFrame.TypeButton
-    local mainsDDButton = editMemberFrame.MainsButton
-    typeDDButton.getData = function() return {"Main", "Alt"} end
-    typeDDButton.callBack = function()
-        if typeDDButton:GetText() == "Main" then
-            mainsDDButton:SetEnable(false)
-            mainsDDButton:SetText("")
-        else
-            mainsDDButton:SetEnable(true)
-        end
-    end
-    mainsDDButton.getData = function()
-
-        local mainMembers = {}
-        for _, v in pairs({TheEchoesFrame.ScrollFrame.Content:GetChildren()}) do
-            if v:IsVisible() and v.Type:GetText() == "Main" then
-                table.insert(mainMembers, v.Name.Text:GetText())
-            end
-        end
-
-        table.sort(mainMembers)
-
-        return mainMembers
-
-    end
-
     -- init the dropdownmenu
     InitTheEchoesDropDownMenu()
 
-    -- set the save button
-    local editMemberSaveButton = editMemberFrame.SaveButton
-    editMemberSaveButton:SetScript("OnClick", function()
-        local memberName = editMemberFrame.Title:GetText()
-        Addon.Utils.updateMemberILVL(memberName, editMemberFrame.TankInput:GetText(), editMemberFrame.HealInput:GetText(), editMemberFrame.DPSInput:GetText())
-        Addon.Utils.updateMemberType(memberName, editMemberFrame.TypeButton:GetText(), editMemberFrame.MainsButton:GetText())
-        editMemberFrame:Hide()
-    end)
-
     -- reposition the scrollbar
     Addon.Utils.positionScrollBar(TheEchoesFrame.ScrollFrame)
+
 
 end
 
@@ -186,7 +150,7 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
         end
     end)
 
-    -- implement on show -> focus tank input and set mainsbutton
+    -- implement on show
     self:SetScript("OnShow", function()
 
         if(self.TypeButton:GetText() == "Alt") then
@@ -195,6 +159,42 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
             self.MainsButton:SetEnable(false)
         end
 
+    end)
+
+    -- set dropdownmenu buttons from edit member
+    local typeDDButton = self.TypeButton
+    local mainsDDButton = self.MainsButton
+    typeDDButton.getData = function() return {"Main", "Alt"} end
+    typeDDButton.callBack = function()
+        if typeDDButton:GetText() == "Main" then
+            mainsDDButton:SetEnable(false)
+            mainsDDButton:SetText("")
+        else
+            mainsDDButton:SetEnable(true)
+        end
+    end
+    mainsDDButton.getData = function()
+
+        local mainMembers = {}
+        for _, v in pairs({TheEchoesFrame.ScrollFrame.Content:GetChildren()}) do
+            if v:IsVisible() and v.Type:GetText() == "Main" then
+                table.insert(mainMembers, v.Name.Text:GetText())
+            end
+        end
+
+        table.sort(mainMembers)
+
+        return mainMembers
+
+    end
+
+    -- set the save button
+    local editMemberSaveButton = self.SaveButton
+    editMemberSaveButton:SetScript("OnClick", function()
+        local memberName = self.Title:GetText()
+        Addon.Utils.updateMemberILVL(memberName, self.TankInput:GetText(), self.HealInput:GetText(), self.DPSInput:GetText())
+        Addon.Utils.updateMemberType(memberName, self.TypeButton:GetText(), self.MainsButton:GetText())
+        self:Hide()
     end)
 
     self:Hide()

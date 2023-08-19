@@ -103,9 +103,11 @@ local function setMember(rowIndex, memberData, memberType)
 
     -- set background color
     if memberData.name == TheEchoes.PlayerName then
-        row.Background:SetColorTexture(0, 0.75, 1, 0.2) -- blue
+        row.Background:SetColorTexture(0, 0.75, 1, 0.25) -- blue
+    elseif memberData.isSameGroup then
+        row.Background:SetColorTexture(1, 0.55, 0, 0.25) -- green
     elseif memberOnline then -- is online
-        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.2) -- less transparent online
+        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.25) -- less transparent online
     elseif memberType == "Main" then -- is offline main
         row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.07) -- more transparent offline
     end
@@ -353,7 +355,7 @@ TheEchoesUI = {
     end,
 
     -- set the date in ui
-    setData = function(membersData, totalSize, onlineSize, mainSize, altSize, errorMembers)
+    setData = function(membersData, totalSize, onlineSize, mainSize, altSize, tankSize, healSize, dpsSize, errorMembers)
 
         -- set the guild message
         local guildMessage = GetGuildRosterMOTD()
@@ -388,7 +390,11 @@ TheEchoesUI = {
         ContentFrame:SetHeight(27 * MemberRowPool:GetNumActive()) -- 27 per row. Check in setMember
 
         -- set the stats
-        StatsLabel:SetText("Online members: " .. onlineSize .. "/" .. totalSize .. " (main: " .. mainSize .. ", alt: " .. altSize .. ")")
+        StatsLabel:SetText(
+                "Online members: " .. onlineSize .. "/" .. totalSize ..
+                " (main: " .. mainSize .. ", alt: " .. altSize .. ")" ..
+                " (tank: " .. tankSize .. ", heal: " .. healSize .. ", dps: " .. dpsSize .. ")"
+        )
 
         -- set the memory usage
         setMemoryUsage()
