@@ -25,7 +25,7 @@ function InitTheEchoesDropDownMenu()
 
     -- set the scroll step
     TheEchoesDropDownMenu.ScrollFrame.Content:SetScript("OnMouseWheel", function(_, delta)
-        DDMenuScrollBar:SetValue(DDMenuScrollBar:GetValue() - (delta * 25)) -- the step
+        DDMenuScrollBar:SetValue(DDMenuScrollBar:GetValue() - (delta * 27)) -- the step
     end)
 
     -- reposition the scrollbar

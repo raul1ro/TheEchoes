@@ -1,9 +1,5 @@
 local _, Addon = ...;
 
--- Bindings.xml globals
-BINDING_HEADER_THE_ECHOES_UI = "User Interfece"
-BINDING_NAME_THE_ECHOES_TOGGLE = "Toggle Open/Close"
-
 local ColumnsData = {
     NAME = { startPoint = 5, width = 145, showTitle = true },
     TANK = { startPoint = 0, width = 50, showTitle = true },
@@ -33,14 +29,14 @@ local function setupTheEchoesFrame()
         width = width + v.width
     end
     -- if the player is not mod, subtract the width of edit
-    if Addon.Utils.isMod() == false  then
+    if Addon.Utils.canEditNotes() == false  then
         width = width - ColumnsData.EDIT.width
     end
     TheEchoesFrame:SetWidth(width)
 
     -- prepare the columns
     local columnsText
-    if Addon.Utils.isMod() then
+    if Addon.Utils.canEditNotes() then
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "EDIT", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
     else
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
@@ -79,7 +75,7 @@ local function setupTheEchoesFrame()
     scrollBar:SetMinMaxValues(0, 503) -- the height of scrollFrame
     scrollBar:SetValue(0) -- Set initial scroll position
     ContentFrame:SetScript("OnMouseWheel", function(_, delta)
-        scrollBar:SetValue(scrollBar:GetValue() - (delta * 25)) -- the step
+        scrollBar:SetValue(scrollBar:GetValue() - (delta * 38)) -- the step
     end)
 
 end
@@ -103,13 +99,13 @@ local function setMember(rowIndex, memberData, memberType)
 
     -- set background color
     if memberData.name == TheEchoes.PlayerName then
-        row.Background:SetColorTexture(0, 0.75, 1, 0.25) -- blue
+        row.Background:SetColorTexture(0, 0.75, 1, 0.17) -- blue
     elseif memberData.isSameGroup then
-        row.Background:SetColorTexture(1, 0.55, 0, 0.25) -- green
+        row.Background:SetColorTexture(1, 0.55, 0, 0.17) -- green
     elseif memberOnline then -- is online
-        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.25) -- less transparent online
+        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.17) -- less transparent online
     elseif memberType == "Main" then -- is offline main
-        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.07) -- more transparent offline
+        row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.03) -- more transparent offline
     end
 
     -- get the column data for name
@@ -121,10 +117,13 @@ local function setMember(rowIndex, memberData, memberType)
     -- set the icon and name
     local nameIcon = nameFrame.Icon;
     local nameText = nameFrame.Text;
-    nameIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
-    nameIcon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[memberData.class]))
+    local className = memberData.class;
+    nameIcon:SetTexture("Interface\\TargetingFrame\\UI-CLASSES-CIRCLES")
+    nameIcon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[className]))
     nameText:SetText(memberData.name)
-    nameText:SetAlpha(textAlpha)
+
+    local r, g, b = GetClassColor(className)
+    nameText:SetTextColor(r, g, b, textAlpha)
 
     -- set the position of row
     if memberType == "Main" then
@@ -163,7 +162,7 @@ local function setMember(rowIndex, memberData, memberType)
     if(editButton ~= nil) then
         editButton:Size(ColumnsData.EDIT.width-5, 20)
         editButton:SetScript("OnClick", function()
-            EditFrame:Open(memberData.name, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS, memberType, memberData.main, false)
+            EditFrame:Open(memberData.index, memberData.name, memberOnline, className, memberData.level, memberData.rank, memberData.rankIndex, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS, memberType, memberData.main, false)
         end)
         editButton:Show()
     end
@@ -227,16 +226,23 @@ local function setMemoryUsage()
 
     UpdateAddOnMemoryUsage()
     local memoryUsageMB = tonumber(string.format("%.3f", (GetAddOnMemoryUsage("TheEchoes")/1024)))
-    MemoryUsageLabel:SetText("Memory usage: " .. memoryUsageMB .. " MB")
-    if(memoryUsageMB > 10) then -- if reaches here and never decrease, it means there is a problem
+
+    -- call gc
+    if(memoryUsageMB >= 2) then
         collectgarbage("collect")
+    end
+
+    -- set the message
+    if(memoryUsageMB >= 10) then -- if reaches here and never decrease, it means there is a problem
         MemoryUsageLabel:SetTextColor(255, 0, 0, 1)
-        MemoryUsageLabel:SetText("Tell to Doomfury!!! - Memory usage: " .. memoryUsageMB .. " MB")
-    elseif(memoryUsageMB > 5) then
-        collectgarbage("collect")
-        MemoryUsageLabel:SetTextColor(255, 255, 0, 1)
+        MemoryUsageLabel:SetText("Contact the author! Unless you exported data - Memory usage: " .. memoryUsageMB .. " MB")
     else
-        MemoryUsageLabel:SetTextColor(1, 1, 1, 1)
+        if(memoryUsageMB >= 5) then
+            MemoryUsageLabel:SetTextColor(255, 255, 0, 1)
+        else
+            MemoryUsageLabel:SetTextColor(1, 1, 1, 1)
+        end
+        MemoryUsageLabel:SetText("Memory usage: " .. memoryUsageMB .. " MB")
     end
 
 end
@@ -266,13 +272,11 @@ local function setErrorMembers(errorMembers)
             button:SetPoint("LEFT", startPoint, 0)
             button:Size(width, 24)
             button:SetText(name)
-            button:SetScript("OnClick", function()
-
-                if(Addon.Utils.isMod()) then
-                    EditFrame:Open(name, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
-                end
-
-            end)
+            if(Addon.Utils.canEditNotes()) then
+                button:SetScript("OnClick", function()
+                        EditFrame:Open(member.index, name, member.online, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
+                end)
+            end
 
             startPoint = startPoint + width + 5
 
@@ -288,7 +292,53 @@ local function setErrorMembers(errorMembers)
 
 end
 
+-- listening the guild events and update the interface
+local guildEventListener = CreateFrame("Frame", "TheEchoesGuildEventListener")
+local threadTriggerGuildEvent = nil;
+local function startListening()
+
+    -- start a tread which is triggering guild events
+    GuildRoster();
+    threadTriggerGuildEvent = C_Timer.NewTicker(10.1, function()
+        GuildRoster();
+    end)
+
+    -- get the actual data
+    TheEchoesUI.GuildData = TheEchoes.getGuildData()
+    TheEchoesUI.refreshUI()
+
+    -- register the listener for guild event
+    guildEventListener:RegisterEvent("GUILD_ROSTER_UPDATE")
+    guildEventListener:SetScript("OnEvent", function(_, listenerEvent)
+        if listenerEvent == "GUILD_ROSTER_UPDATE" then
+            TheEchoesUI.GuildData = TheEchoes.getGuildData()
+            TheEchoesUI.refreshUI()
+        end
+    end)
+
+
+
+end
+local function cancelListening()
+
+    -- unregister the listener
+    guildEventListener:UnregisterEvent("GUILD_ROSTER_UPDATE")
+    guildEventListener:SetScript("OnEvent", nil)
+
+    -- cancel the thread
+    if(threadTriggerGuildEvent ~= nil) then
+        threadTriggerGuildEvent:Cancel()
+        threadTriggerGuildEvent = nil
+    end
+
+    -- clear guild data
+    TheEchoesUI.GuildData = nil
+
+end
+
 TheEchoesUI = {
+
+    GuildData = nil,
 
     -- init function
     init = function()
@@ -299,7 +349,7 @@ TheEchoesUI = {
         TheEchoesUI.close()
 
         -- create the poll
-        if Addon.Utils.isMod() then
+        if Addon.Utils.canEditNotes() then
             MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesModMemberRow", function(_, frame)
                 frame:Hide()
                 frame:ClearAllPoints()
@@ -333,15 +383,15 @@ TheEchoesUI = {
     -- open the ui
     -- and start things
     open = function()
-        TheEchoes.startAutoUpdate()
         TheEchoesFrame:Show()
+        startListening()
     end,
 
     -- close the ui
     -- and stop things
     close = function()
         TheEchoesFrame:Hide()
-        TheEchoes.stopAutoUpdate()
+        cancelListening()
     end,
 
     -- toggle the ui
@@ -355,7 +405,9 @@ TheEchoesUI = {
     end,
 
     -- set the date in ui
-    setData = function(membersData, totalSize, onlineSize, mainSize, altSize, tankSize, healSize, dpsSize, errorMembers)
+    refreshUI = function()
+
+        local membersData, totalSize, onlineSize, mainSize, altSize, tankSize, healSize, dpsSize, errorMembers = unpack(TheEchoesUI.GuildData)
 
         -- set the guild message
         local guildMessage = GetGuildRosterMOTD()
@@ -364,21 +416,77 @@ TheEchoesUI = {
         -- reset the rows
         MemberRowPool:ReleaseAll()
 
-        -- set the rows
-        local index = 0
-        for _, memberData in ipairs(membersData) do
+        -- filters
+        local isHideOffAlts = TheEchoesFrame.HideOffAltsCheckButton:GetChecked()
+        local searchValue = Addon.Utils.trimString(TheEchoesFrame.SearchInput:GetText())
 
-            setMember(index, memberData, "Main")
-            index = index+1
+        -- apply search
+        if(string.len(searchValue) > 0) then
 
-            local isHideOffAlts = TheEchoesFrame.HideOffAltsCheckButton:GetChecked()
+            local index = 0
+            for _, memberData in ipairs(membersData) do
 
-            for _, altData in ipairs(memberData.alts) do
+                -- if the main was set
+                local isMain = false
 
-                if(isHideOffAlts == false or altData.online) then
+                -- main name contains
+                if(Addon.Utils.containsIgnoringCase(memberData.name, searchValue)) then
 
-                    setMember(index, altData, "Alt")
+                    -- set member
+                    setMember(index, memberData, "Main")
                     index = index+1
+                    isMain = true
+
+                    -- set all alts
+                    for _, altData in ipairs(memberData.alts) do
+
+                        setMember(index, altData, "Alt")
+                        index = index+1
+
+                    end
+
+                end
+
+                -- search through alts only if main was not set
+                if(isMain == false) then
+
+                    for _, altData in ipairs(memberData.alts) do
+
+                        if(Addon.Utils.containsIgnoringCase(altData.name, searchValue)) then
+
+                            -- set main only once
+                            if(isMain == false) then
+                                setMember(index, memberData, "Main")
+                                index = index+1
+                                isMain = true
+                            end
+
+                            setMember(index, altData, "Alt")
+                            index = index+1
+
+                        end
+
+                    end
+
+                end
+
+            end
+
+        else -- print normally
+
+            local index = 0
+            for _, memberData in ipairs(membersData) do
+
+                setMember(index, memberData, "Main")
+                index = index+1
+
+                for _, altData in ipairs(memberData.alts) do
+
+                    -- if not hide alts or is online
+                    if(isHideOffAlts == false or altData.online) then
+                        setMember(index, altData, "Alt")
+                        index = index+1
+                    end
 
                 end
 

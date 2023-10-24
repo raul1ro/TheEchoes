@@ -20,7 +20,7 @@ function Addon.Utils.getGuildData()
     for i = 1, membersTotal do
 
         -- get the data for current member
-        local name, rank, _, level, _, zone, note, officerNote, online, _, classFileName = GetGuildRosterInfo(i)
+        local name, rank, rankIndex, level, _, zone, note, officerNote, online, _, classFileName = GetGuildRosterInfo(i)
 
         -- if the player is offline get last online
         local lastOnline = ""
@@ -51,7 +51,17 @@ function Addon.Utils.getGuildData()
         -- splite note in roles
         local roles = Addon.Utils.extractRoles(note)
         if roles == nil or next(roles) == nil then
-            table.insert(errorMembers, {name = name, note = note, officerNote = officerNote})
+            table.insert(errorMembers, {
+                index = i,
+                name = name,
+                online = online,
+                class = classFileName,
+                level = level,
+                rank = rank,
+                rankIndex = rankIndex,
+                note = note,
+                officerNote = officerNote
+            })
         else
 
             -- count the roles
@@ -67,9 +77,11 @@ function Addon.Utils.getGuildData()
 
             -- build the object
             local memberInfo = {
+                index = i,
                 online = online,
                 class = classFileName,
                 rank = rank,
+                rankIndex = rankIndex,
                 roles = roles,
                 level = level,
                 zone = zone,
@@ -95,7 +107,17 @@ function Addon.Utils.getGuildData()
 
             else -- unknown case
 
-                table.insert(errorMembers, {name = name, note = note, officerNote = officerNote})
+                table.insert(errorMembers, {
+                    index = i,
+                    name = name,
+                    online = online,
+                    class = classFileName,
+                    level = level,
+                    rank = rank,
+                    rankIndex = rankIndex,
+                    note = note,
+                    officerNote = officerNote
+                })
 
             end
 
@@ -120,7 +142,17 @@ function Addon.Utils.getGuildData()
 
         else -- main member not found -> errorMembers
 
-            table.insert(errorMembers, {name = altName, note = altInfo.note, officerNote = altInfo.officerNote})
+            table.insert(errorMembers, {
+                index = altInfo.index,
+                name = altName,
+                online = altInfo.online,
+                class = altInfo.class,
+                level = altInfo.level,
+                rank = altInfo.rank,
+                rankIndex = altInfo.rankIndex,
+                note = altInfo.note,
+                officerNote = altInfo.officerNote
+            })
 
         end
 
@@ -133,7 +165,7 @@ function Addon.Utils.getGuildData()
 end
 
 -- update the ilvl of the player
-function Addon.Utils.updateMemberILVL(name, tank, heal, dps)
+function Addon.Utils.updateMemberILVL(memberIndex, name, tank, heal, dps)
 
     local finalNote = "";
 
@@ -160,20 +192,11 @@ function Addon.Utils.updateMemberILVL(name, tank, heal, dps)
 
     finalNote = string.sub(finalNote, 4)
 
-    -- Find the index of the guild member in the guild roster
-    name = name .. "-Felsong"
-    local membersSize = GetNumGuildMembers()
-    for i = 1, membersSize do
-        local memberName = GetGuildRosterInfo(i)
-        if memberName == name then
-            GuildRosterSetPublicNote(i, finalNote)
-            break
-        end
-    end
+    GuildRosterSetPublicNote(memberIndex, finalNote)
 
 end
 
-function Addon.Utils.updateMemberType(name, type, mainMember)
+function Addon.Utils.updateMemberType(memberIndex, name, type, mainMember)
 
     local finalNote = "";
     if type == "Main" then
@@ -182,16 +205,7 @@ function Addon.Utils.updateMemberType(name, type, mainMember)
         finalNote = "alt : " .. (mainMember ~= nil and mainMember or "")
     end
 
-    -- Find the index of the guild member in the guild roster
-    name = name .. "-Felsong"
-    local membersSize = GetNumGuildMembers()
-    for i = 1, membersSize do
-        local memberName = GetGuildRosterInfo(i)
-        if memberName == name then
-            GuildRosterSetOfficerNote(i, finalNote)
-            break
-        end
-    end
+    GuildRosterSetOfficerNote(memberIndex, finalNote)
 
 end
 
@@ -251,7 +265,7 @@ function Addon.Utils.extractMain(str)
 end
 
 -- sort the members
-function Addon.Utils.sortMembers(members)
+function Addon.Utils.sortMembers(members, onlyName)
 
     -- put the members in an indexed array
     local sortedMembers = {}
@@ -260,7 +274,7 @@ function Addon.Utils.sortMembers(members)
         --sort the alts, if it has
         local alts = value.alts
         if alts ~= nil then
-            alts = Addon.Utils.sortMembers(alts)
+            alts = Addon.Utils.sortMembers(alts, onlyName)
             value.alts = alts
         end
 
@@ -271,7 +285,12 @@ function Addon.Utils.sortMembers(members)
         alts = nil
 
     end
-    table.sort(sortedMembers, Addon.Utils.compare)
+
+    if(onlyName) then
+        table.sort(sortedMembers, Addon.Utils.compareOnlyName)
+    else
+        table.sort(sortedMembers, Addon.Utils.compare)
+    end
 
     return sortedMembers
 
@@ -334,6 +353,14 @@ function Addon.Utils.compare(a, b)
 
 end
 
+-- Custom comparison for members which is ignoring the online status
+function Addon.Utils.compareOnlyName(a, b)
+
+    -- Rule 4: Sort by name alphabetically
+    return a.name < b.name
+
+end
+
 -- get the size of the array
 function Addon.Utils.size(array)
 
@@ -363,8 +390,8 @@ function Addon.Utils.getMaxWidth(array)
 
 end
 
--- the player is Mod
-function Addon.Utils.isMod()
+-- check if the player can edit notes
+function Addon.Utils.canEditNotes()
     return CanEditPublicNote() and CanEditOfficerNote()
 end
 
@@ -391,4 +418,82 @@ function Addon.Utils.getGroupMembers()
 
     return groupMembers
 
+end
+
+function Addon.Utils.exportData()
+
+    local guildData = Addon.Utils.getGuildData()
+    local membersData = Addon.Utils.sortMembers(guildData.membersData, true)
+
+    local json = "[\n"
+    for _, member in ipairs(membersData) do
+
+        json = json .. "{\n"
+        json = json .. "\t\"name\": \"" .. member.name .. "\", \"class\": \"" .. member.class .. "\", \"rank\": \"" .. member.rank .. "\", \"roles\": ["
+        for role, ilvl in pairs(member.roles) do
+            json = json .. "{\"" .. role .. "\": \"" .. ilvl  .. "\"}, "
+        end
+        json = string.sub(json, 1, string.len(json) - 2) .. "],\n\t\"alts\": [\n"
+
+        for _, altMember in ipairs(member.alts) do
+
+            json = json .. "\t\t{"
+            json = json .. "\"name\": \"" .. altMember.name .. "\", \"class\": \"" .. altMember.class .. "\", \"rank\": \"" .. altMember.rank .. "\", \"roles\": ["
+            for role, ilvl in pairs(altMember.roles) do
+                json = json .. "{\"" .. role .. "\": \"" .. ilvl  .. "\"}, "
+            end
+            json = string.sub(json, 1, string.len(json) - 2) .. "]},\n"
+
+        end
+
+        if Addon.Utils.size(member.alts) > 0 then
+            json = string.sub(json, 1, string.len(json) - 2) .. "\n\t]\n},\n"
+        else
+            json = string.sub(json, 1, string.len(json) - 1) .. "]\n},\n"
+        end
+
+    end
+    json = string.sub(json, 1, string.len(json) - 2) .. "\n]"
+
+    return json
+
+end
+
+function Addon.Utils.getGuildRanks()
+
+    local numRanks = GuildControlGetNumRanks()
+
+    local ranks = {}
+    for i = 1, numRanks do
+        table.insert(ranks, GuildControlGetRankName(i))
+    end
+
+    return ranks
+
+end
+
+function Addon.Utils.canModifyRanks()
+    return CanGuildPromote() and CanGuildDemote()
+end
+
+local classNameList = {
+    ["WARRIOR"] = "Warrior",
+    ["PALADIN"] = "Paladin",
+    ["HUNTER"] = "Hunter",
+    ["ROGUE"] = "Rogue",
+    ["PRIEST"] = "Priest",
+    ["DEATHKNIGHT"] = "Death Knight",
+    ["SHAMAN"] = "Shaman",
+    ["MAGE"] = "Mage",
+    ["WARLOCK"] = "Warlock",
+    ["MONK"] = "Monk",
+    ["DRUID"] = "Druid",
+    ["DEMONHUNTER"] = "Demon Hunter"
+}
+function Addon.Utils.getClassName(classFile)
+    return classNameList[classFile]
+end
+
+function Addon.Utils.containsIgnoringCase(mainString, searchString)
+    return string.find(string.lower(mainString), string.lower(searchString)) ~= nil
 end

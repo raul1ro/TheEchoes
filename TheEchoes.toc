@@ -2,8 +2,10 @@
 ## Title: TheEchoes
 ## Author: DoomFury
 ## Version: 2.0
-## Notes: Offers a better view about members of the guild.
-## SavedVariablesPerCharacter: UIPoint, UIRelativeTo, UIRelativPoint, UIXOffset, UIYOffset
+## Notes: Offers a better view/manage about members of the guild.
+## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition
+
+TheEchoesUtils.lua
 
 xml/templates/UI.xml
 
@@ -16,11 +18,8 @@ xml/DropDownMenu.xml
 xml/templates/DropDownMenuButton.lua
 xml/templates/DropDownMenuButton.xml
 
-xml/templates/DropDownMenuElement.xml
-
 xml/TheEchoesFrame.lua
 xml/TheEchoesFrame.xml
 
-TheEchoesUtils.lua
 TheEchoesUI.lua
 TheEchoes.lua

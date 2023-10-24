@@ -1,5 +1,9 @@
 local _, Addon = ...;
 
+-- Bindings.xml globals
+BINDING_HEADER_THE_ECHOES_UI = "User Interface"
+BINDING_NAME_THE_ECHOES_TOGGLE = "Toggle Open/Close"
+
 -- constants
 local TheEchoesButton
 
@@ -7,7 +11,7 @@ local function getData()
 
     local guildData = Addon.Utils.getGuildData() -- membersData, errorMembers, onlineSize, totalSize
 
-    local membersData = Addon.Utils.sortMembers(guildData.membersData)
+    local membersData = Addon.Utils.sortMembers(guildData.membersData, false)
     local totalSize = guildData.totalSize
     local onlineSize = guildData.onlineSize
     local mainSize = Addon.Utils.size(membersData)
@@ -22,7 +26,10 @@ local function init()
     -- Create square button
     TheEchoesButton = CreateFrame("Button", "TheEchoesButton", UIParent)
     TheEchoesButton:SetSize(32, 32)
-    TheEchoesButton:SetPoint("CENTER", 0, 0)
+    if TheEchoesButtonPosition == nil then
+        TheEchoesButtonPosition = {"CENTER", nil, "CENTER", 0, 0}
+    end
+    TheEchoesButton:SetPoint(unpack(TheEchoesButtonPosition))
     TheEchoesButton:Hide()
 
     -- Set the background
@@ -35,8 +42,11 @@ local function init()
     TheEchoesButton:EnableMouse(true)
     TheEchoesButton:RegisterForDrag("LeftButton")
     TheEchoesButton:SetScript("OnDragStart", TheEchoesButton.StartMoving)
-    TheEchoesButton:SetScript("OnDragStop", TheEchoesButton.StopMovingOrSizing)
-    TheEchoesButton:SetUserPlaced(true)
+    TheEchoesButton:SetScript("OnDragStop", function()
+        TheEchoesButton:StopMovingOrSizing()
+        --save the position
+        TheEchoesButtonPosition = {TheEchoesButton:GetPoint(0)}
+    end)
 
     -- Visual effect on click down
     TheEchoesButton:SetScript("OnMouseDown", function(self)
@@ -52,50 +62,10 @@ local function init()
 end
 
 -- guild event listener
-local guildEventListener = CreateFrame("Frame")
-local guildRoasterTrigger
 TheEchoes = {
 
     PlayerName = UnitName("player"),
-
-    -- listen for guild events
-    startAutoUpdate = function()
-
-        -- register listener for guild events
-        guildEventListener:RegisterEvent("GUILD_ROSTER_UPDATE")
-        guildEventListener:SetScript("OnEvent", function(_, event)
-            if event == "GUILD_ROSTER_UPDATE" then
-                TheEchoesUI.setData(unpack(getData()))
-            end
-        end)
-
-        -- prevent to create more threads
-        if(guildRoasterTrigger ~= nil) then return end
-
-        -- trigger guild event
-        GuildRoster()
-        -- re-trigger it at every 10 seconds
-        guildRoasterTrigger = C_Timer.NewTicker(11, function()
-            GuildRoster()
-        end)
-
-    end,
-
-    -- stop listening
-    stopAutoUpdate = function()
-
-        guildEventListener:UnregisterEvent("GUILD_ROSTER_UPDATE")
-        guildEventListener:SetScript("OnEvent", nil)
-
-        if(guildRoasterTrigger == nil) then return end
-        guildRoasterTrigger:Cancel()
-        guildRoasterTrigger = nil
-
-    end,
-
-    triggerUpdate = function()
-        TheEchoesUI.setData(unpack(getData()))
-    end
+    getGuildData = getData,
 
 }
 
@@ -113,27 +83,20 @@ addonLoadedFrame:SetScript("OnEvent", function(_, event , ...)
 
             if(IsInGuild()) then
 
-                GuildRoster()
+                -- init ui
+                TheEchoesUI.init()
 
-                local guildData = getData()
-                if(guildData[3] > 0) then --totalSize
+                -- create the E button
+                TheEchoesButton:Show()
+                TheEchoesButton:SetScript("OnClick", function(_, button)
+                    if button == "LeftButton" then
+                        TheEchoesUI.toggle()
+                    end
+                end)
 
-                    TheEchoesUI.init()
-                    TheEchoesUI.setData(unpack(guildData))
+                print("|cff00bfffTheEchoes init|r")
 
-                    print("|cff00bfffTheEchoes init|r")
-
-                    -- Event on click, toggle the ui
-                    TheEchoesButton:Show()
-                    TheEchoesButton:SetScript("OnClick", function(_, button)
-                        if button == "LeftButton" then
-                            TheEchoesUI.toggle()
-                        end
-                    end)
-
-                    return
-
-                end
+                return
 
             end
 

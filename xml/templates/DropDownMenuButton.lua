@@ -65,6 +65,7 @@ function TheEchoesDropDownMenuButtonMixin:SetEnable(enable)
         self.RightDisableBackground:Hide()
         self.MiddleDisableBackground:Hide()
         self.ArrowDisable:Hide()
+        self:GetFontString():SetAlpha(1)
     else
         self.enable = false
         self:Disable()
@@ -76,6 +77,7 @@ function TheEchoesDropDownMenuButtonMixin:SetEnable(enable)
         self.RightDisableBackground:Show()
         self.MiddleDisableBackground:Show()
         self.ArrowDisable:Show()
+        self:GetFontString():SetAlpha(0.5)
     end
 end
 
@@ -83,7 +85,6 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
 
     -- get the ddmenu
     local ddMenu = TheEchoesDropDownMenu
-
 
     -- if the menu is visible and the parent is self -> only hide the menu
     if(ddMenu:IsVisible() and ddMenu:GetParent() == self) then
@@ -106,24 +107,26 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
     local dataSize = Addon.Utils.size(data)
     local maxWidth = Addon.Utils.getMaxWidth(data)
 
-    -- calculate the sizes
-    local contentHeight = 82; -- minimum
-    local contentWidth = maxWidth + 10;
-    if dataSize >= 25 then
-        contentHeight = 460
-    elseif dataSize > 4 then
-        contentHeight = (dataSize * 18) + 10
-    end
-    if contentWidth < 85 then
-        contentWidth = 85 -- minimum
+    -- calculate the sizes for content
+    local contentWidth = maxWidth
+    local contentHeight = (dataSize * 18)
+
+    -- calc height for window
+    local windowHeight = 0;
+    if(dataSize < 4) then
+        windowHeight = 4*18;
+    elseif(dataSize > 25) then
+        windowHeight = 25*18;
+    else
+        windowHeight = contentHeight + 10;
     end
 
     -- set the sizes
-    ddMenu:SetSize(contentWidth + 5, contentHeight + 5)
-    ddMenu.ScrollFrame.Content:SetSize(contentWidth, contentHeight)
+    ddMenu:SetSize(contentWidth + 23, windowHeight)
+    ddMenu.ScrollFrame.Content:SetSize(contentWidth, contentHeight + 1)
 
     -- populate ddmenu
-    for i, v in ipairs(self.getData()) do
+    for i, v in ipairs(data) do
 
         -- calculate the current y position
         local currentY = -((i-1)*18)

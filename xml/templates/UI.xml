@@ -13,9 +13,7 @@
         <!-- BACKGROUND -->
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="Background">
-                    <Color r="0.1" g="0.1" b="0.1" a="1"/>
-                </Texture>
+                <Texture parentKey="Background"><Color r="0.1" g="0.1" b="0.1" a="1"/></Texture>
             </Layer>
         </Layers>
         <!-- BORDER -->
@@ -106,10 +104,8 @@
     <Frame name="TheEchoesFrameSimpleTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enablemouse="true">
         <!-- BACKGROUND -->
         <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="2">
-                <Texture parentKey="Background">
-                    <Color r="0.1" g="0.1" b="0.1" a="1"/>
-                </Texture>
+            <Layer level="BORDER" textureSubLevel="2">
+                <Texture parentKey="Background"><Color r="0.1" g="0.1" b="0.1" a="1"/></Texture>
             </Layer>
             <!-- CORNERS -->
             <Layer level="BACKGROUND" textureSubLevel="1">
@@ -179,46 +175,16 @@
     <EditBox name="TheEchoesInputTemplate" parent="" virtual="true" frameLevel="1002">
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="Background">
-                    <Color r="0.06" g="0.06" b="0.06" a="1"/>
-                </Texture>
+                <Texture parentKey="Background"><Color r="0.06" g="0.06" b="0.06" a="1"/></Texture>
             </Layer>
             <Layer level="BORDER" textureSubLevel="1">
-                <Texture parentKey="TopBorder">
-                    <Size y="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="TOPLEFT"/>
-                        <Anchor point="TOPRIGHT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="RightBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="TOPRIGHT"/>
-                        <Anchor point="BOTTOMRIGHT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="BottomBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT"/>
-                        <Anchor point="BOTTOMLEFT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="LeftBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT"/>
-                        <Anchor point="TOPLEFT"/>
-                    </Anchors>
-                </Texture>
+                <Texture parentKey="TopBorder"><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
+                <Texture parentKey="RightBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
+                <Texture parentKey="BottomBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
+                <Texture parentKey="LeftBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
             </Layer>
         </Layers>
-        <FontString parentKey="Text" inherits="TheEchoesFontWhite"/>
+        <FontString inherits="TheEchoesFontWhite"/>
         <TextInsets>
             <AbsInset left="2" right="2" top="0" bottom="0" />
         </TextInsets>
@@ -228,53 +194,23 @@
     <EditBox name="TheEchoesInputArrowsTemplate" parent="" virtual="true" frameLevel="1002">
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="Background">
-                    <Color r="0.06" g="0.06" b="0.06" a="1"/>
-                </Texture>
+                <Texture parentKey="Background"><Color r="0.06" g="0.06" b="0.06" a="1"/></Texture>
             </Layer>
             <Layer level="BORDER" textureSubLevel="1">
-                <Texture parentKey="TopBorder">
-                    <Size y="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="TOPLEFT"/>
-                        <Anchor point="TOPRIGHT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="RightBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="TOPRIGHT"/>
-                        <Anchor point="BOTTOMRIGHT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="BottomBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT"/>
-                        <Anchor point="BOTTOMLEFT"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="LeftBorder">
-                    <Size x="1"/>
-                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT"/>
-                        <Anchor point="TOPLEFT"/>
-                    </Anchors>
-                </Texture>
+                <Texture parentKey="TopBorder"><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
+                <Texture parentKey="RightBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
+                <Texture parentKey="BottomBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
+                <Texture parentKey="LeftBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
             </Layer>
         </Layers>
-        <FontString parentKey="Text" inherits="TheEchoesFontWhite"/>
+        <FontString inherits="TheEchoesFontWhite"/>
         <TextInsets>
             <AbsInset left="2" right="2" top="0" bottom="0" />
         </TextInsets>
         <Frames>
             <Button parentKey="IncrementButton" inherits="TheEchoesBlankButton">
                 <Layers>
-                    <Layer level="BACKGROUND" textureSubLevel="1">
+                    <Layer level="ARTWORK" textureSubLevel="1">
                         <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                             <Size x="15" y="10"/>
                             <Anchors><Anchor point="CENTER"/></Anchors>
@@ -297,7 +233,7 @@
             </Button>
             <Button parentKey="DecrementButton" inherits="TheEchoesBlankButton">
                 <Layers>
-                    <Layer level="BACKGROUND" textureSubLevel="1">
+                    <Layer level="ARTWORK" textureSubLevel="1">
                         <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                             <Size x="15" y="10"/>
                             <Anchors><Anchor point="CENTER"/></Anchors>
@@ -320,6 +256,45 @@
             </Button>
         </Frames>
     </EditBox>
+
+    <!-- Input template -->
+    <ScrollFrame name="TheEchoesInputScrollTemplate" inherits="UIPanelScrollFrameTemplate" parent="" virtual="true" frameLevel="1002">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background"><Color r="0.06" g="0.06" b="0.06" a="1"/></Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="TopBorder">
+                    <Size y="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors><Anchor point="TOPLEFT" x="-1" y="1"/><Anchor point="TOPRIGHT" x="1" y="1"/></Anchors></Texture>
+                <Texture parentKey="RightBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors><Anchor point="TOPRIGHT" x="1" y="1"/><Anchor point="BOTTOMRIGHT" x="1" y="-1"/></Anchors></Texture>
+                <Texture parentKey="BottomBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors><Anchor point="BOTTOMRIGHT" x="1" y="-1"/><Anchor point="BOTTOMLEFT" x="-1" y="-1"/></Anchors></Texture>
+                <Texture parentKey="LeftBorder">
+                    <Size x="1"/>
+                    <Color r="0.4" g="0.4" b="0.4" a="1"/>
+                    <Anchors><Anchor point="BOTTOMLEFT" x="-1" y="-1"/><Anchor point="TOPLEFT" x="-1" y="1"/></Anchors></Texture>
+            </Layer>
+        </Layers>
+        <ScrollChild>
+            <EditBox multiLine="true">
+                <Size y="1"/>
+                <FontString inherits="TheEchoesFontWhite"/>
+                <TextInsets><AbsInset left="3" right="3" top="5" bottom="5"/></TextInsets>
+                <Scripts>
+                    <OnShow>
+                        self:SetWidth(self:GetParent():GetWidth())
+                    </OnShow>
+                </Scripts>
+            </EditBox>
+        </ScrollChild>
+    </ScrollFrame>
 
     <!-- Simple frame with white-transparent background -->
     <Frame name="TheEchoesWhiteBackground" parent="" virtual="true" enablemouse="true">
@@ -346,20 +321,21 @@
         <Frames>
             <Frame parentKey="Name" frameLevel="1003">
                 <Layers>
-                    <Layer level="ARTWORK" textureSubLevel="1">
-                        <Texture parentKey="Icon">
-                            <Size x="16" y="16"/>
-                            <Anchors>
-                                <Anchor point="LEFT" y="-1"/>
-                            </Anchors>
-                        </Texture>
-                    </Layer>
                     <Layer level="OVERLAY" textureSubLevel="1">
+                        <Texture parentKey="Icon">
+                            <Size x="18" y="18"/>
+                            <Anchors><Anchor point="LEFT" x="-1" y="0"/></Anchors>
+                        </Texture>
                         <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                            <Anchors>
-                                <Anchor point="LEFT" x="20"/>
-                            </Anchors>
+                            <Anchors><Anchor point="LEFT" x="20"/></Anchors>
                         </FontString>
+                    </Layer>
+                    <Layer level="BORDER" textureSubLevel="0">
+                        <Texture parentKey="Border" file="Interface\CharacterFrame\TempPortraitAlphaMaskSmall">
+                            <Size x="20" y="20"/>
+                            <Color r="0.4" g="0.4" b="0.4" a="0.5"/>
+                            <Anchors><Anchor point="CENTER" relativeKey="$parent.Icon" relativePoint="CENTER" x="0" y="0"/></Anchors>
+                        </Texture>
                     </Layer>
                 </Layers>
             </Frame>
@@ -425,21 +401,21 @@
         <Frames>
             <Frame parentKey="Name" frameLevel="1003">
                 <Layers>
-                    <Layer level="ARTWORK" textureSubLevel="1">
-                        <Texture parentKey="Icon">
-                            <Size x="16" y="16"/>
-                            <Anchors>
-                                <Anchor point="LEFT"/>
-                            </Anchors>
-                        </Texture>
-                    </Layer>
                     <Layer level="OVERLAY" textureSubLevel="1">
+                        <Texture parentKey="Icon">
+                            <Size x="18" y="18"/>
+                            <Anchors><Anchor point="LEFT" x="-1" y="0"/></Anchors>
+                        </Texture>
                         <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                            <Color r="1" g="1" b="1" a="0.5"/>
-                            <Anchors>
-                                <Anchor point="LEFT" x="20"/>
-                            </Anchors>
+                            <Anchors><Anchor point="LEFT" x="20"/></Anchors>
                         </FontString>
+                    </Layer>
+                    <Layer level="BORDER" textureSubLevel="0">
+                        <Texture parentKey="Border" file="Interface\CharacterFrame\TempPortraitAlphaMaskSmall">
+                            <Size x="20" y="20"/>
+                            <Color r="0.4" g="0.4" b="0.4" a="0.5"/>
+                            <Anchors><Anchor point="LEFT" x="-2" y="0"/></Anchors>
+                        </Texture>
                     </Layer>
                 </Layers>
             </Frame>
@@ -478,6 +454,25 @@
             <Layer>
                 <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
                     <Anchors><Anchor point="LEFT" relativeKey="$parent.Whisper" relativePoint="RIGHT" x="10"/></Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="TheEchoesDropDownMenuElement" virtual="true" enableMouse="true">
+        <Size y="18"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="background" setAllpoints="true">
+                    <Color r="0" g="0" b="0" a="0"/>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="text" inherits="GameFontNormalLeft" setAllpoints="true">
+                    <Anchors>
+                        <Anchor point="LEFT" x="3"/>
+                    </Anchors>
+                    <Color r="1" g="1" b="1" a="1"/>
                 </FontString>
             </Layer>
         </Layers>

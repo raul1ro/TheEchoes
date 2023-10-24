@@ -3,14 +3,10 @@ local _, Addon = ...;
 function InitTheEchoesFrame()
 
     -- Frame
-    if UIPoint == nil then
-        UIPoint = "CENTER"
-        UIRelativeTo = nil
-        UIRelativPoint = "CENTER"
-        UIXOffset = 0
-        UIYOffset = 0
+    if TheEchoesUIPosition == nil then
+        TheEchoesUIPosition = {"CENTER", nil, "CENTER", 0, 0}
     end
-    TheEchoesFrame:SetPoint(UIPoint, UIRelativeTo, UIRelativPoint, UIXOffset, UIYOffset)
+    TheEchoesFrame:SetPoint(unpack(TheEchoesUIPosition))
     TheEchoesFrame.CloseButton:SetScript("OnClick", function() TheEchoesUI.close() end)
     TheEchoesFrame:SetMovable(true)
     TheEchoesFrame:RegisterForDrag("LeftButton")
@@ -18,7 +14,7 @@ function InitTheEchoesFrame()
     TheEchoesFrame:SetScript("OnDragStop", function()
         TheEchoesFrame:StopMovingOrSizing()
         --save the position
-        UIPoint, UIRelativeTo, UIRelativPoint, UIXOffset, UIYOffset = TheEchoesFrame:GetPoint(0);
+        TheEchoesUIPosition = {TheEchoesFrame:GetPoint(0)}
     end)
     TheEchoesFrame:SetScript("OnKeyDown", function(self, key)
         if key == "ESCAPE" then
@@ -33,23 +29,81 @@ function InitTheEchoesFrame()
         TheEchoesFrame.EditMemberFrame:Hide()
     end)
 
+    -- Search
+    TheEchoesFrame.SearchInput:SetScript("OnKeyUp", function(self, key)
+        if key == "ESCAPE" then
+            self:ClearFocus()
+        end
+    end)
+    TheEchoesFrame.SearchInput:SetScript("OnTextChanged", function(self)
+        if(self:GetText() ~= "") then
+            self.ClearButton:Show()
+        else
+            self.ClearButton:Hide()
+        end
+        TheEchoesUI.refreshUI()
+    end)
+
+
     -- Hide Off Alts
     local hideOffAlts = TheEchoesFrame.HideOffAltsCheckButton
     hideOffAlts:GetCheckedTexture():SetDesaturated(true)
     hideOffAlts:SetScript("OnClick", function()
-        TheEchoes.triggerUpdate()
+        TheEchoesUI.refreshUI()
     end)
+
+    -- Guild Info
+    local guildInfoFrame = TheEchoesFrame.GuildInfoFrame
+    local guildInfoInput = guildInfoFrame.ScrollFrame:GetScrollChild()
+    local guildInfoSaveButton = guildInfoFrame.SaveButton
+    Addon.Utils.positionScrollBar(guildInfoFrame.ScrollFrame)
+    TheEchoesFrame.GuildInfoButton:SetScript("OnClick", function()
+        if(guildInfoFrame:IsVisible()) then
+            guildInfoFrame:Hide()
+        else
+            guildInfoInput:SetText(GetGuildInfoText())
+            if(CanEditGuildInfo())then
+                guildInfoSaveButton:SetEnable(true)
+            else
+                guildInfoSaveButton:SetEnable(false)
+            end
+            guildInfoFrame:Show()
+        end
+    end)
+    guildInfoFrame:SetScript("OnHide", function()
+        guildInfoInput:SetText("")
+    end)
+    guildInfoFrame.CloseButton:SetScript("OnClick", function()
+        guildInfoFrame:Hide()
+    end)
+    guildInfoInput:SetScript("OnKeyDown", function(_, key)
+        if(key == "ESCAPE")then
+            guildInfoFrame:Hide()
+        end
+    end)
+    guildInfoSaveButton:SetScript("OnClick", function()
+        SetGuildInfoText(guildInfoInput:GetText())
+        guildInfoFrame:Hide()
+    end)
+
+    -- get references
+    local editGMButton = TheEchoesFrame.EditGMButton
+    local exportDataButton = TheEchoesFrame.ExportDataButton;
 
     -- Invite member
     if(CanGuildInvite()) then
-        local inviteMemberButton = TheEchoesFrame.InviteMemberButton
-        inviteMemberButton:Show()
+        TheEchoesFrame.InviteMemberButton:Show()
+    else
+        -- reposition the button after
+        TheEchoesFrame.InviteMemberButton:SetWidth(1)
+        local point, relativeTo, relativePoint, _, yOfs = editGMButton:GetPoint(1)
+        editGMButton:ClearAllPoints()
+        editGMButton:SetPoint(point, relativeTo, relativePoint, 0, yOfs)
     end
 
     -- Edit GM
     if(CanEditMOTD()) then
 
-        local editGMButton = TheEchoesFrame.EditGMButton
         local editGMFrame = TheEchoesFrame.EditGMFrame
         local editGMInput = editGMFrame.EditGMInput
         local editGMSave = editGMFrame.EditGMSave
@@ -90,7 +144,46 @@ function InitTheEchoesFrame()
             editGMFrame:Hide()
         end)
 
+    else
+        -- reposition the button after
+        editGMButton:SetWidth(1)
+        local point, relativeTo, relativePoint, _, yOfs = exportDataButton:GetPoint(1)
+        exportDataButton:ClearAllPoints()
+        exportDataButton:SetPoint(point, relativeTo, relativePoint, 0, yOfs)
     end
+
+    -- export
+    if(Addon.Utils.canEditNotes()) then
+
+        exportDataButton:Show()
+
+        local exportDataFrame = TheEchoesFrame.ExportDataFrame;
+        local exportDataInput = exportDataFrame.ScrollFrame:GetScrollChild()
+        Addon.Utils.positionScrollBar(exportDataFrame.ScrollFrame)
+        exportDataButton:SetScript("OnClick", function()
+            if(exportDataFrame:IsVisible()) then
+                exportDataFrame:Hide()
+            else
+                exportDataInput:SetText(Addon.Utils.exportData())
+                exportDataInput:SetCursorPosition(0)
+                exportDataInput:HighlightText()
+                exportDataFrame:Show()
+            end
+        end)
+        exportDataFrame.CloseButton:SetScript("OnClick", function()
+            exportDataFrame:Hide()
+        end)
+        exportDataInput:SetScript("OnKeyDown", function(_, key)
+            if(key == "ESCAPE") then exportDataFrame:Hide() end
+        end)
+        exportDataFrame:SetScript("OnHide", function()
+            exportDataInput:SetText("")
+        end)
+
+    else
+        exportDataButton:SetWidth(1)
+    end
+
 
     -- init the dropdownmenu
     InitTheEchoesDropDownMenu()
@@ -106,44 +199,56 @@ TheEchoesEditMemberFrameMixin = {}
 
 function TheEchoesEditMemberFrameMixin:OnLoad()
 
-    self.Title:SetJustifyH("CENTER")
     self.CloseButton:SetScript("OnClick", function() self:Hide()  end)
 
+    local formFrame = self.FormFrame
+    local typeMainsFrame = self.TypeMainsFrame
+
+    self.Name:SetScript("OnKeyDown", function(_, key)
+        if key == "ENTER" then
+            self.SaveButton:Click()
+        elseif key == "TAB" then
+            formFrame.TankInput:SetFocus()
+        elseif key == "ESCAPE" then
+            self:Hide() -- hide at esc
+        end
+    end)
+
     -- implement ENTER, TAB and ESCAPE for the all 3 inputs
-    self.TankInput:SetScript("OnKeyDown", function(_, key)
+    formFrame.TankInput:SetScript("OnKeyDown", function(_, key)
         if key == "ENTER" then
             self.SaveButton:Click()
         elseif key == "TAB" then
             if IsShiftKeyDown() then
-                self.DPSInput:SetFocus()
+                formFrame.DPSInput:SetFocus()
             else
-                self.HealInput:SetFocus()
+                formFrame.HealInput:SetFocus()
             end
         elseif key == "ESCAPE" then
             self:Hide() -- hide at esc
         end
     end)
-    self.HealInput:SetScript("OnKeyDown", function(_, key)
+    formFrame.HealInput:SetScript("OnKeyDown", function(_, key)
         if key == "ENTER" then
             self.SaveButton:Click()
         elseif key == "TAB" then
             if IsShiftKeyDown() then
-                self.TankInput:SetFocus()
+                formFrame.TankInput:SetFocus()
             else
-                self.DPSInput:SetFocus()
+                formFrame.DPSInput:SetFocus()
             end
         elseif key == "ESCAPE" then
             self:Hide() -- hide at esc
         end
     end)
-    self.DPSInput:SetScript("OnKeyDown", function(_, key)
+    formFrame.DPSInput:SetScript("OnKeyDown", function(_, key)
         if key == "ENTER" then
             self.SaveButton:Click()
         elseif key == "TAB" then
             if IsShiftKeyDown() then
-                self.HealInput:SetFocus()
+                formFrame.HealInput:SetFocus()
             else
-                self.TankInput:SetFocus()
+                formFrame.TankInput:SetFocus()
             end
         elseif key == "ESCAPE" then
             self:Hide() -- hide at esc
@@ -153,17 +258,17 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
     -- implement on show
     self:SetScript("OnShow", function()
 
-        if(self.TypeButton:GetText() == "Alt") then
-            self.MainsButton:SetEnable(true)
+        if(typeMainsFrame.TypeButton:GetText() == "Alt") then
+            typeMainsFrame.MainsButton:SetEnable(true)
         else
-            self.MainsButton:SetEnable(false)
+            typeMainsFrame.MainsButton:SetEnable(false)
         end
 
     end)
 
     -- set dropdownmenu buttons from edit member
-    local typeDDButton = self.TypeButton
-    local mainsDDButton = self.MainsButton
+    local typeDDButton = typeMainsFrame.TypeButton
+    local mainsDDButton = typeMainsFrame.MainsButton
     typeDDButton.getData = function() return {"Main", "Alt"} end
     typeDDButton.callBack = function()
         if typeDDButton:GetText() == "Main" then
@@ -176,10 +281,8 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
     mainsDDButton.getData = function()
 
         local mainMembers = {}
-        for _, v in pairs({TheEchoesFrame.ScrollFrame.Content:GetChildren()}) do
-            if v:IsVisible() and v.Type:GetText() == "Main" then
-                table.insert(mainMembers, v.Name.Text:GetText())
-            end
+        for _, v in ipairs(TheEchoesUI.GuildData[1]) do
+            table.insert(mainMembers, v.name)
         end
 
         table.sort(mainMembers)
@@ -191,9 +294,9 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
     -- set the save button
     local editMemberSaveButton = self.SaveButton
     editMemberSaveButton:SetScript("OnClick", function()
-        local memberName = self.Title:GetText()
-        Addon.Utils.updateMemberILVL(memberName, self.TankInput:GetText(), self.HealInput:GetText(), self.DPSInput:GetText())
-        Addon.Utils.updateMemberType(memberName, self.TypeButton:GetText(), self.MainsButton:GetText())
+        local memberName = self.Name:GetText()
+        Addon.Utils.updateMemberILVL(self.memberIndex, memberName, formFrame.TankInput:GetText(), formFrame.HealInput:GetText(), formFrame.DPSInput:GetText())
+        Addon.Utils.updateMemberType(self.memberIndex, memberName, typeDDButton:GetText(), mainsDDButton:GetText())
         self:Hide()
     end)
 
@@ -201,21 +304,42 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
 
 end
 
-function TheEchoesEditMemberFrameMixin:Open(title, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
+function TheEchoesEditMemberFrameMixin:Open(memberIndex, name, isOnline, class, level, rank, rankIndex, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
 
     self:Hide()
 
-    -- title
-    self.Title:SetText(title)
+    self.memberIndex = memberIndex
+
+    local formFrame = self.FormFrame
+    local typeMainsFrame = self.TypeMainsFrame;
+
+    -- isOnline
+    local onlineStatusFontString = self.OnlineStatus
+    if(isOnline) then
+        onlineStatusFontString:SetText("Online")
+        onlineStatusFontString:SetTextColor(0.4, 1, 0.4, 1)
+    else
+        onlineStatusFontString:SetText("Offline")
+        onlineStatusFontString:SetTextColor(1, 0.4, 0.4, 1)
+    end
+
+    -- char info
+    self.CharInfo:SetText(Addon.Utils.getClassName(class) .. " - " .. level)
+
+    -- rank
+    self.Rank:SetText(rankIndex .. ". " .. rank)
+
+    -- name
+    self.Name:SetText(name)
 
     -- values
-    if(tankValue ~= nil) then self.TankInput:SetText(tankValue) end
-    if(healValue ~= nil) then self.HealInput:SetText(healValue) end
-    if(dpsValue ~= nil) then self.DPSInput:SetText(dpsValue) end
+    if(tankValue ~= nil) then formFrame.TankInput:SetText(tankValue) end
+    if(healValue ~= nil) then formFrame.HealInput:SetText(healValue) end
+    if(dpsValue ~= nil) then formFrame.DPSInput:SetText(dpsValue) end
 
     -- type
-    self.TypeButton:SetText(type)
-    if(type == "Alt") then self.MainsButton:SetText(main) end
+    typeMainsFrame.TypeButton:SetText(type)
+    if(type == "Alt") then typeMainsFrame.MainsButton:SetText(main) end
 
     -- notes
     if(isNotes == true) then
@@ -237,11 +361,19 @@ function TheEchoesEditMemberFrameMixin:Open(title, tankValue, healValue, dpsValu
 end
 
 function TheEchoesEditMemberFrameMixin:OnHide()
-    self.Title:SetText("")
-    self.TankInput:SetText("")
-    self.HealInput:SetText("")
-    self.DPSInput:SetText("")
-    self.TypeButton:SetText("")
-    self.MainsButton:SetText("")
+
+    local formFrame = self.FormFrame
+    local typeMainsFrame = self.TypeMainsFrame
+
+    self.index = nil
+    self.OnlineStatus:SetText("")
+    self.Rank:SetText("")
+    self.Name:SetText("")
+    formFrame.TankInput:SetText("")
+    formFrame.HealInput:SetText("")
+    formFrame.DPSInput:SetText("")
+    typeMainsFrame.TypeButton:SetText("")
+    typeMainsFrame.MainsButton:SetText("")
     TheEchoesDropDownMenu:Hide()
+
 end

@@ -53,6 +53,7 @@ function TheEchoesButtonMixin:SetEnable(enable)
         self.LeftDisableBackground:Hide()
         self.RightDisableBackground:Hide()
         self.MiddleDisableBackground:Hide()
+        self:GetFontString():SetAlpha(1)
     else
         self.enable = false
         self:Disable()
@@ -62,5 +63,6 @@ function TheEchoesButtonMixin:SetEnable(enable)
         self.LeftDisableBackground:Show()
         self.RightDisableBackground:Show()
         self.MiddleDisableBackground:Show()
+        self:GetFontString():SetAlpha(0.5)
     end
 end

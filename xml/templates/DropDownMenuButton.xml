@@ -34,7 +34,7 @@
                     </Anchors>
                 </Texture>
             </Layer>
-            <Layer level="OVERLAY" textureSubLevel="-1">
+            <Layer level="ARTWORK" textureSubLevel="-1">
                 <Texture parentKey="Arrow" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                     <Size x="16" y="16"/>
                     <Anchors>
@@ -63,7 +63,7 @@
                 </Texture>
 
             </Layer>
-            <Layer level="OVERLAY" textureSubLevel="-1">
+            <Layer level="ARTWORK" textureSubLevel="-1">
                 <Texture parentKey="ArrowPress" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true" hidden="true">
                     <Size x="16" y="16"/>
                     <Anchors>
@@ -91,7 +91,7 @@
                     </Anchors>
                 </Texture>
             </Layer>
-            <Layer level="OVERLAY" textureSubLevel="-1">
+            <Layer level="ARTWORK" textureSubLevel="-1">
                 <Texture parentKey="ArrowDisable" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true" hidden="true">
                     <Color r="1" g="1" b="1" a="0.5"/>
                     <Size x="16" y="16"/>

@@ -1,7 +1,7 @@
 <img src="banner.png" alt="The Echoes"/>
 <sup>WoW Client Version: 7.3.5 (Legion)</sup>
 
-<p>The Echoes addon is a guild manager which is offering a better view of the members.</p>
+<p>The Echoes addon is a guild manager which is offering a better view/manage of the members.</p>
 <p><b>The addon is using the public and officer notes to manage the data about ilvl and main/alt character.</b></p>
 
 <p>Features:</p>
@@ -18,6 +18,9 @@
 <li>Edit Guild Message - available only for mods</li>
 <li>Colored rows for the members from the group</li>
 <li>Stats</li>
+<li>Search member - if you search a main, it will show the alts too, if you search an alt it will show the main too</li>
+<li>Guid info - Read and edit(if you have access), with option to copy text</li>
+<li>Export Data - Export the data of all members</li>
 </ul>
 
 <p>Author: DoomFury - Felsong (private-server)</p>
