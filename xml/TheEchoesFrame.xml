@@ -7,15 +7,23 @@
             <Frame setAllPoints="true">
                 <Layers>
                     <Layer level="ARTWORK" textureSubLevel="2">
-                        <Texture parentKey="Border" atlas="Artifacts-ItemIconBorder" useAtlasSize="false">
-                            <Size x="86" y="86"/>
+                        <Texture parentKey="Background" file="Interface\AddOns\TheEchoes\images\logo_circle_noborder_128.tga">
+                            <Size x="60" y="60"/>
                             <Anchors><Anchor point="CENTER" relativeKey="$parent.$parent" relativePoint="TOP"/></Anchors>
                         </Texture>
                     </Layer>
                     <Layer level="ARTWORK" textureSubLevel="1">
-                        <Texture parentKey="Background" file="Interface\AddOns\TheEchoes\images\logo_circle_noborder_128.tga">
-                            <Size x="60" y="60"/>
+                        <Texture parentKey="Border" file="Interface\AddOns\TheEchoes\images\circle.tga"> <!--atlas="Artifacts-ItemIconBorder" useAtlasSize="false"-->
+                            <Size x="65" y="65"/>
+                            <Color r="0.3" g="0.3" b="0.3"/>
                             <Anchors><Anchor point="CENTER" relativeKey="$parent.$parent" relativePoint="TOP"/></Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK" textureSubLevel="0"> <!-- Shadow Layer -->
+                        <Texture parentKey="Shadow" file="Interface\AddOns\TheEchoes\images\circle.tga">
+                            <Size x="69" y="68"/>
+                            <Color r="0" g="0" b="0" a="0.3"/>
+                            <Anchors><Anchor point="CENTER" relativeKey="$parent.$parent" relativePoint="TOP" x="0" y="-1"/></Anchors>
                         </Texture>
                     </Layer>
                 </Layers>
@@ -190,7 +198,7 @@
                 </Frames>
             </Frame>
             <!-- Export Data -->
-            <Button parentKey="ExportDataButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Export Data" hidden="true">
+            <Button parentKey="ExportDataButton" inherits="TheEchoesButtonDesaturatedTemplate" text="Export Data">
                 <Size x="100" y="24"/>
                 <Anchors><Anchor point="LEFT" relativeKey="$parent.EditGMButton" relativePoint="RIGHT" x="5" y="0"/></Anchors>
             </Button>
@@ -285,13 +293,11 @@
                 <Layers>
                     <Layer level="OVERLAY">
                         <FontString parentKey="OnlineStatus" inherits="TheEchoesFontWhite" text="Online" justifyH="CENTER">
-                            <Size x="70"/>
                             <Anchors><Anchor point="TOP" y="-10"/></Anchors>
                         </FontString>
                     </Layer>
                     <Layer level="OVERLAY">
                         <FontString parentKey="CharInfo" inherits="TheEchoesFontWhite" justifyH="CENTER">
-                            <Size x="200"/>
                             <Anchors><Anchor point="TOP" relativeKey="$parent.OnlineStatus" relativePoint="BOTTOM" y="-7"/></Anchors>
                         </FontString>
                     </Layer>

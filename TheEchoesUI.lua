@@ -29,14 +29,14 @@ local function setupTheEchoesFrame()
         width = width + v.width
     end
     -- if the player is not mod, subtract the width of edit
-    if Addon.Utils.canEditNotes() == false  then
+    if CanEditPublicNote() == false and CanEditOfficerNote() == false  then
         width = width - ColumnsData.EDIT.width
     end
     TheEchoesFrame:SetWidth(width)
 
     -- prepare the columns
     local columnsText
-    if Addon.Utils.canEditNotes() then
+    if CanEditPublicNote() or CanEditOfficerNote() then
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "EDIT", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
     else
         columnsText = { "NAME", "TANK", "HEAL", "DPS", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
@@ -162,7 +162,7 @@ local function setMember(rowIndex, memberData, memberType)
     if(editButton ~= nil) then
         editButton:Size(ColumnsData.EDIT.width-5, 20)
         editButton:SetScript("OnClick", function()
-            EditFrame:Open(memberData.index, memberData.name, memberOnline, className, memberData.level, memberData.rank, memberData.rankIndex, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS, memberType, memberData.main, false)
+            EditFrame:Open(memberData.name, memberOnline, memberData.lastOnline, className, memberData.level, memberData.rank, memberData.rankIndex, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS, memberType, memberData.main)
         end)
         editButton:Show()
     end
@@ -272,9 +272,9 @@ local function setErrorMembers(errorMembers)
             button:SetPoint("LEFT", startPoint, 0)
             button:Size(width, 24)
             button:SetText(name)
-            if(Addon.Utils.canEditNotes()) then
+            if(CanEditPublicNote() or CanEditOfficerNote()) then
                 button:SetScript("OnClick", function()
-                        EditFrame:Open(member.index, name, member.online, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
+                        EditFrame:Open(name, member.online, member.lastOnline, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
                 end)
             end
 
@@ -294,7 +294,7 @@ end
 
 -- listening the guild events and update the interface
 local guildEventListener = CreateFrame("Frame", "TheEchoesGuildEventListener")
-local threadTriggerGuildEvent = nil;
+local threadTriggerGuildEvent;
 local function startListening()
 
     -- start a tread which is triggering guild events
@@ -302,10 +302,6 @@ local function startListening()
     threadTriggerGuildEvent = C_Timer.NewTicker(10.1, function()
         GuildRoster();
     end)
-
-    -- get the actual data
-    TheEchoesUI.GuildData = TheEchoes.getGuildData()
-    TheEchoesUI.refreshUI()
 
     -- register the listener for guild event
     guildEventListener:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -316,7 +312,9 @@ local function startListening()
         end
     end)
 
-
+    -- get the actual data
+    TheEchoesUI.GuildData = TheEchoes.getGuildData()
+    TheEchoesUI.refreshUI()
 
 end
 local function cancelListening()
@@ -349,7 +347,7 @@ TheEchoesUI = {
         TheEchoesUI.close()
 
         -- create the poll
-        if Addon.Utils.canEditNotes() then
+        if CanEditPublicNote() or CanEditOfficerNote() then
             MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesModMemberRow", function(_, frame)
                 frame:Hide()
                 frame:ClearAllPoints()
@@ -396,12 +394,16 @@ TheEchoesUI = {
 
     -- toggle the ui
     toggle = function()
-        if(TheEchoesUI.isOpen()) then
-            TheEchoesUI.close()
+        if(TheEchoes.init) then
+            if(TheEchoesUI.isOpen()) then
+                TheEchoesUI.close()
+            else
+                TheEchoesUI.open()
+            end
+            return TheEchoesUI.isOpen()
         else
-            TheEchoesUI.open()
+            print("TheEchoes is not init.")
         end
-        return TheEchoesUI.isOpen()
     end,
 
     -- set the date in ui

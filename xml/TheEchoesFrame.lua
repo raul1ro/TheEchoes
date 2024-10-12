@@ -153,37 +153,28 @@ function InitTheEchoesFrame()
     end
 
     -- export
-    if(Addon.Utils.canEditNotes()) then
-
-        exportDataButton:Show()
-
-        local exportDataFrame = TheEchoesFrame.ExportDataFrame;
-        local exportDataInput = exportDataFrame.ScrollFrame:GetScrollChild()
-        Addon.Utils.positionScrollBar(exportDataFrame.ScrollFrame)
-        exportDataButton:SetScript("OnClick", function()
-            if(exportDataFrame:IsVisible()) then
-                exportDataFrame:Hide()
-            else
-                exportDataInput:SetText(Addon.Utils.exportData())
-                exportDataInput:SetCursorPosition(0)
-                exportDataInput:HighlightText()
-                exportDataFrame:Show()
-            end
-        end)
-        exportDataFrame.CloseButton:SetScript("OnClick", function()
+    local exportDataFrame = TheEchoesFrame.ExportDataFrame;
+    local exportDataInput = exportDataFrame.ScrollFrame:GetScrollChild()
+    Addon.Utils.positionScrollBar(exportDataFrame.ScrollFrame)
+    exportDataButton:SetScript("OnClick", function()
+        if(exportDataFrame:IsVisible()) then
             exportDataFrame:Hide()
-        end)
-        exportDataInput:SetScript("OnKeyDown", function(_, key)
-            if(key == "ESCAPE") then exportDataFrame:Hide() end
-        end)
-        exportDataFrame:SetScript("OnHide", function()
-            exportDataInput:SetText("")
-        end)
-
-    else
-        exportDataButton:SetWidth(1)
-    end
-
+        else
+            exportDataInput:SetText(Addon.Utils.exportData())
+            exportDataInput:SetCursorPosition(0)
+            exportDataInput:HighlightText()
+            exportDataFrame:Show()
+        end
+    end)
+    exportDataFrame.CloseButton:SetScript("OnClick", function()
+        exportDataFrame:Hide()
+    end)
+    exportDataInput:SetScript("OnKeyDown", function(_, key)
+        if(key == "ESCAPE") then exportDataFrame:Hide() end
+    end)
+    exportDataFrame:SetScript("OnHide", function()
+        exportDataInput:SetText("")
+    end)
 
     -- init the dropdownmenu
     InitTheEchoesDropDownMenu()
@@ -255,17 +246,6 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
         end
     end)
 
-    -- implement on show
-    self:SetScript("OnShow", function()
-
-        if(typeMainsFrame.TypeButton:GetText() == "Alt") then
-            typeMainsFrame.MainsButton:SetEnable(true)
-        else
-            typeMainsFrame.MainsButton:SetEnable(false)
-        end
-
-    end)
-
     -- set dropdownmenu buttons from edit member
     local typeDDButton = typeMainsFrame.TypeButton
     local mainsDDButton = typeMainsFrame.MainsButton
@@ -294,9 +274,9 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
     -- set the save button
     local editMemberSaveButton = self.SaveButton
     editMemberSaveButton:SetScript("OnClick", function()
-        local memberName = self.Name:GetText()
-        Addon.Utils.updateMemberILVL(self.memberIndex, memberName, formFrame.TankInput:GetText(), formFrame.HealInput:GetText(), formFrame.DPSInput:GetText())
-        Addon.Utils.updateMemberType(self.memberIndex, memberName, typeDDButton:GetText(), mainsDDButton:GetText())
+        local memberIndex = Addon.Utils.getMemberIndex(self.Name:GetText())
+        Addon.Utils.updateMemberILVL(memberIndex, formFrame.TankInput:GetText(), formFrame.HealInput:GetText(), formFrame.DPSInput:GetText())
+        Addon.Utils.updateMemberType(memberIndex, typeDDButton:GetText(), mainsDDButton:GetText())
         self:Hide()
     end)
 
@@ -304,11 +284,9 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
 
 end
 
-function TheEchoesEditMemberFrameMixin:Open(memberIndex, name, isOnline, class, level, rank, rankIndex, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
+function TheEchoesEditMemberFrameMixin:Open(name, isOnline, lastSeen, class, level, rank, rankIndex, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
 
     self:Hide()
-
-    self.memberIndex = memberIndex
 
     local formFrame = self.FormFrame
     local typeMainsFrame = self.TypeMainsFrame;
@@ -319,7 +297,7 @@ function TheEchoesEditMemberFrameMixin:Open(memberIndex, name, isOnline, class, 
         onlineStatusFontString:SetText("Online")
         onlineStatusFontString:SetTextColor(0.4, 1, 0.4, 1)
     else
-        onlineStatusFontString:SetText("Offline")
+        onlineStatusFontString:SetText("Offline - " .. lastSeen)
         onlineStatusFontString:SetTextColor(1, 0.4, 0.4, 1)
     end
 
@@ -336,10 +314,30 @@ function TheEchoesEditMemberFrameMixin:Open(memberIndex, name, isOnline, class, 
     if(tankValue ~= nil) then formFrame.TankInput:SetText(tankValue) end
     if(healValue ~= nil) then formFrame.HealInput:SetText(healValue) end
     if(dpsValue ~= nil) then formFrame.DPSInput:SetText(dpsValue) end
+    if(CanEditPublicNote()) then
+        formFrame.TankInput:Enable();
+        formFrame.HealInput:Enable();
+        formFrame.DPSInput:Enable();
+    else
+        formFrame.TankInput:Disable();
+        formFrame.HealInput:Disable();
+        formFrame.DPSInput:Disable();
+    end
 
     -- type
     typeMainsFrame.TypeButton:SetText(type)
-    if(type == "Alt") then typeMainsFrame.MainsButton:SetText(main) end
+    if(CanEditOfficerNote()) then
+        typeMainsFrame.TypeButton:SetEnable(true)
+        if(type == "Alt") then
+            typeMainsFrame.MainsButton:SetText(main)
+            typeMainsFrame.MainsButton:SetEnable(true)
+        else
+            typeMainsFrame.MainsButton:SetEnable(false)
+        end
+    else
+        typeMainsFrame.TypeButton:SetEnable(false)
+        typeMainsFrame.MainsButton:SetEnable(false)
+    end
 
     -- notes
     if(isNotes == true) then

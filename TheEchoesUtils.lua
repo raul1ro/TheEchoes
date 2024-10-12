@@ -52,7 +52,6 @@ function Addon.Utils.getGuildData()
         local roles = Addon.Utils.extractRoles(note)
         if roles == nil or next(roles) == nil then
             table.insert(errorMembers, {
-                index = i,
                 name = name,
                 online = online,
                 class = classFileName,
@@ -60,7 +59,8 @@ function Addon.Utils.getGuildData()
                 rank = rank,
                 rankIndex = rankIndex,
                 note = note,
-                officerNote = officerNote
+                officerNote = officerNote,
+                lastOnline = lastOnline
             })
         else
 
@@ -77,7 +77,6 @@ function Addon.Utils.getGuildData()
 
             -- build the object
             local memberInfo = {
-                index = i,
                 online = online,
                 class = classFileName,
                 rank = rank,
@@ -108,7 +107,6 @@ function Addon.Utils.getGuildData()
             else -- unknown case
 
                 table.insert(errorMembers, {
-                    index = i,
                     name = name,
                     online = online,
                     class = classFileName,
@@ -116,7 +114,8 @@ function Addon.Utils.getGuildData()
                     rank = rank,
                     rankIndex = rankIndex,
                     note = note,
-                    officerNote = officerNote
+                    officerNote = officerNote,
+                    lastOnline = lastOnline
                 })
 
             end
@@ -143,7 +142,6 @@ function Addon.Utils.getGuildData()
         else -- main member not found -> errorMembers
 
             table.insert(errorMembers, {
-                index = altInfo.index,
                 name = altName,
                 online = altInfo.online,
                 class = altInfo.class,
@@ -151,7 +149,8 @@ function Addon.Utils.getGuildData()
                 rank = altInfo.rank,
                 rankIndex = altInfo.rankIndex,
                 note = altInfo.note,
-                officerNote = altInfo.officerNote
+                officerNote = altInfo.officerNote,
+                lastOnline = altInfo.lastOnline
             })
 
         end
@@ -164,8 +163,22 @@ function Addon.Utils.getGuildData()
 
 end
 
+function Addon.Utils.getMemberIndex(name)
+
+    name = name .. "-" .. GetRealmName()
+    for i = 1, GetNumGuildMembers() do
+        local memberName = GetGuildRosterInfo(i)
+        if memberName == name then
+            return i;
+        end
+    end
+
+    error("Member: " + name + " not found")
+
+end
+
 -- update the ilvl of the player
-function Addon.Utils.updateMemberILVL(memberIndex, name, tank, heal, dps)
+function Addon.Utils.updateMemberILVL(memberIndex, tank, heal, dps)
 
     local finalNote = "";
 
@@ -196,7 +209,7 @@ function Addon.Utils.updateMemberILVL(memberIndex, name, tank, heal, dps)
 
 end
 
-function Addon.Utils.updateMemberType(memberIndex, name, type, mainMember)
+function Addon.Utils.updateMemberType(memberIndex, type, mainMember)
 
     local finalNote = "";
     if type == "Main" then
@@ -391,9 +404,9 @@ function Addon.Utils.getMaxWidth(array)
 end
 
 -- check if the player can edit notes
-function Addon.Utils.canEditNotes()
+--[[function Addon.Utils.canEditNotes()
     return CanEditPublicNote() and CanEditOfficerNote()
-end
+end]]
 
 -- reposition the scrollbar of scrollframe
 function Addon.Utils.positionScrollBar(scrollFrame)

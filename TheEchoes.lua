@@ -33,9 +33,23 @@ local function init()
     TheEchoesButton:Hide()
 
     -- Set the background
-    TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_circle_32.tga")
-    TheEchoesButton:GetNormalTexture():SetTexCoord(0, 1, 0, 1)
-    TheEchoesButton:GetNormalTexture():SetBlendMode("BLEND")
+    TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_circle_32.tga");
+    TheEchoesButton:GetNormalTexture():SetTexCoord(0, 1, 0, 1);
+    TheEchoesButton:GetNormalTexture():SetBlendMode("BLEND");
+
+    -- Add Border
+    local border = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
+    border:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Example border texture, change to your own
+    border:SetSize(34, 34); -- Adjust size to make it slightly bigger than the button
+    border:SetPoint("CENTER", TheEchoesButton, "CENTER");
+    border:SetVertexColor(0.6, 0.6, 0.6); -- Set border color, (1, 1, 1) for white
+
+    -- Add Shadow
+    local shadow = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
+    shadow:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Replace with your shadow texture if needed
+    shadow:SetSize(36, 36); -- Shadow should be a little larger than the button
+    shadow:SetPoint("CENTER", TheEchoesButton, "CENTER", 0, -1); -- Slight offset for shadow effect
+    shadow:SetVertexColor(0, 0, 0, 0.3); -- Black shadow with 50% transparency
 
     -- Make the button movable
     TheEchoesButton:SetMovable(true)
@@ -63,10 +77,9 @@ end
 
 -- guild event listener
 TheEchoes = {
-
     PlayerName = UnitName("player"),
     getGuildData = getData,
-
+    init = false;
 }
 
 -- call inits only after load
@@ -76,25 +89,32 @@ addonLoadedFrame:SetScript("OnEvent", function(_, event , ...)
 
     if (event == "ADDON_LOADED") and (... == "TheEchoes") then
 
-        init() -- init the main part
-
         -- init the ui, only after got guild info
         local function initUI(tries)
 
             if(IsInGuild()) then
 
-                -- init ui
-                TheEchoesUI.init()
+                if(CanViewOfficerNote()) then
 
-                -- create the E button
-                TheEchoesButton:Show()
-                TheEchoesButton:SetScript("OnClick", function(_, button)
-                    if button == "LeftButton" then
-                        TheEchoesUI.toggle()
-                    end
-                end)
+                    init(); -- init the main part
 
-                print("|cff00bfffTheEchoes init|r")
+                    -- init ui
+                    TheEchoesUI.init();
+
+                    -- set flag
+                    TheEchoes.init = true;
+
+                    -- show the E button
+                    TheEchoesButton:Show()
+                    TheEchoesButton:SetScript("OnClick", function(_, button)
+                        if button == "LeftButton" then
+                            TheEchoesUI.toggle()
+                        end
+                    end)
+                    print("|cff00bfffTheEchoes init.|r")
+                else
+                    print("|cffff0000TheEchoes require view access to officer notes.|r")
+                end
 
                 return
 

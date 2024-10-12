@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: TheEchoes
-## Author: DoomFury
-## Version: 2.0
+## Author: raul1ro
+## Version: 2.2
 ## Notes: Offers a better view/manage about members of the guild.
 ## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition
 

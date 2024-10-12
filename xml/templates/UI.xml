@@ -23,49 +23,49 @@
                     <!-- CORNERS -->
                     <Layer level="BORDER">
                         <Texture parentKey="TopLeftCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                            <Size x="52" y="52" />
+                            <Size x="40" y="40" />
                             <Anchors>
-                                <Anchor point="TOPLEFT" x="-8" y="8" />
+                                <Anchor point="TOPLEFT" x="-7" y="7" />
                             </Anchors>
                             <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                         </Texture>
                         <Texture parentKey="TopRightCorner" atlas="ForgeBorder-CornerTopRight" useAtlasSize="false">
-                            <Size x="52" y="52" />
+                            <Size x="40" y="40" />
                             <Anchors>
-                                <Anchor point="TOPRIGHT" x="8" y="8" />
+                                <Anchor point="TOPRIGHT" x="7" y="7" />
                             </Anchors>
                         </Texture>
                         <Texture parentKey="BottomRightCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                            <Size x="52" y="52" />
+                            <Size x="40" y="40" />
                             <Anchors>
-                                <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
+                                <Anchor point="BOTTOMRIGHT" x="7" y="-7" />
                             </Anchors>
                         </Texture>
                         <Texture parentKey="BottomLeftCorner" atlas="ForgeBorder-CornerBottomLeft" useAtlasSize="false">
-                            <Size x="52" y="52" />
+                            <Size x="40" y="40" />
                             <Anchors>
-                                <Anchor point="BOTTOMLEFT" x="-8" y="-8" />
+                                <Anchor point="BOTTOMLEFT" x="-7" y="-7" />
                             </Anchors>
                         </Texture>
                     </Layer>
                     <!-- BORDERS -->
                     <Layer level="BORDER">
                         <Texture parentKey="TopBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
-                            <Size y="13" />
+                            <Size y="10" />
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="TOPRIGHT"/>
                                 <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT"/>
                             </Anchors>
                         </Texture>
                         <Texture parentKey="RightBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
-                            <Size x="13" />
+                            <Size x="10" />
                             <Anchors>
                                 <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="BOTTOMRIGHT"/>
                                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="TOPRIGHT"/>
                             </Anchors>
                         </Texture>
                         <Texture parentKey="BottomBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
-                            <Size y="13" />
+                            <Size y="10" />
                             <Anchors>
                                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="BOTTOMRIGHT"/>
                                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="BOTTOMLEFT"/>
@@ -73,7 +73,7 @@
                             <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                         </Texture>
                         <Texture parentKey="LeftBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
-                            <Size x="13" />
+                            <Size x="10" />
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="BOTTOMLEFT"/>
                                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="TOPLEFT"/>
@@ -84,9 +84,9 @@
                 </Layers>
             </Frame>
             <Button parentKey="CloseButton" inherits="UIPanelCloseButtonNoScripts" frameLevel="1002">
-                <Size x="27" y="27"/>
+                <Size x="21" y="21"/>
                 <Anchors>
-                    <Anchor point="TOPRIGHT" relativeKey="$parent.Border.TopRightCorner" x="-3" y="-4"/>
+                    <Anchor point="TOPRIGHT" relativeKey="$parent.Border.TopRightCorner" x="-2" y="-3"/>
                 </Anchors>
                 <Scripts>
                     <OnLoad>
@@ -104,55 +104,48 @@
     <Frame name="TheEchoesFrameSimpleTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enablemouse="true">
         <!-- BACKGROUND -->
         <Layers>
-            <Layer level="BORDER" textureSubLevel="2">
+            <Layer level="ARTWORK" textureSubLevel="0">
                 <Texture parentKey="Background"><Color r="0.1" g="0.1" b="0.1" a="1"/></Texture>
             </Layer>
             <!-- CORNERS -->
-            <Layer level="BACKGROUND" textureSubLevel="1">
+            <Layer level="BORDER" textureSubLevel="1">
                 <Texture parentKey="TopLeftCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                    <Size x="52" y="52" />
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="-8" y="8" />
-                    </Anchors>
+                    <Size x="33" y="33" />
+                    <Anchors><Anchor point="TOPLEFT" x="-5" y="6" /></Anchors>
                     <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                 </Texture>
-                <Texture parentKey="TopRightCorner" atlas="ForgeBorder-CornerTopRight" useAtlasSize="false">
-                    <Size x="52" y="52" />
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" x="8" y="8" />
-                    </Anchors>
+                <Texture parentKey="TopRightCorner" atlas="ForgeBorder-CornerBottomLeft" useAtlasSize="false">
+                    <Size x="33" y="33" />
+                    <Anchors><Anchor point="TOPRIGHT" x="5" y="6" /></Anchors>
+                    <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                 </Texture>
                 <Texture parentKey="BottomRightCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                    <Size x="52" y="52" />
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
-                    </Anchors>
+                    <Size x="33" y="33" />
+                    <Anchors><Anchor point="BOTTOMRIGHT" x="5" y="-5" /></Anchors>
                 </Texture>
                 <Texture parentKey="BottomLeftCorner" atlas="ForgeBorder-CornerBottomLeft" useAtlasSize="false">
-                    <Size x="52" y="52" />
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" x="-8" y="-8" />
-                    </Anchors>
+                    <Size x="33" y="33" />
+                    <Anchors><Anchor point="BOTTOMLEFT" x="-5" y="-5" /></Anchors>
                 </Texture>
             </Layer>
             <!-- BORDERS -->
-            <Layer level="BACKGROUND" textureSubLevel="1">
+            <Layer level="BORDER" textureSubLevel="1">
                 <Texture parentKey="TopBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
-                    <Size y="13" />
+                    <Size y="8" />
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="TOPRIGHT"/>
                         <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT"/>
                     </Anchors>
                 </Texture>
                 <Texture parentKey="RightBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
-                    <Size x="13" />
+                    <Size x="8" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="BOTTOMRIGHT"/>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="TOPRIGHT"/>
                     </Anchors>
                 </Texture>
                 <Texture parentKey="BottomBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
-                    <Size y="13" />
+                    <Size y="8" />
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="BOTTOMRIGHT"/>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="BOTTOMLEFT"/>
@@ -160,7 +153,7 @@
                     <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                 </Texture>
                 <Texture parentKey="LeftBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
-                    <Size x="13" />
+                    <Size x="8" />
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="BOTTOMLEFT"/>
                         <Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="TOPLEFT"/>
@@ -211,7 +204,7 @@
             <Button parentKey="IncrementButton" inherits="TheEchoesBlankButton">
                 <Layers>
                     <Layer level="ARTWORK" textureSubLevel="1">
-                        <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
+                        <Texture parentKey="ArrowTexture" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                             <Size x="15" y="10"/>
                             <Anchors><Anchor point="CENTER"/></Anchors>
                             <TexCoords left="0.0" right="0.9375" top="0.625" bottom="0.0"/>
@@ -229,12 +222,18 @@
                             self:GetParent():SetText(value + 1)
                         end
                     </OnClick>
+                    <OnDisable>
+                        self.ArrowTexture:SetAlpha(0.5)
+                    </OnDisable>
+                    <OnEnable>
+                        self.ArrowTexture:SetAlpha(1)
+                    </OnEnable>
                 </Scripts>
             </Button>
             <Button parentKey="DecrementButton" inherits="TheEchoesBlankButton">
                 <Layers>
                     <Layer level="ARTWORK" textureSubLevel="1">
-                        <Texture file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
+                        <Texture parentKey="ArrowTexture" file="Interface\Calendar\MoreArrow.PNG" alphaMode="ADD" desaturated="true">
                             <Size x="15" y="10"/>
                             <Anchors><Anchor point="CENTER"/></Anchors>
                             <TexCoords left="0" right="0.9375" top="0" bottom="0.625"/>
@@ -252,9 +251,29 @@
                             self:GetParent():SetText(value - 1)
                         end
                     </OnClick>
+                    <OnDisable>
+                        self.ArrowTexture:SetAlpha(0.5)
+                    </OnDisable>
+                    <OnEnable>
+                        self.ArrowTexture:SetAlpha(1)
+                    </OnEnable>
                 </Scripts>
             </Button>
         </Frames>
+        <Scripts>
+            <OnDisable>
+                self.Background:SetColorTexture(0.15, 0.15, 0.15);
+                self:SetTextColor(0.7, 0.7, 0.7, 0.7);
+                self.IncrementButton:Disable();
+                self.DecrementButton:Disable();
+            </OnDisable>
+            <OnEnable>
+                self.Background:SetColorTexture(0.06, 0.06, 0.06);
+                self:SetTextColor(1, 1, 1, 1);
+                self.IncrementButton:Enable();
+                self.DecrementButton:Enable();
+            </OnEnable>
+        </Scripts>
     </EditBox>
 
     <!-- Input template -->
