@@ -1,11 +1,11 @@
 <div align="center" style="text-align: center">
 <img src="banner.png" alt="The Echoes"/>
 <br>
-<code>Version: 2.2</code>
+<code>Version: 2.3</code>
 <code>WoW Client Version: 7.3.5 (Legion)</code>
 </div>
 
-<p>The Echoes addon is a guild manager which is offering a better view/manage of the members.</p>
+<p>The Echoes addon is a guild manager which is offering a better view/management.</p>
 <p style="color: indianred"><u>The addon is using the public and officer notes to manage the data of character.</u></p>
 
 <p>Features:</p>
@@ -15,8 +15,8 @@
 <li>Show the item level per role</li>
 <li>Nested Alts</li>
 <li>Invite / Whisper buttons</li>
-<li>Edit user notes with an easy-use panel - available only for mods</li>
-<li>Easy to fix the notes of unparsed members (broken notes) - these members appears at the bottom of UI and the notes can be visible in edit panel.</li>
+<li>Edit user notes with an easy-use panel (edit available only for mods)</li>
+<li>Easy to fix the notes of unparsed members (broken notes) - these members appears at the bottom of UI.</li>
 <li>Colored row for the members from the group</li>
 <li>Search member - if you search a main, it will show the alts too, if you search an alt it will show the main too</li>
 <li>Show the guild message</li>

@@ -1,8 +1,8 @@
 ## Interface: 70300
 ## Title: TheEchoes
 ## Author: raul1ro
-## Version: 2.2
-## Notes: Offers a better view/manage about members of the guild.
+## Version: 2.3
+## Notes: Offers a better view/management of the guild.
 ## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition
 
 TheEchoesUtils.lua

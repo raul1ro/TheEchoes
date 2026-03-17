@@ -284,7 +284,7 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
 
 end
 
-function TheEchoesEditMemberFrameMixin:Open(name, isOnline, lastSeen, class, level, rank, rankIndex, tankValue, healValue, dpsValue, type, main, isNotes, note, officerNote)
+function TheEchoesEditMemberFrameMixin:Open(name, isOnline, lastSeen, class, level, rank, rankIndex, tankValue, healValue, dpsValue, type, main, note, officerNote)
 
     self:Hide()
 
@@ -339,20 +339,16 @@ function TheEchoesEditMemberFrameMixin:Open(name, isOnline, lastSeen, class, lev
         typeMainsFrame.MainsButton:SetEnable(false)
     end
 
-    -- notes
-    if(isNotes == true) then
-        if note == nil or note == "" then
-            note = "-"
-        end
-        self.Notes.Note:SetText(note)
-        if officerNote == nil or note == "" then
-            officerNote = "-"
-        end
-        self.Notes.OfficerNote:SetText(officerNote)
-        self.Notes:Show()
-    else
-        self.Notes:Hide()
+    -- notes -> show notes all the time
+    if note == nil or note == "" then
+        note = "-"
     end
+    self.Notes.Note:SetText(note)
+    if officerNote == nil or officerNote == "" then
+        officerNote = "-"
+    end
+    self.Notes.OfficerNote:SetText(officerNote)
+    self.Notes:Show()
 
     self:Show()
 

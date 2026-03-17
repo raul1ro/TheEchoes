@@ -405,6 +405,19 @@
                 </FontString>
             </Layer>
         </Layers>
+        <!--<Frames>
+            <Button parentKey="ToggleAlts" frameLevel="1003" >
+                <Size x="15" y="15"/>
+                <Anchors><Anchor point="LEFT" relativeKey="$parent.Zone" relativePoint="RIGHT" x="5"/></Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture parentKey="ArrowIcon" file="Interface/Calendar/MoreArrow.PNG" desaturated="true">
+                            <Anchors><Anchor point="CENTER"/></Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>-->
     </Frame>
 
     <!-- MemberRow for members, without edit -->

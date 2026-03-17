@@ -25,12 +25,12 @@ local function init()
 
     -- Create square button
     TheEchoesButton = CreateFrame("Button", "TheEchoesButton", UIParent)
-    TheEchoesButton:SetSize(32, 32)
+    TheEchoesButton:SetSize(24, 24);
     if TheEchoesButtonPosition == nil then
-        TheEchoesButtonPosition = {"CENTER", nil, "CENTER", 0, 0}
+        TheEchoesButtonPosition = {"CENTER", nil, "CENTER", 0, 0};
     end
-    TheEchoesButton:SetPoint(unpack(TheEchoesButtonPosition))
-    TheEchoesButton:Hide()
+    TheEchoesButton:SetPoint(unpack(TheEchoesButtonPosition));
+    TheEchoesButton:Hide();
 
     -- Set the background
     TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_circle_32.tga");
@@ -40,16 +40,16 @@ local function init()
     -- Add Border
     local border = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
     border:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Example border texture, change to your own
-    border:SetSize(34, 34); -- Adjust size to make it slightly bigger than the button
+    border:SetSize(26, 26); -- Adjust size to make it slightly bigger than the button
     border:SetPoint("CENTER", TheEchoesButton, "CENTER");
     border:SetVertexColor(0.6, 0.6, 0.6); -- Set border color, (1, 1, 1) for white
 
     -- Add Shadow
     local shadow = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
     shadow:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Replace with your shadow texture if needed
-    shadow:SetSize(36, 36); -- Shadow should be a little larger than the button
+    shadow:SetSize(26, 26); -- Shadow should be a little larger than the button
     shadow:SetPoint("CENTER", TheEchoesButton, "CENTER", 0, -1); -- Slight offset for shadow effect
-    shadow:SetVertexColor(0, 0, 0, 0.3); -- Black shadow with 50% transparency
+    shadow:SetVertexColor(0, 0, 0, 0.5); -- Black shadow with 50% transparency
 
     -- Make the button movable
     TheEchoesButton:SetMovable(true)
@@ -83,54 +83,65 @@ TheEchoes = {
 }
 
 -- call inits only after load
+local addonName = ...
 local addonLoadedFrame = CreateFrame("FRAME")
 addonLoadedFrame:RegisterEvent("ADDON_LOADED")
-addonLoadedFrame:SetScript("OnEvent", function(_, event , ...)
+addonLoadedFrame:SetScript("OnEvent", function(_, _ , ...)
 
-    if (event == "ADDON_LOADED") and (... == "TheEchoes") then
+    -- skip execution if it's not my addon.
+    if ... ~= addonName then
+        return;
+    end
 
-        -- init the ui, only after got guild info
-        local function initUI(tries)
+    print("|cff00bfffTheEchoes loading.|r");
+    addonLoadedFrame:UnregisterEvent("ADDON_LOADED");
 
-            if(IsInGuild()) then
+    -- init the ui, only after got guild info
+    local function initUI(tries)
 
-                if(CanViewOfficerNote()) then
+        if(IsInGuild()) then
 
-                    init(); -- init the main part
+            if(CanViewOfficerNote()) then
 
-                    -- init ui
-                    TheEchoesUI.init();
+                init(); -- init the main part
 
-                    -- set flag
-                    TheEchoes.init = true;
+                -- init ui
+                TheEchoesUI.init();
 
-                    -- show the E button
-                    TheEchoesButton:Show()
-                    TheEchoesButton:SetScript("OnClick", function(_, button)
-                        if button == "LeftButton" then
-                            TheEchoesUI.toggle()
-                        end
-                    end)
-                    print("|cff00bfffTheEchoes init.|r")
-                else
-                    print("|cffff0000TheEchoes require view access to officer notes.|r")
-                end
+                -- set flag
+                TheEchoes.init = true;
 
-                return
-
-            end
-
-            if tries > 0 then
-                C_Timer.After(1, function()
-                    initUI(tries - 1)
+                -- show the E button
+                TheEchoesButton:Show()
+                TheEchoesButton:SetScript("OnClick", function(_, button)
+                    if button == "LeftButton" then
+                        TheEchoesUI.toggle()
+                    end
                 end)
-            else
-                print("|cffff0000TheEchoes failed to init. Type `/reload ui` to retry.|r")
+                print("|cff80ff00TheEchoes init.|r")
+
+                return;
+
+            --else
+                --print("|cffff0000TheEchoes require view access to officer notes.|r")
             end
+
+            --return; -- stop
 
         end
-        initUI(60)
+
+        -- retry
+        -- I retry it in a loop until succeed.
+        -- Sometimes `IsInGuild` is giving false, because the server haven't gave all the data yet.
+        if tries > 0 then
+            C_Timer.After(1, function()
+                initUI(tries - 1)
+            end)
+        else
+            print("|cffff0000TheEchoes failed to init. Type `/reload ui` to retry.|r")
+        end
 
     end
+    initUI(60); -- 60 tries/seconds
 
 end)

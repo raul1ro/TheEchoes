@@ -132,13 +132,7 @@ function Addon.Utils.getGuildData()
         local mainMember = members[mainName]
 
         if mainMember ~= nil then -- main member found
-
-            mainMember.note = nil
-            mainMember.officerNote = nil
-            altInfo.note = nil
-            altInfo.officerNote = nil
             mainMember.alts[altName] = altInfo
-
         else -- main member not found -> errorMembers
 
             table.insert(errorMembers, {
@@ -165,7 +159,7 @@ end
 
 function Addon.Utils.getMemberIndex(name)
 
-    name = name .. "-" .. GetRealmName()
+    name = name .. "-" .. GetNormalizedRealmName()
     for i = 1, GetNumGuildMembers() do
         local memberName = GetGuildRosterInfo(i)
         if memberName == name then
@@ -173,7 +167,7 @@ function Addon.Utils.getMemberIndex(name)
         end
     end
 
-    error("Member: " + name + " not found")
+    error("Member: " .. name .. " not found")
 
 end
 
@@ -402,11 +396,6 @@ function Addon.Utils.getMaxWidth(array)
     return wordSize * 10;
 
 end
-
--- check if the player can edit notes
---[[function Addon.Utils.canEditNotes()
-    return CanEditPublicNote() and CanEditOfficerNote()
-end]]
 
 -- reposition the scrollbar of scrollframe
 function Addon.Utils.positionScrollBar(scrollFrame)

@@ -10,14 +10,15 @@ local ColumnsData = {
     LEVEL = { startPoint = 0, width = 40, showTitle = true },
     RANK = { startPoint = 0, width = 60, showTitle = true },
     ACTIONS = { startPoint = 0, width = 150, showTitle = false },
-    ZONE = { startPoint = 0, width = 200, showTitle = true },
+    ZONE = { startPoint = 0, width = 200, showTitle = true }
+    --TOGGLEALTS = {startPoint = 0, width = 18, showTitle = false }
 }
 
 -- constants
 local ContentFrame = TheEchoesFrame.ScrollFrame.Content
 local StatsLabel = TheEchoesFrame.InfoFrame.Stats
 local MemoryUsageLabel = TheEchoesFrame.InfoFrame.MemoryUsage
-local ErrorFrame = TheEchoesFrame.ErrorFrame
+local ErrorFrame = TheEchoesFrame.ErrorFrame;
 local EditFrame = TheEchoesFrame.EditMemberFrame
 
 -- setup TheEchoesFrame
@@ -108,6 +109,38 @@ local function setMember(rowIndex, memberData, memberType)
         row.Background:SetColorTexture(0.4, 0.4, 0.4, 0.03) -- more transparent offline
     end
 
+    -- set toggle alts button
+    --[[local toggleAlts = row.ToggleAlts;
+    if memberType == "Alt" then
+        toggleAlts:Hide();
+    else
+        local isToggleAlts = memberData["toggleAlts"];
+        local icon = toggleAlts.ArrowIcon;
+        if isToggleAlts == true then
+            icon:SetTexCoord(0.95, 0.63, 0.95, 0, 0, 0.63, 0, 0)
+            icon:SetSize(15, 10);
+            memberData["toggleAlts"] = false;
+        else
+            icon:SetTexCoord(0, 0.63, 0.95, 0.63, 0, 0, 0.95, 0 );
+            icon:SetSize(10, 15);
+            memberData["toggleAlts"] = true;
+        end
+        toggleAlts:Show();
+        toggleAlts:SetScript("OnClick", function()
+            isToggleAlts = memberData["toggleAlts"];
+            print(isToggleAlts);
+            if isToggleAlts == true then
+                icon:SetTexCoord(0.95, 0.63, 0.95, 0, 0, 0.63, 0, 0)
+                icon:SetSize(15, 10);
+                memberData["toggleAlts"] = false;
+            else
+                icon:SetTexCoord(0, 0.63, 0.95, 0.63, 0, 0, 0.95, 0 );
+                icon:SetSize(10, 15);
+                memberData["toggleAlts"] = true;
+            end
+        end)
+    end]]
+
     -- get the column data for name
     local columnDataName = ColumnsData.NAME
 
@@ -162,7 +195,11 @@ local function setMember(rowIndex, memberData, memberType)
     if(editButton ~= nil) then
         editButton:Size(ColumnsData.EDIT.width-5, 20)
         editButton:SetScript("OnClick", function()
-            EditFrame:Open(memberData.name, memberOnline, memberData.lastOnline, className, memberData.level, memberData.rank, memberData.rankIndex, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS, memberType, memberData.main)
+            EditFrame:Open(
+                    memberData.name, memberOnline, memberData.lastOnline, className, memberData.level,
+                    memberData.rank, memberData.rankIndex, memberRoles.TANK, memberRoles.HEAL, memberRoles.DPS,
+                    memberType, memberData.main, memberData.note, memberData.officerNote
+            );
         end)
         editButton:Show()
     end
@@ -272,22 +309,20 @@ local function setErrorMembers(errorMembers)
             button:SetPoint("LEFT", startPoint, 0)
             button:Size(width, 24)
             button:SetText(name)
-            if(CanEditPublicNote() or CanEditOfficerNote()) then
-                button:SetScript("OnClick", function()
-                        EditFrame:Open(name, member.online, member.lastOnline, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, true, member.note, member.officerNote)
-                end)
-            end
+            button:SetScript("OnClick", function()
+                    EditFrame:Open(name, member.online, member.lastOnline, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, member.note, member.officerNote)
+            end)
 
             startPoint = startPoint + width + 5
 
         end
 
         ErrorFrame:Show()
-        return true
+        return true;
 
     else
         ErrorFrame:Hide()
-        return false
+        return false;
     end
 
 end
