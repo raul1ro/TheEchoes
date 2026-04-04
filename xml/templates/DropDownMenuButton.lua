@@ -1,7 +1,9 @@
 local _, Addon = ...;
 
 TheEchoesDropDownMenuButtonMixin = {}
-TheEchoesDropDownMenuButtonMixin.enable = true
+TheEchoesDropDownMenuButtonMixin.enable = true;
+TheEchoesDropDownMenuButtonMixin.anchorSide = "LEFT"; -- default
+TheEchoesDropDownMenuButtonMixin.xOffSet = 5;
 
 -- need implementation after the creation of the button. this function is used to get the data for population of dropdownmenu
 TheEchoesDropDownMenuButtonMixin.getData = nil
@@ -81,6 +83,14 @@ function TheEchoesDropDownMenuButtonMixin:SetEnable(enable)
     end
 end
 
+-- LEFT or RIGHT
+function TheEchoesDropDownMenuButtonMixin:SetAnchorSide(anchorSide)
+    self.anchorSide = anchorSide;
+end
+function TheEchoesDropDownMenuButtonMixin:SetXOffSet(xOffSet)
+    self.xOffSet = xOffSet;
+end
+
 function TheEchoesDropDownMenuButtonMixin:OnClick()
 
     -- get the ddmenu
@@ -98,7 +108,7 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
     -- set the position and sizes
     ddMenu:SetParent(self)
     ddMenu:ClearAllPoints()
-    ddMenu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 7, -6)
+    ddMenu:SetPoint("TOP" .. self.anchorSide, self, "BOTTOM" .. self.anchorSide, self.xOffSet, -6)
 
     -- get data
     local data = self.getData();

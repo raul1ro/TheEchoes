@@ -33,23 +33,9 @@ local function init()
     TheEchoesButton:Hide();
 
     -- Set the background
-    TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_circle_32.tga");
-    TheEchoesButton:GetNormalTexture():SetTexCoord(0, 1, 0, 1);
+    TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_square_32_24.tga");
+    TheEchoesButton:GetNormalTexture():SetTexCoord(0, 0.75, 0, 0.75);
     TheEchoesButton:GetNormalTexture():SetBlendMode("BLEND");
-
-    -- Add Border
-    local border = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
-    border:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Example border texture, change to your own
-    border:SetSize(26, 26); -- Adjust size to make it slightly bigger than the button
-    border:SetPoint("CENTER", TheEchoesButton, "CENTER");
-    border:SetVertexColor(0.6, 0.6, 0.6); -- Set border color, (1, 1, 1) for white
-
-    -- Add Shadow
-    local shadow = TheEchoesButton:CreateTexture(nil, "BACKGROUND");
-    shadow:SetTexture("Interface\\AddOns\\TheEchoes\\images\\circle.tga"); -- Replace with your shadow texture if needed
-    shadow:SetSize(26, 26); -- Shadow should be a little larger than the button
-    shadow:SetPoint("CENTER", TheEchoesButton, "CENTER", 0, -1); -- Slight offset for shadow effect
-    shadow:SetVertexColor(0, 0, 0, 0.5); -- Black shadow with 50% transparency
 
     -- Make the button movable
     TheEchoesButton:SetMovable(true)

@@ -76,6 +76,7 @@ function InitTheEchoesFrame()
     guildInfoFrame.CloseButton:SetScript("OnClick", function()
         guildInfoFrame:Hide()
     end)
+    guildInfoInput:SetMaxLetters(500);
     guildInfoInput:SetScript("OnKeyDown", function(_, key)
         if(key == "ESCAPE")then
             guildInfoFrame:Hide()
@@ -179,10 +180,6 @@ function InitTheEchoesFrame()
     -- init the dropdownmenu
     InitTheEchoesDropDownMenu()
 
-    -- reposition the scrollbar
-    Addon.Utils.positionScrollBar(TheEchoesFrame.ScrollFrame)
-
-
 end
 
 -- EDIT FRAME --
@@ -258,6 +255,8 @@ function TheEchoesEditMemberFrameMixin:OnLoad()
             mainsDDButton:SetEnable(true)
         end
     end
+    mainsDDButton:SetAnchorSide("RIGHT");
+    mainsDDButton:SetXOffSet(-5);
     mainsDDButton.getData = function()
 
         local mainMembers = {}

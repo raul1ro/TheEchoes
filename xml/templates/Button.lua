@@ -18,7 +18,7 @@ function TheEchoesButtonMixin:Size(width, height)
 end
 
 function TheEchoesButtonMixin:OnLoad()
-    self:Size(self:GetWidth(), self:GetHeight())
+    self:Size(self:GetFontString():GetStringWidth() + 20, self:GetHeight())
 end
 
 function TheEchoesButtonMixin:OnMouseDown()

@@ -9,7 +9,7 @@
     </Font>
 
     <!-- Frame with corners and close button -->
-    <Frame name="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enablemouse="true">
+    <Frame name="TheEchoesFrameCornersCloseTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enableMouse="true">
         <!-- BACKGROUND -->
         <Layers>
             <Layer level="BACKGROUND">
@@ -100,36 +100,117 @@
         </Frames>
     </Frame>
 
-    <!-- Frame without corners and close -->
-    <Frame name="TheEchoesFrameSimpleTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enablemouse="true">
-        <!-- BACKGROUND -->
+    <!-- Frame with corners -->
+    <Frame name="TheEchoesFrameCornersTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enableMouse="true">
+        <Frames>
+            <Frame parentKey="Corner" setAllPoints="true">
+                <Layers>
+                    <Layer level="OVERLAY" textureSubLevel="7">
+                        <Texture parentKey="TopLeft" atlas="ForgeBorder-CornerBottomRight">
+                            <Size x="32" y="32" />
+                            <Anchors><Anchor point="TOPLEFT" x="-5" y="6" /></Anchors>
+                            <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
+                        </Texture>
+                        <Texture parentKey="TopRight" atlas="ForgeBorder-CornerBottomLeft">
+                            <Size x="32" y="32" />
+                            <Anchors><Anchor point="TOPRIGHT" x="5" y="6" /></Anchors>
+                            <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
+                        </Texture>
+                        <Texture parentKey="BottomRight" atlas="ForgeBorder-CornerBottomRight">
+                            <Size x="32" y="32" />
+                            <Anchors><Anchor point="BOTTOMRIGHT" x="5" y="-5" /></Anchors>
+                        </Texture>
+                        <Texture parentKey="BottomLeft" atlas="ForgeBorder-CornerBottomLeft">
+                            <Size x="32" y="32" />
+                            <Anchors><Anchor point="BOTTOMLEFT" x="-5" y="-5" /></Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        -- Force this frame to stay on top of the parent's children
+                        self:SetFrameLevel(self:GetParent():GetFrameLevel() + 10);
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
         <Layers>
+            <!-- BACKGROUND -->
+            <Layer level="BACKGROUND" textureSubLevel="0">
+                <Texture parentKey="Background">
+                    <Color r="0.1" g="0.1" b="0.1" a="1"/>
+                    <Anchors><Anchor point="LEFT"/><Anchor point="RIGHT"/><Anchor point="BOTTOM"/><Anchor point="TOP"/></Anchors>
+                </Texture>
+            </Layer>
+            <!-- BORDERS -->
+            <Layer level="BORDER" textureSubLevel="0">
+                <Texture parentKey="TopBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
+                    <Size y="8" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Corner.TopLeft" relativePoint="TOPRIGHT"/>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.Corner.TopRight" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="RightBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
+                    <Size x="8" />
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.Corner.TopRight" relativePoint="BOTTOMRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Corner.BottomRight" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="BottomBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
+                    <Size y="8" />
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.Corner.BottomLeft" relativePoint="BOTTOMRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Corner.BottomRight" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
+                </Texture>
+                <Texture parentKey="LeftBorder" atlas="!ForgeBorder-Right" useAtlasSize="false">
+                    <Size x="8" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Corner.TopLeft" relativePoint="BOTTOMLEFT"/>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.Corner.BottomLeft" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                    <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <!-- Frame without corners and close -->
+    <Frame name="TheEchoesFrameSimpleTemplate" parent="" virtual="true" toplevel="true" frameLevel="1000" frameStrata="HIGH" enableMouse="true">
+        <Layers>
+            <!-- BACKGROUND -->
             <Layer level="ARTWORK" textureSubLevel="0">
-                <Texture parentKey="Background"><Color r="0.1" g="0.1" b="0.1" a="1"/></Texture>
+                <Texture parentKey="Background">
+                    <Color r="0.1" g="0.1" b="0.1" a="1"/>
+                    <Anchors><Anchor point="LEFT"/><Anchor point="RIGHT"/><Anchor point="BOTTOM"/><Anchor point="TOP"/></Anchors>
+                </Texture>
             </Layer>
             <!-- CORNERS -->
-            <Layer level="BORDER" textureSubLevel="1">
+            <Layer level="BORDER" textureSubLevel="0">
                 <Texture parentKey="TopLeftCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                    <Size x="33" y="33" />
+                    <Size x="32" y="32" />
                     <Anchors><Anchor point="TOPLEFT" x="-5" y="6" /></Anchors>
                     <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                 </Texture>
                 <Texture parentKey="TopRightCorner" atlas="ForgeBorder-CornerBottomLeft" useAtlasSize="false">
-                    <Size x="33" y="33" />
+                    <Size x="32" y="32" />
                     <Anchors><Anchor point="TOPRIGHT" x="5" y="6" /></Anchors>
                     <TexCoords left="1.0" right="0.0" top="1.0" bottom="0.0"/>
                 </Texture>
                 <Texture parentKey="BottomRightCorner" atlas="ForgeBorder-CornerBottomRight" useAtlasSize="false">
-                    <Size x="33" y="33" />
+                    <Size x="32" y="32" />
                     <Anchors><Anchor point="BOTTOMRIGHT" x="5" y="-5" /></Anchors>
                 </Texture>
                 <Texture parentKey="BottomLeftCorner" atlas="ForgeBorder-CornerBottomLeft" useAtlasSize="false">
-                    <Size x="33" y="33" />
+                    <Size x="32" y="32" />
                     <Anchors><Anchor point="BOTTOMLEFT" x="-5" y="-5" /></Anchors>
                 </Texture>
             </Layer>
             <!-- BORDERS -->
-            <Layer level="BORDER" textureSubLevel="1">
+            <Layer level="BORDER" textureSubLevel="0">
                 <Texture parentKey="TopBorder" atlas="_ForgeBorder-Top" useAtlasSize="false">
                     <Size y="8" />
                     <Anchors>
@@ -316,7 +397,7 @@
     </ScrollFrame>
 
     <!-- Simple frame with white-transparent background -->
-    <Frame name="TheEchoesWhiteBackground" parent="" virtual="true" enablemouse="true">
+    <Frame name="TheEchoesWhiteBackground" parent="" virtual="true" enableMouse="true">
         <!-- BACKGROUND -->
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-1">
@@ -327,8 +408,8 @@
         </Layers>
     </Frame>
 
-    <!-- MemberRow for Mods, with edit -->
-    <Frame name="TheEchoesModMemberRow" parent="" virtual="true">
+    <!-- MemberRow -->
+    <Frame name="TheEchoesMemberRow" parent="" virtual="true">
         <!-- BACKGROUND -->
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-1">
@@ -395,13 +476,13 @@
                 <Anchors><Anchor point="LEFT" relativeKey="$parent.Rank" relativePoint="RIGHT" x="5"/></Anchors>
             </Button>
             <Button parentKey="Whisper" inherits="TheEchoesButtonDesaturatedTemplate" text="Whisper">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Invite" relativePoint="RIGHT" x="5"/></Anchors>
+                <Anchors><Anchor point="LEFT" relativeKey="$parent.Invite" relativePoint="RIGHT" x="0"/></Anchors>
             </Button>
         </Frames>
         <Layers>
             <Layer>
                 <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Whisper" relativePoint="RIGHT" x="10"/></Anchors>
+                    <!-- anchor in lua -->
                 </FontString>
             </Layer>
         </Layers>
@@ -418,77 +499,6 @@
                 </Layers>
             </Button>
         </Frames>-->
-    </Frame>
-
-    <!-- MemberRow for members, without edit -->
-    <Frame name="TheEchoesMemberRow" parent="" virtual="true">
-        <!-- BACKGROUND -->
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="Background">
-                    <Color r="0" g="0" b="0" a="0"/>
-                </Texture>
-            </Layer>
-        </Layers>
-        <Frames>
-            <Frame parentKey="Name" frameLevel="1003">
-                <Layers>
-                    <Layer level="OVERLAY" textureSubLevel="1">
-                        <Texture parentKey="Icon">
-                            <Size x="18" y="18"/>
-                            <Anchors><Anchor point="LEFT" x="-1" y="0"/></Anchors>
-                        </Texture>
-                        <FontString parentKey="Text" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                            <Anchors><Anchor point="LEFT" x="20"/></Anchors>
-                        </FontString>
-                    </Layer>
-                    <Layer level="BORDER" textureSubLevel="0">
-                        <Texture parentKey="Border" file="Interface\CharacterFrame\TempPortraitAlphaMaskSmall">
-                            <Size x="20" y="20"/>
-                            <Color r="0.4" g="0.4" b="0.4" a="0.5"/>
-                            <Anchors><Anchor point="LEFT" x="-2" y="0"/></Anchors>
-                        </Texture>
-                    </Layer>
-                </Layers>
-            </Frame>
-        </Frames>
-        <Layers>
-            <Layer level = "OVERLAY" textureSubLevel="2">
-                <FontString parentKey="Tank" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Name" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Heal" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Tank" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="DPS" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Heal" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Type" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.DPS" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Level" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Type" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Rank" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Level" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
-        <Frames>
-            <Button parentKey="Invite" inherits="TheEchoesButtonDesaturatedTemplate" text="Invite">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Rank" relativePoint="RIGHT" x="5"/></Anchors>
-            </Button>
-            <Button parentKey="Whisper" inherits="TheEchoesButtonDesaturatedTemplate" text="Whisper">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Invite" relativePoint="RIGHT" x="5"/></Anchors>
-            </Button>
-        </Frames>
-        <Layers>
-            <Layer>
-                <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Whisper" relativePoint="RIGHT" x="10"/></Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
     </Frame>
 
     <Frame name="TheEchoesDropDownMenuElement" virtual="true" enableMouse="true">

@@ -2,20 +2,20 @@ local _, Addon = ...;
 
 local ColumnsData = {
     NAME = { startPoint = 5, width = 145, showTitle = true },
-    TANK = { startPoint = 0, width = 50, showTitle = true },
-    HEAL = { startPoint = 0, width = 50, showTitle = true },
-    DPS = { startPoint = 0, width = 35, showTitle = true },
-    EDIT = { startPoint = 0, width = 60, showTitle = false },
-    TYPE = { startPoint = 0, width = 40, showTitle = true },
-    LEVEL = { startPoint = 0, width = 40, showTitle = true },
-    RANK = { startPoint = 0, width = 60, showTitle = true },
-    ACTIONS = { startPoint = 0, width = 150, showTitle = false },
-    ZONE = { startPoint = 0, width = 200, showTitle = true }
+    TANK = { startPoint = 155, width = 40, showTitle = true },
+    HEAL = { startPoint = 200, width = 40, showTitle = true },
+    DPS = { startPoint = 245, width = 30, showTitle = true },
+    EDIT = { startPoint = 280, width = 50, showTitle = false },
+    TYPE = { startPoint = 335, width = 35, showTitle = true },
+    LEVEL = { startPoint = 375, width = 40, showTitle = true },
+    RANK = { startPoint = 420, width = 60, showTitle = true },
+    ACTIONS = { startPoint = 485, width = 135, showTitle = false },
+    ZONE = { startPoint = 615, width = 140, showTitle = true }
     --TOGGLEALTS = {startPoint = 0, width = 18, showTitle = false }
 }
 
 -- constants
-local ContentFrame = TheEchoesFrame.ScrollFrame.Content
+local ContentFrame = TheEchoesFrame.Body.Content
 local StatsLabel = TheEchoesFrame.InfoFrame.Stats
 local MemoryUsageLabel = TheEchoesFrame.InfoFrame.MemoryUsage
 local ErrorFrame = TheEchoesFrame.ErrorFrame;
@@ -24,59 +24,48 @@ local EditFrame = TheEchoesFrame.EditMemberFrame
 -- setup TheEchoesFrame
 local function setupTheEchoesFrame()
 
-    -- calculate the width
-    local width = 98
-    for _, v in pairs(ColumnsData) do
-        width = width + v.width
-    end
-    -- if the player is not mod, subtract the width of edit
-    if CanEditPublicNote() == false and CanEditOfficerNote() == false  then
-        width = width - ColumnsData.EDIT.width
-    end
-    TheEchoesFrame:SetWidth(width)
-
-    -- prepare the columns
-    local columnsText
-    if CanEditPublicNote() or CanEditOfficerNote() then
-        columnsText = { "NAME", "TANK", "HEAL", "DPS", "EDIT", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
-    else
-        columnsText = { "NAME", "TANK", "HEAL", "DPS", "TYPE", "LEVEL", "RANK", "ACTIONS", "ZONE"}
-    end
-
     -- get the columns frame
     local columnsFrame = TheEchoesFrame.ColumnsFrame
 
-    -- create columns frame
-    for i, v in ipairs(columnsText) do
+    -- calculate the total width
+    local width = 98
+    for k, v in pairs(ColumnsData) do
 
-        local columnData = ColumnsData[v];
-
-        -- set the startPoint equal with prev column startPoint + width
-        if i > 1 then
-            local previousColumnData = ColumnsData[columnsText[i-1]];
-            columnData.startPoint = previousColumnData.startPoint + previousColumnData.width + 5
-        end
+        width = width + v.width
 
         -- draw the title only if
-        if columnData.showTitle then
+        if v.showTitle then
 
-            local text = columnsFrame:CreateFontString(v, "OVERLAY", "TheEchoesFontWhite")
-            text:SetPoint("LEFT", columnData.startPoint, 0)
-            text:SetText(v)
-            text:SetWidth(columnData.width)
+            local text = columnsFrame:CreateFontString(k, "OVERLAY", "TheEchoesFontWhite")
+            text:SetPoint("LEFT", v.startPoint, 0)
+            text:SetText(k)
+            text:SetWidth(v.width)
             text:SetJustifyH("LEFT");
 
         end
 
     end
+    TheEchoesFrame:SetWidth(width)
 
-    -- set the width of scrollframe#content
+    -- set the width of body#content
     ContentFrame:SetWidth(width - 42)
-    local scrollBar = TheEchoesFrame.ScrollFrame.ScrollBar
-    scrollBar:SetMinMaxValues(0, 503) -- the height of scrollFrame
+
+    -- set the scroll bar of body
+    local body = TheEchoesFrame.Body;
+    Addon.Utils.positionScrollBar(body);
+    local scrollBar = body.ScrollBar;
     scrollBar:SetValue(0) -- Set initial scroll position
     ContentFrame:SetScript("OnMouseWheel", function(_, delta)
-        scrollBar:SetValue(scrollBar:GetValue() - (delta * 38)) -- the step
+        scrollBar:SetValue(scrollBar:GetValue() - (delta * 27)) -- the step
+    end)
+
+    -- set the scroll bar of error frame
+    local bodyError = ErrorFrame.Body;
+    Addon.Utils.positionScrollBar(bodyError);
+    local scrollBarError = bodyError.ScrollBar;
+    scrollBarError:SetValue(0) -- Set initial scroll position
+    bodyError.Content:SetScript("OnMouseWheel", function(_, delta)
+        scrollBarError:SetValue(scrollBarError:GetValue() - (delta * 25)) -- the step
     end)
 
 end
@@ -226,7 +215,7 @@ local function setMember(rowIndex, memberData, memberType)
 
         -- set the invite button
         local inviteButton = row.Invite
-        inviteButton:Size((ColumnsData.ACTIONS.width/2) - 5, 20)
+        inviteButton:Size((ColumnsData.ACTIONS.width * 0.44) - 5, 20)
         inviteButton:SetScript("OnClick", function()
             InviteUnit(memberData.name)
         end)
@@ -234,7 +223,7 @@ local function setMember(rowIndex, memberData, memberType)
 
         -- set the whisper button
         local whisperButton = row.Whisper
-        whisperButton:Size((ColumnsData.ACTIONS.width/2) - 5, 20)
+        whisperButton:Size((ColumnsData.ACTIONS.width * 0.56) - 5, 20)
         whisperButton:SetScript("OnClick", function()
             ChatFrame_SendTell(memberData.name)
         end)
@@ -246,12 +235,11 @@ local function setMember(rowIndex, memberData, memberType)
     local zoneText = row.Zone
     zoneText:SetWidth(ColumnsData.ZONE.width)
     zoneText:SetAlpha(textAlpha)
-    zoneText:ClearAllPoints()
-    zoneText:SetPoint("LEFT", rankText, "RIGHT", ColumnsData.ACTIONS.width + 10, 0)
+    zoneText:SetPoint("LEFT", rankText, "RIGHT", ColumnsData.ACTIONS.width, 0)
     if(memberOnline) then
         zoneText:SetText(memberData.zone)
     else
-        zoneText:SetText("Last online: " .. memberData.lastOnline .. " ago")
+        zoneText:SetText("Seen: " .. memberData.lastOnline)
     end
 
     row:Show()
@@ -287,8 +275,10 @@ end
 -- create a button for every member which couldn't been parsed.
 local function setErrorMembers(errorMembers)
 
-    -- clear the frame
-    for _, childFrame in ipairs({ErrorFrame:GetChildren()}) do
+    local errorContent = ErrorFrame.Body.Content;
+
+    -- clear the content
+    for _, childFrame in ipairs({errorContent:GetChildren()}) do
         childFrame:SetParent(nil)
         childFrame:ClearAllPoints()
         childFrame:SetScript("OnClick", nil)
@@ -298,31 +288,54 @@ local function setErrorMembers(errorMembers)
     -- if exist error members
     if Addon.Utils.size(errorMembers) > 0 then
 
-        local startPoint = 0;
+        local startPoint = 5;
+        local maxWidth = 0;
         for _, member in ipairs(errorMembers) do
 
             local name = member.name;
 
-            local width = (string.len(name) * 10) + 20;
+            local button = CreateFrame("Button", "button", errorContent, "TheEchoesButtonDesaturatedTemplate");
+            button:SetPoint("TOPLEFT", 5, -startPoint);
+            button:SetText(name);
+            button:SetHeight(24);
+            button:OnLoad(); -- trigger onload
 
-            local button = CreateFrame("Button", "button", ErrorFrame, "TheEchoesButtonRedTemplate")
-            button:SetPoint("LEFT", startPoint, 0)
-            button:Size(width, 24)
-            button:SetText(name)
+            -- make the text green if the player is online
+            if(member.online) then
+                button.Text:SetTextColor(0.2, 0.9, 0.2);
+            end
+
+            local width = button:GetWidth();
+            if(width > maxWidth) then
+                maxWidth = width;
+            end
+
             button:SetScript("OnClick", function()
                     EditFrame:Open(name, member.online, member.lastOnline, member.class, member.level, member.rank, member.rankIndex, nil, nil, nil, nil, nil, member.note, member.officerNote)
             end)
 
-            startPoint = startPoint + width + 5
+            -- starting point of the next button, more easy this way than anchoring.
+            startPoint = startPoint + 25;
 
         end
 
+        -- set the height of the content
+        errorContent:SetHeight(startPoint + 5);
+
+        -- set the frame height
+        local totalHeight = startPoint + 29 -- top(5) + title(12) + space(5) + bottom(2) + space(5);
+        if(totalHeight > 350) then -- heigh of theechoes frame
+            totalHeight = 350;
+        end
+
+        maxWidth = maxWidth + 10 + ErrorFrame.Body.ScrollBar:GetWidth(); -- left(5) + right(5) + scrollWidth.
+        ErrorFrame:SetSize(maxWidth, totalHeight);
+        --errorContent:SetWidth(maxWidth);
+
         ErrorFrame:Show()
-        return true;
 
     else
         ErrorFrame:Hide()
-        return false;
     end
 
 end
@@ -382,29 +395,17 @@ TheEchoesUI = {
         TheEchoesUI.close()
 
         -- create the poll
-        if CanEditPublicNote() or CanEditOfficerNote() then
-            MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesModMemberRow", function(_, frame)
-                frame:Hide()
-                frame:ClearAllPoints()
-                frame.Background:SetColorTexture(0, 0, 0, 0)
-                frame.Edit:SetScript("OnClick", nil)
-                frame.Edit:Hide()
-                frame.Invite:SetScript("OnClick", nil)
-                frame.Invite:Hide()
-                frame.Whisper:SetScript("OnClick", nil)
-                frame.Whisper:Hide()
-            end)
-        else
-            MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesMemberRow", function(_, frame)
-                frame:Hide()
-                frame:ClearAllPoints()
-                frame.Background:SetColorTexture(0, 0, 0, 0)
-                frame.Invite:SetScript("OnClick", nil)
-                frame.Invite:Hide()
-                frame.Whisper:SetScript("OnClick", nil)
-                frame.Whisper:Hide()
-            end)
-        end
+        MemberRowPool = CreateFramePool("FRAME", ContentFrame, "TheEchoesMemberRow", function(_, frame)
+            frame:Hide()
+            frame:ClearAllPoints()
+            frame.Background:SetColorTexture(0, 0, 0, 0)
+            frame.Edit:SetScript("OnClick", nil)
+            frame.Edit:Hide()
+            frame.Invite:SetScript("OnClick", nil)
+            frame.Invite:Hide()
+            frame.Whisper:SetScript("OnClick", nil)
+            frame.Whisper:Hide()
+        end)
 
     end,
 
@@ -544,15 +545,8 @@ TheEchoesUI = {
         -- set the memory usage
         setMemoryUsage()
 
-        -- default height, without member errors.
-        local mainFrameHeight = 740
-
         -- set the error members
-        local isError = setErrorMembers(errorMembers)
-        if(isError) then mainFrameHeight = 765 end
-
-        -- set the heigh of mainFrame
-        TheEchoesFrame:SetHeight(mainFrameHeight)
+        setErrorMembers(errorMembers);
 
     end
 
