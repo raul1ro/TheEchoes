@@ -1,75 +1,9 @@
-local _, Addon = ...;
+local addonName, Addon = ...;
 
 -- Bindings.xml globals
 BINDING_HEADER_THE_ECHOES_UI = "User Interface"
 BINDING_NAME_THE_ECHOES_TOGGLE = "Toggle Open/Close"
 
--- constants
-local TheEchoesButton
-
-local function getData()
-
-    local guildData = Addon.Utils.getGuildData() -- membersData, errorMembers, onlineSize, totalSize
-
-    local membersData = Addon.Utils.sortMembers(guildData.membersData, false)
-    local totalSize = guildData.totalSize
-    local onlineSize = guildData.onlineSize
-    local mainSize = Addon.Utils.size(membersData)
-    local altSize = totalSize - mainSize
-
-    return { membersData, totalSize, onlineSize, mainSize, altSize, guildData.tankSize, guildData.healSize, guildData.dpsSize, guildData.errorMembers }
-
-end
-
-local function init()
-
-    -- Create square button
-    TheEchoesButton = CreateFrame("Button", "TheEchoesButton", UIParent)
-    TheEchoesButton:SetSize(24, 24);
-    if TheEchoesButtonPosition == nil then
-        TheEchoesButtonPosition = {"CENTER", nil, "CENTER", 0, 0};
-    end
-    TheEchoesButton:SetPoint(unpack(TheEchoesButtonPosition));
-    TheEchoesButton:Hide();
-
-    -- Set the background
-    TheEchoesButton:SetNormalTexture("Interface\\AddOns\\TheEchoes\\images\\logo_square_32_24.tga");
-    TheEchoesButton:GetNormalTexture():SetTexCoord(0, 0.75, 0, 0.75);
-    TheEchoesButton:GetNormalTexture():SetBlendMode("BLEND");
-
-    -- Make the button movable
-    TheEchoesButton:SetMovable(true)
-    TheEchoesButton:EnableMouse(true)
-    TheEchoesButton:RegisterForDrag("LeftButton")
-    TheEchoesButton:SetScript("OnDragStart", TheEchoesButton.StartMoving)
-    TheEchoesButton:SetScript("OnDragStop", function()
-        TheEchoesButton:StopMovingOrSizing()
-        --save the position
-        TheEchoesButtonPosition = {TheEchoesButton:GetPoint(0)}
-    end)
-
-    -- Visual effect on click down
-    TheEchoesButton:SetScript("OnMouseDown", function(self)
-        self:GetNormalTexture():SetVertexColor(0.7, 0.7, 0.7)
-    end)
-    TheEchoesButton:SetScript("OnMouseUp", function(self)
-        self:GetNormalTexture():SetVertexColor(1, 1, 1)
-    end)
-    TheEchoesButton:SetScript("OnLeave", function(self)
-        self:GetNormalTexture():SetVertexColor(1, 1, 1)
-    end)
-
-end
-
--- guild event listener
-TheEchoes = {
-    PlayerName = UnitName("player"),
-    getGuildData = getData,
-    init = false;
-}
-
--- call inits only after load
-local addonName = ...
 local addonLoadedFrame = CreateFrame("FRAME")
 addonLoadedFrame:RegisterEvent("ADDON_LOADED")
 addonLoadedFrame:SetScript("OnEvent", function(_, _ , ...)
@@ -82,52 +16,37 @@ addonLoadedFrame:SetScript("OnEvent", function(_, _ , ...)
     print("|cff00bfffTheEchoes loading.|r");
     addonLoadedFrame:UnregisterEvent("ADDON_LOADED");
 
-    -- init the ui, only after got guild info
-    local function initUI(tries)
+    -- right after loading/reload, the info about guild is not loaded yet.
+    -- need to wait a couple of seconds.
+    -- run in loop and check until it's true.
+    local tries = 0;
+    C_Timer.NewTicker(1, function(ticker)
 
+        -- stop retrying
+        if(tries >= 15) then
+            ticker:Cancel();
+            print("|cffff0000TheEchoes failed to init. Guild not found.|r");
+            return;
+        end
+
+        -- if is in guild init
         if(IsInGuild()) then
 
-            if(CanViewOfficerNote()) then
+            ticker:Cancel();
 
-                init(); -- init the main part
-
-                -- init ui
-                TheEchoesUI.init();
-
-                -- set flag
-                TheEchoes.init = true;
-
-                -- show the E button
-                TheEchoesButton:Show()
-                TheEchoesButton:SetScript("OnClick", function(_, button)
-                    if button == "LeftButton" then
-                        TheEchoesUI.toggle()
-                    end
-                end)
-                print("|cff80ff00TheEchoes init.|r")
-
-                return;
-
-            --else
-                --print("|cffff0000TheEchoes require view access to officer notes.|r")
+            if(Addon.Controller:Init()) then
+                print("|cff80ff00TheEchoes init.|r");
+            else
+                print("|cffff0000TheEchoes failed to init. Type `/reload` to retry.|r");
             end
 
-            --return; -- stop
-
+            return;
         end
 
-        -- retry
-        -- I retry it in a loop until succeed.
-        -- Sometimes `IsInGuild` is giving false, because the server haven't gave all the data yet.
-        if tries > 0 then
-            C_Timer.After(1, function()
-                initUI(tries - 1)
-            end)
-        else
-            print("|cffff0000TheEchoes failed to init. Type `/reload ui` to retry.|r")
-        end
+        tries = tries + 1;
 
-    end
-    initUI(60); -- 60 tries/seconds
+    end)
 
-end)
+
+
+end);

@@ -1,5 +1,5 @@
 <Bindings>
 	<Binding name="THE_ECHOES_TOGGLE" header="THE_ECHOES_UI" category="The Echoes">
-		TheEchoesUI.toggle()
+		TheEchoesUI:Toggle()
 	</Binding>
 </Bindings>

@@ -5,7 +5,7 @@
         <Color r="1" g="1" b="1"/>
     </Font>
     <Font name="TheEchoesFontBlue" inherits="SystemFont_Shadow_Med1" virtual="true">
-        <Color r="0" g="0.75" b="1"/>
+        <Color r="0" g="0.70" b="1"/>
     </Font>
 
     <!-- Frame with corners and close button -->
@@ -252,10 +252,10 @@
                 <Texture parentKey="Background"><Color r="0.06" g="0.06" b="0.06" a="1"/></Texture>
             </Layer>
             <Layer level="BORDER" textureSubLevel="1">
-                <Texture parentKey="TopBorder"><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
-                <Texture parentKey="RightBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
-                <Texture parentKey="BottomBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
-                <Texture parentKey="LeftBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
+                <Texture><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
             </Layer>
         </Layers>
         <FontString inherits="TheEchoesFontWhite"/>
@@ -271,10 +271,10 @@
                 <Texture parentKey="Background"><Color r="0.06" g="0.06" b="0.06" a="1"/></Texture>
             </Layer>
             <Layer level="BORDER" textureSubLevel="1">
-                <Texture parentKey="TopBorder"><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
-                <Texture parentKey="RightBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
-                <Texture parentKey="BottomBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
-                <Texture parentKey="LeftBorder"><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
+                <Texture><Size y="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPLEFT"/><Anchor point="TOPRIGHT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="TOPRIGHT"/><Anchor point="BOTTOMRIGHT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMRIGHT"/><Anchor point="BOTTOMLEFT"/></Anchors></Texture>
+                <Texture><Size x="1"/><Color r="0.4" g="0.4" b="0.4" a="1"/><Anchors><Anchor point="BOTTOMLEFT"/><Anchor point="TOPLEFT"/></Anchors></Texture>
             </Layer>
         </Layers>
         <FontString inherits="TheEchoesFontWhite"/>
@@ -418,6 +418,7 @@
                 </Texture>
             </Layer>
         </Layers>
+        <!-- name -->
         <Frames>
             <Frame parentKey="Name" frameLevel="1003">
                 <Layers>
@@ -440,84 +441,77 @@
                 </Layers>
             </Frame>
         </Frames>
+        <!-- roles -->
         <Layers>
             <Layer level="OVERLAY" textureSubLevel="2">
-                <FontString parentKey="Tank" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Name" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Heal" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Tank" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="DPS" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Heal" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
+                <FontString parentKey="Tank" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
+                <FontString parentKey="Heal" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
+                <FontString parentKey="DPS" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
             </Layer>
         </Layers>
+        <!-- edit -->
         <Frames>
-            <Button parentKey="Edit" inherits="TheEchoesButtonDesaturatedTemplate" text="Edit">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.DPS" relativePoint="RIGHT" x="5"/></Anchors>
-            </Button>
-        </Frames>
-        <Layers>
-            <Layer>
-                <FontString parentKey="Type" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Edit" relativePoint="RIGHT" x="10"/></Anchors>
-                </FontString>
-                <FontString parentKey="Level" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Type" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-                <FontString parentKey="Rank" inherits="TheEchoesFontWhite" justifyH="LEFT">
-                    <Anchors><Anchor point="LEFT" relativeKey="$parent.Level" relativePoint="RIGHT" x="5"/></Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
-        <Frames>
-            <Button parentKey="Invite" inherits="TheEchoesButtonDesaturatedTemplate" text="Invite">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Rank" relativePoint="RIGHT" x="5"/></Anchors>
-            </Button>
-            <Button parentKey="Whisper" inherits="TheEchoesButtonDesaturatedTemplate" text="Whisper">
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Invite" relativePoint="RIGHT" x="0"/></Anchors>
-            </Button>
-        </Frames>
-        <Layers>
-            <Layer>
-                <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false">
-                    <!-- anchor in lua -->
-                </FontString>
-            </Layer>
-        </Layers>
-        <!--<Frames>
-            <Button parentKey="ToggleAlts" frameLevel="1003" >
-                <Size x="15" y="15"/>
-                <Anchors><Anchor point="LEFT" relativeKey="$parent.Zone" relativePoint="RIGHT" x="5"/></Anchors>
+            <Button parentKey="Edit" inherits="TheEchoesButtonDesaturatedTemplate">
                 <Layers>
-                    <Layer level="OVERLAY">
-                        <Texture parentKey="ArrowIcon" file="Interface/Calendar/MoreArrow.PNG" desaturated="true">
-                            <Anchors><Anchor point="CENTER"/></Anchors>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon" file="Interface\Buttons\UI-GuildButton-PublicNote-Up" desaturated="true">
+                            <Size x="14" y="14"/>
+                            <Anchors><Anchor point="CENTER" y="-1"/> </Anchors>
                         </Texture>
                     </Layer>
                 </Layers>
             </Button>
-        </Frames>-->
-    </Frame>
-
-    <Frame name="TheEchoesDropDownMenuElement" virtual="true" enableMouse="true">
-        <Size y="18"/>
+        </Frames>
+        <!-- type, level, rank -->
         <Layers>
-            <Layer level="BACKGROUND">
-                <Texture parentKey="background" setAllpoints="true">
-                    <Color r="0" g="0" b="0" a="0"/>
-                </Texture>
-            </Layer>
-            <Layer level="OVERLAY">
-                <FontString parentKey="text" inherits="GameFontNormalLeft" setAllpoints="true">
-                    <Anchors>
-                        <Anchor point="LEFT" x="3"/>
-                    </Anchors>
-                    <Color r="1" g="1" b="1" a="1"/>
-                </FontString>
+            <Layer>
+                <FontString parentKey="Type" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
+                <FontString parentKey="Level" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
+                <FontString parentKey="Rank" inherits="TheEchoesFontWhite" justifyH="LEFT"/>
             </Layer>
         </Layers>
+        <!-- invite, whisper -->
+        <Frames>
+            <Button parentKey="Invite" inherits="TheEchoesButtonDesaturatedTemplate">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon" file="Interface\AddOns\TheEchoes\images\icon-plus" desaturated="true">
+                            <Size x="14" y="14"/>
+                            <Anchors><Anchor point="CENTER" y="-1"/> </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+            <Button parentKey="Whisper" inherits="TheEchoesButtonDesaturatedTemplate">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon" file="Interface\CHATFRAME\UI-ChatWhisperIcon" desaturated="true">
+                            <Size x="14" y="14"/>
+                            <Anchors><Anchor point="CENTER" y="-1"/> </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
+        <!-- zone -->
+        <Layers>
+            <Layer>
+                <FontString parentKey="Zone" inherits="TheEchoesFontWhite" justifyH="LEFT" wordwrap="false"/>
+            </Layer>
+        </Layers>
+        <!-- personal note -->
+        <Frames>
+            <Button parentKey="PNote" inherits="TheEchoesButtonDesaturatedTemplate">
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="Icon" file="Interface\Buttons\UI-GuildButton-OfficerNote-Up" desaturated="true">
+                            <Size x="14" y="14"/>
+                            <Anchors><Anchor point="CENTER" y="-1"/> </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Button>
+        </Frames>
     </Frame>
 
 </Ui>

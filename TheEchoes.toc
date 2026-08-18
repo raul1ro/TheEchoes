@@ -1,25 +1,32 @@
 ## Interface: 70300
 ## Title: TheEchoes
 ## Author: raul1ro
-## Version: 2.4
+## Version: 2.5
 ## Notes: Offers a better view/management of the guild.
-## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition
 
-TheEchoesUtils.lua
+## SavedVariables: TheEchoesPersonalNotes, TheEchoesExportData
+## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition, TheEchoesIgnoreErrorParsing, TheEchoesGroupMembersFirst
 
-xml/templates/UI.xml
+libs/json.lua
+libs/theechoes/Utils.lua
 
-xml/templates/Button.lua
-xml/templates/Button.xml
+libs/theechoes/UI.xml
 
-xml/DropDownMenu.lua
-xml/DropDownMenu.xml
+libs/theechoes/Button.lua
+libs/theechoes/Button.xml
 
-xml/templates/DropDownMenuButton.lua
-xml/templates/DropDownMenuButton.xml
+libs/theechoes/DropDownMenu.lua
+libs/theechoes/DropDownMenu.xml
 
-xml/TheEchoesFrame.lua
-xml/TheEchoesFrame.xml
+libs/theechoes/DropDownMenuButton.lua
+libs/theechoes/DropDownMenuButton.xml
 
-TheEchoesUI.lua
+TheEchoesGuildData.lua
+TheEchoesPlayerData.lua
+
+xml/TheEchoesUI.lua
+xml/TheEchoesUI.xml
+
+TheEchoesController.lua
+
 TheEchoes.lua
