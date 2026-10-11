@@ -1,7 +1,7 @@
 <div align="center" style="text-align: center">
 <img src="banner.png" alt="The Echoes"/>
 <br>
-<code>Version: 2.6</code>
+<code>Version: 3.0</code>
 <code>WoW Client Version: 7.3.5 (Legion)</code>
 </div>
 

@@ -45,9 +45,11 @@ function Utils.ArraySize(array)
 end
 
 -- get the width based on longest text element from array
+local FontStringMaxWidth = UIParent:CreateFontString(nil, "ARTWORK", "GameFontNormal");
+FontStringMaxWidth:Hide();
 function Utils.MaxWidth(array)
 
-    local wordSize = 0
+    --[[local wordSize = 0
     for _, v in pairs(array) do
 
         local vLength = string.len(v)
@@ -57,7 +59,14 @@ function Utils.MaxWidth(array)
 
     end
 
-    return wordSize * 10;
+    return wordSize * 9.5;]]
+
+    local maxWidth = 0;
+    for _, v in pairs(array) do
+        FontStringMaxWidth:SetText(v);
+        maxWidth = math.max(maxWidth, FontStringMaxWidth:GetStringWidth());
+    end
+    return maxWidth;
 
 end
 
@@ -76,10 +85,10 @@ function Utils.GetGuildData()
     local membersData = {};
     for i = 1, membersSize do
 
-        local fullName, rankName, rankIndex, level, _, zone, publicNote, officerNote, isOnline, _, class = GetGuildRosterInfo(i);
+        local name, rankName, rankIndex, level, _, zone, publicNote, officerNote, isOnline, _, class = GetGuildRosterInfo(i);
 
         -- remove the realm from name
-        local name = Utils.RemoveRealm(fullName);
+        local simpleName = Utils.RemoveRealm(name);
 
         -- get lastSeen, only if the player is offline
         local lastSeen;
@@ -90,7 +99,8 @@ function Utils.GetGuildData()
         local isInGroup = groupMembers[name];
 
         local memberData = {
-            fullName = fullName;
+            name = name;
+            simpleName = simpleName;
             isOnline = isOnline,
             isInGroup = isInGroup,
             class = class,
@@ -103,7 +113,7 @@ function Utils.GetGuildData()
             lastSeen = lastSeen
         }
 
-        membersData[name] = memberData;
+        table.insert(membersData, memberData);
 
     end
 
@@ -121,7 +131,9 @@ function Utils.ParseMembersData(membersData)
     local membersAlt = {};
 
     -- take every member and parse it
-    for charName, memberData in pairs(membersData) do
+    for _, memberData in ipairs(membersData) do
+
+        local charName = memberData.name;
 
         local roles = Utils.ParsePublicNote(memberData.publicNote);
         local type = Utils.ParseOfficerNote(memberData.officerNote);
@@ -186,8 +198,6 @@ function Utils.SortMembers(members)
             value.alts = alts -- overwrite the alts with ordered list
         end
 
-        -- set the name as field
-        value.name = name
         table.insert(sortedMembers, value)
 
     end
@@ -609,15 +619,20 @@ function Utils.GetGroupMembers()
     elseif(IsInGroup()) then
         groupType = "party";
         -- player is not include in the list, for party groups.
-        groupMembers[UnitName("player")] = true;
+        -- insert it manually, for sorting purpose
+        groupMembers[UnitName("player") .. "-" .. GetNormalizedRealmName()] = true;
     end
 
     -- is a group
     if groupType ~= nil then
         for i = 1, GetNumGroupMembers() do
-            local name = UnitName(groupType .. i);
+            local name, realm = UnitName(groupType .. i);
             if name then
-                groupMembers[name] = true;
+                -- on the player realm, the realm is nil/empty
+                if( not realm or realm == "") then
+                    realm = GetNormalizedRealmName();
+                end
+                groupMembers[name .. "-" .. realm] = true;
             end
         end
     end
@@ -630,17 +645,17 @@ function Utils.GetClassName(classFile)
     return classNameList[classFile]
 end
 
-function Utils.GetMemberIndex(fullName)
+function Utils.GetMemberIndex(name)
 
     --name = name .. "-" .. GetNormalizedRealmName()
     for i = 1, GetNumGuildMembers() do
         local memberName = GetGuildRosterInfo(i)
-        if memberName == fullName then
+        if memberName == name then
             return i;
         end
     end
 
-    error("Member: " .. fullName .. " not found")
+    error("Member: " .. name .. " not found")
 
 end
 

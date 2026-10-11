@@ -455,7 +455,7 @@
 
 			<!-- Edit Frame -->
 			<Frame parentKey="EditMemberFrame" inherits="TheEchoesFrameCornersCloseTemplate" frameStrata="DIALOG" mixin="TheEchoesEditMemberMixin" hidden="true">
-				<Size x="210" y="220"/>
+				<Size x="230" y="220"/>
 				<Anchors><Anchor point="TOPRIGHT" relativeKey="$parent" relativePoint="TOPLEFT" x="-13"/></Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
@@ -476,31 +476,31 @@
 				</Layers>
 				<Frames>
 					<EditBox parentKey="Name" inherits="TheEchoesInputTemplate" autoFocus="false">
-						<Size x="180" y="20"/>
+						<Size x="210" y="20"/>
 						<Anchors>
 							<Anchor point="TOP" relativeKey="$parent.Rank" relativePoint="BOTTOM" y="-7"/>
 						</Anchors>
 						<Scripts>
 							<OnLoad>
-								self:SetJustifyH("CENTER");
+								self:SetJustifyH("LEFT");
 							</OnLoad>
 						</Scripts>
 					</EditBox>
 					<Frame parentKey="FormFrame">
-						<Size x="180" y="20"/>
+						<Size x="210" y="20"/>
 						<Anchors><Anchor point="TOP" relativeKey="$parent.Name" relativePoint="BOTTOM" y="-30"/></Anchors>
 						<Frames>
 							<EditBox parentKey="TankInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
-								<Size x="40" y="20"/>
+								<Size x="46" y="20"/>
 								<Anchors><Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT"/></Anchors>
 							</EditBox>
 							<EditBox parentKey="HealInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
-								<Size x="40" y="20"/>
-								<Anchors><Anchor point="LEFT" relativeKey="$parent.TankInput" relativePoint="RIGHT" x="23"/></Anchors>
+								<Size x="46" y="20"/>
+								<Anchors><Anchor point="LEFT" relativeKey="$parent.TankInput" relativePoint="RIGHT" x="29"/></Anchors>
 							</EditBox>
 							<EditBox parentKey="DPSInput" inherits="TheEchoesInputArrowsTemplate" letters="3" autoFocus="false">
-								<Size x="40" y="20"/>
-								<Anchors><Anchor point="LEFT" relativeKey="$parent.HealInput" relativePoint="RIGHT" x="24"/></Anchors>
+								<Size x="46" y="20"/>
+								<Anchors><Anchor point="LEFT" relativeKey="$parent.HealInput" relativePoint="RIGHT" x="29"/></Anchors>
 							</EditBox>
 						</Frames>
 						<Layers>
@@ -518,7 +518,7 @@
 						</Layers>
 					</Frame>
 					<Frame parentKey="TypeMainsFrame">
-						<Size x="195" y="15"/>
+						<Size x="215" y="15"/>
 						<Anchors><Anchor point="TOP" relativeKey="$parent.FormFrame" relativePoint="BOTTOM" y="-20"/></Anchors>
 						<Frames>
 							<Button parentKey="TypeButton" inherits="TheEchoesDropDownMenuButtonTemplate">
@@ -526,7 +526,7 @@
 								<Anchors><Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT"/></Anchors>
 							</Button>
 							<Button parentKey="MainsButton" inherits="TheEchoesDropDownMenuButtonTemplate">
-								<Size x="120" y="24"/>
+								<Size x="140" y="24"/>
 								<Anchors><Anchor point="RIGHT" relativeKey="$parent" relativePoint="RIGHT"/></Anchors>
 							</Button>
 						</Frames>
@@ -536,7 +536,7 @@
 						<Anchors><Anchor point="TOP" relativeKey="$parent.TypeMainsFrame" relativePoint="BOTTOM" y="-13"/></Anchors>
 					</Button>
 					<Frame parentKey="Notes" inherits="TheEchoesFrameCornersTemplate">
-						<Size x="200" y="103"/>
+						<Size x="225" y="103"/>
 						<Anchors><Anchor point="TOP" relativeKey="$parent" relativePoint="BOTTOM" y="15"/></Anchors>
 						<Layers>
 							<Layer level="OVERLAY">

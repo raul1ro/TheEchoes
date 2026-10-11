@@ -116,7 +116,7 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
     -- get infos for sizing
     -- the number of elements
     local dataSize = Addon.Utils.ArraySize(data);
-    local maxWidth = Addon.Utils.MaxWidth(data)
+    local maxWidth = Addon.Utils.MaxWidth(data);
 
     -- calculate the sizes for content
     local contentWidth = maxWidth
@@ -133,7 +133,7 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
     end
 
     -- set the sizes
-    ddMenu:SetSize(contentWidth + 23, windowHeight)
+    ddMenu:SetSize(contentWidth + 30, windowHeight)
     ddMenu.Body.Content:SetSize(contentWidth, contentHeight + 1)
 
     -- populate ddmenu
@@ -144,7 +144,7 @@ function TheEchoesDropDownMenuButtonMixin:OnClick()
 
         -- get the frame and set it
         local menuElement = Addon.DropDownMenu:GetElement();
-        menuElement:SetWidth(contentWidth)
+        menuElement:SetWidth(contentWidth + 6);
         menuElement:SetPoint("TOPLEFT", 2, currentY)
         menuElement.text:SetText(v)
         menuElement:Show()

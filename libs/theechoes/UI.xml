@@ -282,6 +282,7 @@
             <AbsInset left="2" right="2" top="0" bottom="0" />
         </TextInsets>
         <Frames>
+            <!-- width of button is 16 -->
             <Button parentKey="IncrementButton" inherits="TheEchoesBlankButton">
                 <Layers>
                     <Layer level="ARTWORK" textureSubLevel="1">

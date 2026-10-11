@@ -315,7 +315,7 @@ function TheEchoesUIMixin:SetMember(indexRow, memberData, type)
     end
 
     -- set background color
-    if memberData.name == playerName then
+    if memberData.simpleName == playerName then
         row.Background:SetColorTexture(0, 0.75, 1, 0.17); -- blue
     elseif memberData.isInGroup then
         row.Background:SetColorTexture(1, 0.55, 0, 0.17); -- orange
@@ -334,7 +334,7 @@ function TheEchoesUIMixin:SetMember(indexRow, memberData, type)
     local className = memberData.class;
     nameIcon:SetTexture("Interface\\TargetingFrame\\UI-CLASSES-CIRCLES");
     nameIcon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[className]));
-    nameText:SetText(memberData.name);
+    nameText:SetText(memberData.simpleName);
     local r, g, b = GetClassColor(className)
     nameText:SetTextColor(r, g, b, textAlpha)
 
@@ -749,9 +749,6 @@ function TheEchoesEditMemberMixin:Open(memberData)
 
     local formFrame = self.FormFrame
 
-    -- for save button - put the full name directly in the name input
-    --self.FullName = memberData.fullName;
-
     -- isOnline
     local onlineStatusFontString = self.OnlineStatus
     if(memberData.isOnline) then
@@ -771,7 +768,7 @@ function TheEchoesEditMemberMixin:Open(memberData)
     self.Rank:SetText(memberData.rankIndex .. ". " .. memberData.rank)
 
     -- name
-    self.Name:SetText(memberData.fullName) -- include the realm
+    self.Name:SetText(memberData.name) -- include the realm
 
     -- ilvl
     if(memberData.errorRoles == nil) then
@@ -891,7 +888,7 @@ function TheEchoesPersonalNoteFrameMixin:Open(memberName)
 
     -- set the note
     local input = self.Body:GetScrollChild();
-    input:SetText(TheEchoesPersonalNoteFrameMixin[memberName] or "");
+    input:SetText(TheEchoesPersonalNotes[memberName] or "");
 
     -- show
     self:Show();
