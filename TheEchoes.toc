@@ -1,13 +1,12 @@
 ## Interface: 70300
 ## Title: TheEchoes
 ## Author: raul1ro
-## Version: 2.5
+## Version: 2.6
 ## Notes: Offers a better view/management of the guild.
 
 ## SavedVariables: TheEchoesPersonalNotes, TheEchoesExportData
 ## SavedVariablesPerCharacter: TheEchoesButtonPosition, TheEchoesUIPosition, TheEchoesIgnoreErrorParsing, TheEchoesGroupMembersFirst
 
-libs/json.lua
 libs/theechoes/Utils.lua
 
 libs/theechoes/UI.xml

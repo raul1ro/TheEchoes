@@ -39,7 +39,6 @@ function TheEchoesUIMixin:Init()
     isOpen = false;
 
     -- initial position
-    TheEchoesUIPosition = nil;
     if(TheEchoesUIPosition == nil) then -- default value
         TheEchoesUIPosition = {"CENTER", nil, "CENTER", 0, 0};
     end
@@ -714,7 +713,7 @@ function TheEchoesEditMemberMixin:OnLoad()
 
     -- set the save button
     self.SaveButton:SetScript("OnClick", function()
-        local memberIndex = Addon.Utils.GetMemberIndex(self.Name:GetText())
+        local memberIndex = Addon.Utils.GetMemberIndex(self.Name:GetText());
         Addon.Utils.UpdateMemberILVL(memberIndex, formFrame.TankInput:GetText(), formFrame.HealInput:GetText(), formFrame.DPSInput:GetText())
         Addon.Utils.UpdateMemberType(memberIndex, typeDDButton:GetText(), mainsDDButton:GetText())
         self:Hide()
@@ -750,6 +749,9 @@ function TheEchoesEditMemberMixin:Open(memberData)
 
     local formFrame = self.FormFrame
 
+    -- for save button - put the full name directly in the name input
+    --self.FullName = memberData.fullName;
+
     -- isOnline
     local onlineStatusFontString = self.OnlineStatus
     if(memberData.isOnline) then
@@ -762,12 +764,14 @@ function TheEchoesEditMemberMixin:Open(memberData)
 
     -- char info
     self.CharInfo:SetText(Addon.Utils.GetClassName(memberData.class) .. " - " .. memberData.level)
+    local r,g,b,hex = GetClassColor(memberData.class);
+    self.CharInfo:SetTextColor(r,g,b,1);
 
     -- rank
     self.Rank:SetText(memberData.rankIndex .. ". " .. memberData.rank)
 
     -- name
-    self.Name:SetText(memberData.name)
+    self.Name:SetText(memberData.fullName) -- include the realm
 
     -- ilvl
     if(memberData.errorRoles == nil) then

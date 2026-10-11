@@ -76,10 +76,10 @@ function Utils.GetGuildData()
     local membersData = {};
     for i = 1, membersSize do
 
-        local name, rankName, rankIndex, level, _, zone, publicNote, officerNote, isOnline, _, class = GetGuildRosterInfo(i);
+        local fullName, rankName, rankIndex, level, _, zone, publicNote, officerNote, isOnline, _, class = GetGuildRosterInfo(i);
 
         -- remove the realm from name
-        name = Utils.RemoveRealm(name);
+        local name = Utils.RemoveRealm(fullName);
 
         -- get lastSeen, only if the player is offline
         local lastSeen;
@@ -90,6 +90,7 @@ function Utils.GetGuildData()
         local isInGroup = groupMembers[name];
 
         local memberData = {
+            fullName = fullName;
             isOnline = isOnline,
             isInGroup = isInGroup,
             class = class,
@@ -484,8 +485,64 @@ function Utils.GetMemberCounts(membersData)
 
 end
 
-function Utils.ContainsIgnoringCase(source, target)
-    return string.find(string.lower(source), string.lower(target)) ~= nil
+-- Recommend to call this with `string.lower(str)`
+function Utils.NormalizeString(str)
+
+    -- map non latin chars to latin chars
+    local replacements = {
+        -- a
+        ["à"]="a", ["á"]="a", ["â"]="a", ["ã"]="a", ["ä"]="a", ["å"]="a",
+        ["ā"]="a", ["ă"]="a", ["ą"]="a",
+        -- c
+        ["ç"]="c", ["ć"]="c", ["č"]="c",
+        -- d
+        ["ď"]="d", ["đ"]="d",
+        -- e
+        ["è"]="e", ["é"]="e", ["ê"]="e", ["ë"]="e",
+        ["ē"]="e", ["ĕ"]="e", ["ė"]="e", ["ę"]="e", ["ě"]="e",
+        -- i
+        ["ì"]="i", ["í"]="i", ["î"]="i", ["ï"]="i",
+        ["ī"]="i", ["ĭ"]="i", ["į"]="i",
+        -- l
+        ["ĺ"]="l", ["ľ"]="l", ["ł"]="l",
+        -- n
+        ["ñ"]="n", ["ń"]="n", ["ň"]="n",
+        -- o
+        ["ò"]="o", ["ó"]="o", ["ô"]="o", ["õ"]="o", ["ö"]="o", ["ø"]="o",
+        ["ō"]="o", ["ŏ"]="o", ["ő"]="o",
+        -- r
+        ["ŕ"]="r", ["ř"]="r",
+        -- s
+        ["ś"]="s", ["š"]="s", ["ş"]="s", ["ș"]="s",
+        -- t
+        ["ť"]="t", ["ţ"]="t", ["ț"]="t",
+        -- u
+        ["ù"]="u", ["ú"]="u", ["û"]="u", ["ü"]="u",
+        ["ū"]="u", ["ŭ"]="u", ["ů"]="u", ["ű"]="u", ["ų"]="u",
+        -- y
+        ["ý"]="y", ["ÿ"]="y",
+        -- z
+        ["ź"]="z", ["ż"]="z", ["ž"]="z",
+        -- special
+        ["æ"]="ae",
+        ["œ"]="oe",
+        ["ß"]="ss",
+    }
+
+    -- Matches multi-byte UTF-8 character sequences
+    return (
+        string.gsub(
+                str,
+                "[\192-\255][\128-\191]*", -- Ai generated. Haven't had mood to understand this.
+                replacements
+        )
+    )
+
+end
+
+
+function Utils.Contains(source, target)
+    return string.find(source, target) ~= nil
 end
 
 function Utils.FilterMembers(membersData, search)
@@ -495,6 +552,9 @@ function Utils.FilterMembers(membersData, search)
         return {membersData, false};
     end
 
+    -- lower and normalize the input search
+    search = Utils.NormalizeString(string.lower(search));
+
     local filteredMembers = {};
 
     -- iterate mains
@@ -502,7 +562,11 @@ function Utils.FilterMembers(membersData, search)
 
         -- if the name contains the search
         local isInserted = false;
-        if(Utils.ContainsIgnoringCase(memberData.name, search)) then
+        -- lower & normalize name
+        if(Utils.Contains(
+                Utils.NormalizeString(string.lower(memberData.name)),
+                search
+        )) then
             table.insert(filteredMembers, memberData);
             isInserted = true; -- skip alts
         end
@@ -512,7 +576,11 @@ function Utils.FilterMembers(membersData, search)
             for _, altData in ipairs(memberData.alts) do
 
                 -- if the alt name contains the search -> insert the main
-                if(Utils.ContainsIgnoringCase(altData.name, search)) then
+                -- lower & normalize name
+                if(Utils.Contains(
+                        Utils.NormalizeString(string.lower(altData.name)),
+                        search
+                )) then
                     table.insert(filteredMembers, memberData);
                     break; -- insert at first occurrence
                 end
@@ -562,17 +630,17 @@ function Utils.GetClassName(classFile)
     return classNameList[classFile]
 end
 
-function Utils.GetMemberIndex(name)
+function Utils.GetMemberIndex(fullName)
 
-    name = name .. "-" .. GetNormalizedRealmName()
+    --name = name .. "-" .. GetNormalizedRealmName()
     for i = 1, GetNumGuildMembers() do
         local memberName = GetGuildRosterInfo(i)
-        if memberName == name then
+        if memberName == fullName then
             return i;
         end
     end
 
-    error("Member: " .. name .. " not found")
+    error("Member: " .. fullName .. " not found")
 
 end
 

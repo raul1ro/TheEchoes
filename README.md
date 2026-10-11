@@ -1,7 +1,7 @@
 <div align="center" style="text-align: center">
 <img src="banner.png" alt="The Echoes"/>
 <br>
-<code>Version: 2.5</code>
+<code>Version: 2.6</code>
 <code>WoW Client Version: 7.3.5 (Legion)</code>
 </div>
 
@@ -22,13 +22,14 @@ The addon is using the public and officer notes to manage the data of character.
 <li>Edit user notes with an easy-use panel (edit available only for mods).</li>
 <li>Private note per member.</li>
 <li>Colored row for the members from the group.</li>
-<li>Setting to show group members a top.</li>
+<li>Setting to show group members at top.</li>
 <li>Search function.</li>
-<li>Show the guild message.</li>
+<li>Show the guild message in the same panel.</li>
 <li>Guid info - Read and edit(if you have access), with option to copy text.</li>
 <li>Invite member & Edit Guild Message - available only for mods.</li>
-<li>Stats - Bottom of UI</li>
-<li>Export - function to export the data of all members into a file.</li>
+<li>Stats (at the bottom of UI)</li>
+<li>Export - function to export the data of all members into a file. Useful when you need this data outside the game.
+</li>
 </ul>
 
 <p>If you have any suggestion or found a bug, feel free to create an issue on GitHub.</p>
